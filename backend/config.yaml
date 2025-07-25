@@ -1,0 +1,78 @@
+llm_providers:
+  ollama:
+    available_models:
+    - phi4:14b
+    - granite3.3:8b
+    - qwen3:14b-q4_K_M
+    - gemma3:12b-it-qat
+    enabled: true
+    enabled_models:
+    - gemma3:12b-it-qat
+  openai:
+    available_models:
+    - display_name: gpt-4.1 Nano
+      api_name: pip install -r requirements.txt
+    enabled: true
+    enabled_models:
+    - gpt-4.1 Nano
+  gemini:
+    available_models: []
+    enabled: false
+    enabled_models: []
+  claude:
+    available_models: []
+    enabled: false
+    enabled_models: []
+analysis:
+  enable_resume: false
+  resume_validation: false
+  reviews_to_analyze: 100
+  api_retries: 3
+  api_retry_delay: 1
+  ollama_retries: 1
+  ollama_retry_delay: 5
+  periodic_save_interval: 10
+  skip_scraping: false
+  validate_raw_reviews: false
+fetching:
+  reviews_per_app: 100
+  max_requests_per_app: 5
+  language: all
+  num_per_page: 100
+  enable_complete_scraping: false
+  scraping_timeout: 3600
+  start_date: ''
+  end_date: ''
+  max_empty_attempts: 3
+  initial_backoff_time: 1
+  max_backoff_time: 10
+  error_backoff_time: 30
+filtering:
+  min_review_length: 50
+  min_playtime_hours: 0
+advanced_filtering:
+  max_playtime_hours: 100000
+  max_review_length: 10000
+  min_votes_up: 0
+  early_access_only: false
+  exclude_early_access: false
+  verified_purchase_only: false
+  exclude_received_free: false
+file_paths:
+  raw_output_folder: output/raw
+  analysed_output_folder: output/analysed
+  summary_output_folder: output/summary
+files:
+  raw_reviews_suffix: _reviews.csv
+  analysed_reviews_suffix: _analyzed.csv
+  summary_output_filename: topic_analysis_summary.json
+validation:
+  validate_app_ids: true
+  validate_models: true
+  validate_dates: true
+  validate_prompts: true
+appearance:
+  theme: System
+  scaling: 100%
+app_ids:
+- 38410
