@@ -138,22 +138,22 @@ export default function SettingsPage() {
         <AccordionDetails>
           <Stack spacing={3}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <TextField
-                fullWidth
-                label="Reviews per App"
-                type="number"
+            <TextField
+              fullWidth
+              label="Reviews per App"
+              type="number"
                 value={cfg.fetching?.reviews_per_app || 100}
                 onChange={e => onFieldChange('fetching.reviews_per_app', +e.target.value)}
                 helperText="Maximum number of reviews to fetch per game"
               />
-              <TextField
-                fullWidth
-                label="Max Requests per App"
-                type="number"
+            <TextField
+              fullWidth
+              label="Max Requests per App"
+              type="number"
                 value={cfg.fetching?.max_requests_per_app || 10}
                 onChange={e => onFieldChange('fetching.max_requests_per_app', +e.target.value)}
                 helperText="API request limit to prevent rate limiting"
-              />
+            />
             </Stack>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
               <TextField
@@ -181,15 +181,15 @@ export default function SettingsPage() {
               </FormControl>  
             </Stack>
             <Stack spacing={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
+            <FormControlLabel
+              control={
+                <Checkbox
                     checked={cfg.fetching?.enable_complete_scraping || false}
                     onChange={(_, v) => onFieldChange('fetching.enable_complete_scraping', v)}
-                  />
-                }
+                />
+              }
                 label="Enable Complete Scraping (fetch all available reviews)"
-              />
+            />
               <FormControlLabel
                 control={
                   <Checkbox
@@ -212,10 +212,10 @@ export default function SettingsPage() {
         <AccordionDetails>
           <Stack spacing={3}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <TextField
-                fullWidth
-                label="Reviews to Analyze"
-                type="number"
+            <TextField
+              fullWidth
+              label="Reviews to Analyze"
+              type="number"
                 value={cfg.analysis?.reviews_to_analyze || 50}
                 onChange={e => onFieldChange('analysis.reviews_to_analyze', +e.target.value)}
                 helperText="Number of reviews to process with AI"
@@ -238,7 +238,7 @@ export default function SettingsPage() {
                   />
                 }
                 label="Skip scraping phase (analyze existing data only)"
-              />
+            />
               <FormControlLabel
                 control={
                   <Checkbox
