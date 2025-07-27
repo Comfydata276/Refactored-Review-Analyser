@@ -1,23 +1,112 @@
 // src/api/WebSocketClient.ts
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
-export interface WSMessage { type: string; [key:string]: any }
+export interface WSMessage { 
+  type: string
+  level?: string
+  message?: string
+  timestamp?: string
+  [key:string]: any 
+}
 
-export function useWebSocket(
-  url: string,
-): { messages: WSMessage[]; send?: (data:any)=>void } {
+export interface WebSocketState {
+  messages: WSMessage[]
+  connectionState: 'connecting' | 'connected' | 'disconnected' | 'error'
+  send?: (data: any) => void
+  reconnect: () => void
+}
+
+export function useWebSocket(url: string): WebSocketState {
   const [messages, setMessages] = useState<WSMessage[]>([])
+  const [connectionState, setConnectionState] = useState<'connecting' | 'connected' | 'disconnected' | 'error'>('connecting')
+  const wsRef = useRef<WebSocket | null>(null)
+  const reconnectTimeoutRef = useRef<number | undefined>(undefined)
+
+  const connect = () => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return
+    }
+
+    setConnectionState('connecting')
+    
+    try {
+      const wsUrl = (import.meta.env.VITE_API_URL || 'ws://localhost:8000').replace(/^http/, 'ws') + '/ws'
+      const ws = new WebSocket(wsUrl)
+      wsRef.current = ws
+
+      ws.onopen = () => {
+        setConnectionState('connected')
+        console.log('WebSocket connected')
+      }
+
+      ws.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(event.data)
+          setMessages((prev) => [...prev.slice(-49), msg]) // Keep last 50 messages
+        } catch (error) {
+          console.error('Failed to parse WebSocket message:', error)
+        }
+      }
+
+      ws.onclose = (event) => {
+        setConnectionState('disconnected')
+        
+        // Only auto-reconnect if it was an unexpected closure and we previously had a connection
+        if (event.code !== 1000 && event.code !== 1001) {
+          reconnectTimeoutRef.current = window.setTimeout(() => {
+            connect()
+          }, 5000) // Increased timeout to reduce spam
+        }
+      }
+
+      ws.onerror = () => {
+        setConnectionState('error')
+        console.warn('WebSocket connection failed - this is normal if the backend is not running')
+        // Don't log the full error object as it's not helpful for users
+      }
+    } catch (error) {
+      setConnectionState('error')
+      console.error('Failed to create WebSocket connection:', error)
+    }
+  }
+
+  const send = (data: any) => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(data))
+    } else {
+      console.warn('WebSocket is not connected')
+    }
+  }
+
+  const reconnect = () => {
+    if (reconnectTimeoutRef.current) {
+      window.clearTimeout(reconnectTimeoutRef.current)
+    }
+    
+    if (wsRef.current) {
+      wsRef.current.close()
+    }
+    
+    connect()
+  }
 
   useEffect(() => {
-    const ws = new WebSocket((import.meta.env.VITE_API_URL || 'ws://localhost:8000').replace(/^http/, 'ws') + '/ws')
-    ws.onmessage = (ev) => {
-      try {
-        const msg = JSON.parse(ev.data)
-        setMessages((m) => [...m, msg])
-      } catch {}
+    connect()
+
+    return () => {
+      if (reconnectTimeoutRef.current) {
+        window.clearTimeout(reconnectTimeoutRef.current)
+      }
+      if (wsRef.current) {
+        wsRef.current.close(1000, 'Component unmounting')
+      }
     }
-    return () => { ws.close() }
   }, [url])
 
-  return { messages }
+  return { 
+    messages, 
+    connectionState, 
+    send: connectionState === 'connected' ? send : undefined,
+    reconnect 
+  }
 }

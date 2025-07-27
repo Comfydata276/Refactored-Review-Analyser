@@ -1,0 +1,19 @@
+- Add a time estimate for the analyse. How long per review, number of reviews * time 
+- LLM Prompt engineering 
+- output showing that batch processing is 100% working 
+- Make application even more universal 
+- handle output edge cases 
+- Adaptability for different studys / columns 
+- Modern UI 
+
+
+Make a matrix recommending models (compare different modedls/costs/token rate)
+2x Reasoning Models
+2x Non Reasoning Models 
+2x Local Models 
+
+Commands: 
+cd Documents\GitHub\Refactored-Review-Analyser\frontend
+npm run dev
+Documents\GitHub\Refactored-Review-Analyser\backend
+uvicorn app.main:app --reload --port 8000

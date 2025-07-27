@@ -5,17 +5,19 @@ import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar } fro
 import HomeIcon from '@mui/icons-material/Home'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SearchIcon from '@mui/icons-material/Search'
-import EditIcon from '@mui/icons-material/Edit'
+import EditIcon from '@mui/icons-material/Edit' 
+import AnalyticsIcon from '@mui/icons-material/Analytics'
 import HelpIcon from '@mui/icons-material/Help'
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240
 
 const items = [
-  { text: 'Home', icon: <HomeIcon />, path: '/' },
+  { text: 'Dashboard', icon: <HomeIcon />, path: '/' },
+  { text: 'App Finder', icon: <SearchIcon />, path: '/finder' },
+  { text: 'Prompt Editor', icon: <EditIcon />, path: '/prompt' },
+  { text: 'Results', icon: <AnalyticsIcon />, path: '/results' },
   { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
-  { text: 'Finder', icon: <SearchIcon />, path: '/finder' },
-  { text: 'Prompt', icon: <EditIcon />, path: '/prompt' },
   { text: 'Help', icon: <HelpIcon />, path: '/help' },
 ]
 
