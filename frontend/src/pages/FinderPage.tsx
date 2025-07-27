@@ -64,12 +64,12 @@ export default function FinderPage() {
     if (!cfg || !selection || selection.length === 0) return
     
     try {
-      const current = new Set<number>(cfg.app_ids || [])
+    const current = new Set<number>(cfg.app_ids || [])
       
       // selection is now always an array of numbers
       selection.forEach((id) => current.add(Number(id)))
       
-      const newCfg = { ...cfg, app_ids: Array.from(current) }
+    const newCfg = { ...cfg, app_ids: Array.from(current) }
       await setConfig(newCfg)
       setCfg(newCfg)
       
@@ -78,7 +78,7 @@ export default function FinderPage() {
       setShowSuccess(true)
     } catch (error) {
       console.error('Failed to update config:', error)
-    }
+  }
   }
 
   // Define columns
