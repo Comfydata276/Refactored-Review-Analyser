@@ -31,12 +31,6 @@ export default function LandingPage() {
   const [completeMode, setCompleteMode] = useState(false)
   const [skipScraping, setSkipScraping] = useState(false)
 
-  // Debug: Test function to simulate messages
-  const testProcessStatus = () => {
-    console.log('🧪 Testing process status with mock messages')
-    // This would be useful for testing if we had access to setMessages
-    // For now, we'll rely on backend messages
-  }
 
   const handleStartScrape = async () => {
     try {
@@ -207,13 +201,17 @@ export default function LandingPage() {
                   "w-full h-14 text-base border-2 transition-all duration-300",
                   processStatus.processType === 'scraping' && processStatus.isRunning
                     ? "bg-green-500/10 border-green-500/30 text-green-600"
+                    : processStatus.processType === 'scraping' && !processStatus.isRunning
+                    ? "bg-green-500/5 border-green-500/20 text-green-700 hover:bg-green-500/10"
                     : "steam-gradient hover:opacity-90"
                 )}
                 size="lg"
               >
                 <Download className="h-5 w-5 mr-2" />
                 {processStatus.processType === 'scraping' && processStatus.isRunning 
-                  ? 'Scraping In Progress...' 
+                  ? 'Scraping In Progress...'
+                  : processStatus.processType === 'scraping' && !processStatus.isRunning
+                  ? '✓ Scraping Complete'
                   : 'Start Scraping Process'
                 }
               </Button>
@@ -226,13 +224,17 @@ export default function LandingPage() {
                   "w-full h-14 text-base border-2 transition-all duration-300",
                   processStatus.processType === 'analysis' && processStatus.isRunning
                     ? "bg-purple-500/10 border-purple-500/30 text-purple-600"
+                    : processStatus.processType === 'analysis' && !processStatus.isRunning
+                    ? "bg-purple-500/5 border-purple-500/20 text-purple-700 hover:bg-purple-500/10"
                     : ""
                 )}
                 size="lg"
               >
                 <BarChart3 className="h-5 w-5 mr-2" />
                 {processStatus.processType === 'analysis' && processStatus.isRunning 
-                  ? 'Analysis In Progress...' 
+                  ? 'Analysis In Progress...'
+                  : processStatus.processType === 'analysis' && !processStatus.isRunning
+                  ? '✓ Analysis Complete'
                   : 'Start Analysis Process'
                 }
               </Button>
@@ -311,37 +313,6 @@ export default function LandingPage() {
         </CardContent>
       </Card>
 
-      {/* Debug Panel - Remove in production */}
-      <Card className="border border-amber-200 bg-amber-50/50">
-        <CardHeader>
-          <CardTitle className="text-lg text-amber-800 flex items-center gap-2">
-            🔧 Debug Panel
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">WebSocket Status</h4>
-              <p>Connection: <Badge>{connectionState}</Badge></p>
-              <p>Messages: {messages.length}</p>
-              <p>Latest Message: {messages.length > 0 ? JSON.stringify(messages[messages.length - 1]) : 'None'}</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Process Status</h4>
-              <p>Is Running: <Badge variant={processStatus.isRunning ? 'default' : 'outline'}>{processStatus.isRunning ? 'Yes' : 'No'}</Badge></p>
-              <p>Process Type: <Badge>{processStatus.processType}</Badge></p>
-              <p>Status Message: {processStatus.statusMessage}</p>
-              <p>Current Item: {processStatus.currentItem || 'None'}</p>
-              <p>Progress: {processStatus.progress ? `${processStatus.progress.current}/${processStatus.progress.total} (${processStatus.progress.percentage}%)` : 'None'}</p>
-            </div>
-          </div>
-          <div className="mt-4 pt-4 border-t">
-            <p className="text-xs text-muted-foreground">
-              Check browser console for detailed debug logs. This panel will be removed in production.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

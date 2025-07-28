@@ -31,12 +31,19 @@ const getProcessLabel = (processType: ProcessStatus['processType']) => {
 }
 
 const getProcessColor = (processType: ProcessStatus['processType'], isRunning: boolean) => {
-  if (!isRunning) return 'text-muted-foreground'
-  
-  switch (processType) {
-    case 'scraping': return 'text-green-500'
-    case 'analysis': return 'text-purple-500'
-    default: return 'text-blue-500'
+  if (isRunning) {
+    switch (processType) {
+      case 'scraping': return 'text-green-500'
+      case 'analysis': return 'text-purple-500'
+      default: return 'text-blue-500'
+    }
+  } else {
+    // Show color for completed processes too
+    switch (processType) {
+      case 'scraping': return 'text-green-600'
+      case 'analysis': return 'text-purple-600'
+      default: return 'text-muted-foreground'
+    }
   }
 }
 
@@ -45,8 +52,6 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
   const processLabel = getProcessLabel(status.processType)
   const iconColor = getProcessColor(status.processType, status.isRunning)
 
-  // Debug: Log the status we're receiving
-  console.log('🎛️ ProcessStatusCard received status:', status)
 
   return (
     <Card className={cn(
@@ -67,13 +72,15 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
           </CardTitle>
           <div className="flex items-center gap-2">
             <Badge 
-              variant={status.isRunning ? "default" : "outline"}
+              variant={status.isRunning ? "default" : status.processType !== 'idle' ? "secondary" : "outline"}
               className={cn(
                 "transition-all duration-300",
-                status.isRunning && "animate-pulse"
+                status.isRunning && "animate-pulse",
+                !status.isRunning && status.processType === 'scraping' && "bg-green-100 text-green-800 border-green-200",
+                !status.isRunning && status.processType === 'analysis' && "bg-purple-100 text-purple-800 border-purple-200"
               )}
             >
-              {status.isRunning ? "Running" : "Idle"}
+              {status.isRunning ? "Running" : status.processType !== 'idle' ? "Complete" : "Idle"}
             </Badge>
           </div>
         </div>
@@ -84,7 +91,8 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
         <div>
           <p className={cn(
             "text-sm transition-colors duration-300",
-            status.isRunning ? "text-foreground" : "text-muted-foreground"
+            status.isRunning ? "text-foreground" : 
+            status.processType !== 'idle' ? "text-foreground" : "text-muted-foreground"
           )}>
             {status.statusMessage}
           </p>
@@ -93,6 +101,13 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
           {status.currentItem && status.isRunning && (
             <p className="text-xs text-muted-foreground mt-1 font-mono">
               Current: {status.currentItem}
+            </p>
+          )}
+
+          {/* Completion Indicator */}
+          {!status.isRunning && status.processType !== 'idle' && (
+            <p className="text-xs text-muted-foreground mt-1">
+              {status.processType === 'scraping' ? '✓ Scraping completed' : '✓ Analysis completed'}
             </p>
           )}
         </div>

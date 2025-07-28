@@ -1,8 +1,8 @@
 // src/types/websocket.ts
 
 export interface WSMessage { 
-  type: string
-  level?: string
+  type: 'log' | 'analysis_started' | 'analysis_finished' | 'progress' | 'status_update' | 'progress_apps_total' | 'progress_apps_current' | string
+  level?: 'info' | 'warning' | 'error' | string
   message?: string
   timestamp?: string
   
@@ -16,9 +16,14 @@ export interface WSMessage {
   }
   
   // Process status information
-  status?: string
+  status?: 'running' | 'complete' | 'stopped' | 'finished' | string
   process_type?: 'scraping' | 'analysis' | 'idle'
   current_item?: string
+  
+  // Additional backend-specific fields
+  value?: number  // For progress_apps_total and progress_apps_current
+  app?: string    // For status_update messages
+  model?: string  // For status_update messages
   
   [key:string]: any 
 }
