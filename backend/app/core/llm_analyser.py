@@ -59,9 +59,9 @@ class LLMAnalyser:
 
         # 2) If not set, fallback to project-level default
         if not prompt_path:
-            # e.g. <repo>/Scripts/topic_modeling_prompt.txt
+            # e.g. <repo>/Scripts/prompt.txt
             prompt_path = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "topic_modeling_prompt.txt")
+                os.path.join(os.path.dirname(__file__), "..", "prompt.txt")
             )
 
         # 3) Attempt to read; on failure return minimal default
