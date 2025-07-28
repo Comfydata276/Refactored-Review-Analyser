@@ -15,7 +15,10 @@ Remove the notification icon + user profile section in the top left
 Update help page as needed
 Wrap in electron and turn into a .exe file
 Make application more universal and able to output and data type from the llm
-Remove the 'new' tag on the Results tab. 
+Remove the 'new' tag on the Results tab
+Review python version of the app and add in any missing features
+Add time estimate for analysis and scraping 
+Output to sho batch processing is working
 
 
 Make a matrix recommending models (compare different modedls/costs/token rate)
