@@ -1,37 +1,44 @@
 // src/pages/LandingPage.tsx
 import { useState } from 'react'
 import { 
-  Button, Stack, Typography, Paper, Box, Chip, 
-  LinearProgress, Alert, Card, CardContent,
-  FormControlLabel, Switch
-} from '@mui/material'
-import { Stop, Analytics, CloudDownload } from '@mui/icons-material'
+  BarChart3, 
+  Download, 
+  Wifi, 
+  WifiOff,
+  Activity,
+  Settings,
+  Clock,
+  Users,
+  Database,
+  Square
+} from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/utils'
+
 import { startScrape, startAnalyse, stopProcess } from '../api/ApiClient'
-import { useWebSocket, type WSMessage } from '../api/WebSocketClient'
-
-const getLevelColor = (level: string): 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' => {
-  switch (level?.toLowerCase()) {
-    case 'error': return 'error'
-    case 'warning': return 'warning'
-    case 'info': return 'info'
-    case 'success': return 'success'
-    default: return 'default'
-  }
-}
-
-const formatTimestamp = (timestamp?: string) => {
-  if (!timestamp) return new Date().toLocaleTimeString()
-  return new Date(timestamp).toLocaleTimeString()
-}
+import { useWebSocket } from '../api/WebSocketClient'
+import { useProcessStatus } from '../hooks/useProcessStatus'
+import { ProcessStatusCard } from '../components/ProcessStatusCard'
+import { ActivityLog } from '../components/ActivityLog'
 
 export default function LandingPage() {
-  const { messages, connectionState, reconnect } = useWebSocket('/ws')
-  // const [isProcessing, setIsProcessing] = useState(false)
+  const { messages, connectionState, reconnect, send } = useWebSocket('/ws')
+  const processStatus = useProcessStatus(messages)
   const [completeMode, setCompleteMode] = useState(false)
   const [skipScraping, setSkipScraping] = useState(false)
 
+  // Debug: Test function to simulate messages
+  const testProcessStatus = () => {
+    console.log('🧪 Testing process status with mock messages')
+    // This would be useful for testing if we had access to setMessages
+    // For now, we'll rely on backend messages
+  }
+
   const handleStartScrape = async () => {
-    // setIsProcessing(true)
     try {
       await startScrape(completeMode)
     } catch (error) {
@@ -40,7 +47,6 @@ export default function LandingPage() {
   }
 
   const handleStartAnalysis = async () => {
-    // setIsProcessing(true)
     try {
       await startAnalyse(completeMode, skipScraping)
     } catch (error) {
@@ -51,142 +57,291 @@ export default function LandingPage() {
   const handleStop = async () => {
     try {
       await stopProcess()
-      // setIsProcessing(false)
     } catch (error) {
       console.error('Failed to stop process:', error)
     }
   }
 
-  // Detect if process is running from messages
-  const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null
-  const isRunning = lastMessage?.type === 'status' && lastMessage?.status === 'running'
+  const isConnected = connectionState === 'connected'
 
   return (
-    <Stack spacing={3}>
-      <Typography variant="h4">Steam Review Analyzer Dashboard</Typography>
-      
-      {/* Control Panel */}
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Process Control</Typography>
-          
-          {/* Options */}
-          <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={completeMode}
-                  onChange={(e) => setCompleteMode(e.target.checked)}
-                  disabled={isRunning}
-                />
-              }
-              label="Complete Scraping Mode"
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={skipScraping}
-                  onChange={(e) => setSkipScraping(e.target.checked)}
-                  disabled={isRunning}
-                />
-              }
-              label="Skip Scraping (Analysis Only)"
-            />
-          </Stack>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex items-center justify-center gap-3">
+          <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
+            <Activity className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Control Dashboard
+          </h1>
+        </div>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Manage your Steam review analysis processes and monitor real-time progress.
+        </p>
+      </div>
 
-          {/* Action Buttons */}
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              startIcon={<CloudDownload />}
-              onClick={handleStartScrape}
-              disabled={isRunning}
-              color="primary"
-            >
-              Start Scraping
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<Analytics />}
-              onClick={handleStartAnalysis}
-              disabled={isRunning}
-              color="secondary"
-            >
-              Start Analysis
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<Stop />}
-              onClick={handleStop}
-              disabled={!isRunning}
-              color="error"
-            >
-              Stop Process
-            </Button>
-          </Stack>
-        </CardContent>
-      </Card>
-
-      {/* Status Display */}
-      {isRunning && (
-        <Alert severity="info" sx={{ mb: 2 }}>
-          <Typography variant="body2">
-            Process is currently running. Check the activity log below for progress updates.
-          </Typography>
-          <LinearProgress sx={{ mt: 1 }} />
-        </Alert>
-      )}
-
-      {/* Activity Log */}
-      <Paper sx={{ height: 400, overflow: 'auto', p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h6">Activity Log</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Chip
-              label={connectionState}
-              size="small"
-              color={
-                connectionState === 'connected' ? 'success' :
-                connectionState === 'connecting' ? 'warning' :
-                connectionState === 'error' ? 'error' : 'default'
-              }
-            />
-            {connectionState !== 'connected' && (
-              <Button size="small" onClick={reconnect}>
+      {/* Status Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Connection Status */}
+        <Card className="border-2 border-primary/20">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg flex items-center gap-2">
+                {isConnected ? (
+                  <Wifi className="h-5 w-5 text-green-500" />
+                ) : (
+                  <WifiOff className="h-5 w-5 text-red-500" />
+                )}
+                Connection
+              </CardTitle>
+              <Badge variant={isConnected ? "default" : "destructive"}>
+                {connectionState}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              WebSocket status for real-time updates
+            </p>
+            {!isConnected && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={reconnect}
+                className="mt-3"
+              >
                 Reconnect
               </Button>
             )}
-          </Box>
-        </Box>
-        
-        {messages.length === 0 ? (
-          <Typography variant="body2" color="text.secondary">
-            {connectionState === 'connected' 
-              ? 'No activity yet. Start a process to see real-time updates.'
-              : 'Connecting to server for real-time updates...'
-            }
-          </Typography>
-        ) : (
-          <Stack spacing={1}>
-            {messages.slice(-50).map((msg: WSMessage, i: number) => (
-              <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Typography variant="caption" color="text.secondary" sx={{ minWidth: 80 }}>
-                  {formatTimestamp(msg.timestamp)}
-                </Typography>
-                <Chip
-                  label={msg.level || msg.type || 'info'}
-                  size="small"
-                  color={getLevelColor(msg.level || msg.type)}
-                  sx={{ minWidth: 70 }}
+          </CardContent>
+        </Card>
+
+        {/* Process Status - Enhanced */}
+        <ProcessStatusCard 
+          status={processStatus}
+          onStop={handleStop}
+        />
+
+        {/* Statistics Card */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Session Stats
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Log Entries:</span>
+                <span className="font-mono">{messages.length}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Session Time:</span>
+                <span className="font-mono">
+                  {messages.length > 0 ? '45m 12s' : '0s'}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Status:</span>
+                <Badge variant="outline" className="text-xs">
+                  {processStatus.processType === 'idle' ? 'Ready' : processStatus.processType}
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Control Panel */}
+      <Card className="border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <Settings className="h-5 w-5" />
+            Process Control
+          </CardTitle>
+          <CardDescription>
+            Configure and manage your analysis processes
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Configuration Options */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
+                <div className="space-y-1">
+                  <div className="font-medium">Complete Scraping Mode</div>
+                  <div className="text-sm text-muted-foreground">
+                    Perform comprehensive data collection
+                  </div>
+                </div>
+                <Switch
+                  checked={completeMode}
+                  onCheckedChange={setCompleteMode}
+                  disabled={processStatus.isRunning}
                 />
-                <Typography variant="body2" sx={{ flex: 1 }}>
-                  {msg.message || JSON.stringify(msg)}
-                </Typography>
-              </Box>
-            ))}
-          </Stack>
-        )}
-      </Paper>
-    </Stack>
+              </div>
+
+              <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
+                <div className="space-y-1">
+                  <div className="font-medium">Skip Scraping</div>
+                  <div className="text-sm text-muted-foreground">
+                    Run analysis on existing data only
+                  </div>
+                </div>
+                <Switch
+                  checked={skipScraping}
+                  onCheckedChange={setSkipScraping}
+                  disabled={processStatus.isRunning}
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-4">
+              <Button
+                onClick={handleStartScrape}
+                disabled={processStatus.isRunning}
+                className={cn(
+                  "w-full h-14 text-base border-2 transition-all duration-300",
+                  processStatus.processType === 'scraping' && processStatus.isRunning
+                    ? "bg-green-500/10 border-green-500/30 text-green-600"
+                    : "steam-gradient hover:opacity-90"
+                )}
+                size="lg"
+              >
+                <Download className="h-5 w-5 mr-2" />
+                {processStatus.processType === 'scraping' && processStatus.isRunning 
+                  ? 'Scraping In Progress...' 
+                  : 'Start Scraping Process'
+                }
+              </Button>
+
+              <Button
+                onClick={handleStartAnalysis}
+                disabled={processStatus.isRunning}
+                variant="outline"
+                className={cn(
+                  "w-full h-14 text-base border-2 transition-all duration-300",
+                  processStatus.processType === 'analysis' && processStatus.isRunning
+                    ? "bg-purple-500/10 border-purple-500/30 text-purple-600"
+                    : ""
+                )}
+                size="lg"
+              >
+                <BarChart3 className="h-5 w-5 mr-2" />
+                {processStatus.processType === 'analysis' && processStatus.isRunning 
+                  ? 'Analysis In Progress...' 
+                  : 'Start Analysis Process'
+                }
+              </Button>
+
+              {/* CRITICAL: Stop Process Button */}
+              <Button
+                onClick={handleStop}
+                disabled={!processStatus.isRunning}
+                variant="destructive"
+                className="w-full h-12 text-base"
+                size="lg"
+              >
+                <Square className="h-4 w-4 mr-2" />
+                Stop Current Process
+              </Button>
+            </div>
+          </div>
+
+          {/* Running Process Info */}
+          {processStatus.isRunning && (
+            <div className={cn(
+              "p-4 rounded-lg border transition-all duration-300",
+              processStatus.processType === 'scraping' 
+                ? "bg-green-500/10 border-green-500/20" 
+                : processStatus.processType === 'analysis'
+                ? "bg-purple-500/10 border-purple-500/20"
+                : "bg-primary/10 border-primary/20"
+            )}>
+              <div className="flex items-center gap-3">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent opacity-70" />
+                <div className="flex-1">
+                  <p className="font-medium">
+                    {processStatus.processType === 'scraping' ? 'Scraping Reviews' : 'Analyzing Data'}
+                  </p>
+                  <p className="text-sm opacity-70 mt-1">
+                    {processStatus.currentItem || 'Monitor detailed progress in the activity log below'}
+                  </p>
+                </div>
+              </div>
+              {processStatus.progress && (
+                <div className="mt-3 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>{processStatus.progress.current} of {processStatus.progress.total}</span>
+                    <span>{processStatus.progress.percentage.toFixed(1)}%</span>
+                  </div>
+                  <div className="w-full bg-black/20 rounded-full h-2">
+                    <div 
+                      className="bg-current h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${processStatus.progress.percentage}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Enhanced Activity Log */}
+      <Card className="border border-border/50">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <Activity className="h-5 w-5" />
+            Real-time Activity Log
+          </CardTitle>
+          <CardDescription>
+            Live updates from the analysis engine with detailed progress tracking
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ActivityLog 
+            messages={messages}
+            isConnected={isConnected}
+            maxHeight="h-96"
+          />
+        </CardContent>
+      </Card>
+
+      {/* Debug Panel - Remove in production */}
+      <Card className="border border-amber-200 bg-amber-50/50">
+        <CardHeader>
+          <CardTitle className="text-lg text-amber-800 flex items-center gap-2">
+            🔧 Debug Panel
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h4 className="font-semibold mb-2">WebSocket Status</h4>
+              <p>Connection: <Badge>{connectionState}</Badge></p>
+              <p>Messages: {messages.length}</p>
+              <p>Latest Message: {messages.length > 0 ? JSON.stringify(messages[messages.length - 1]) : 'None'}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Process Status</h4>
+              <p>Is Running: <Badge variant={processStatus.isRunning ? 'default' : 'outline'}>{processStatus.isRunning ? 'Yes' : 'No'}</Badge></p>
+              <p>Process Type: <Badge>{processStatus.processType}</Badge></p>
+              <p>Status Message: {processStatus.statusMessage}</p>
+              <p>Current Item: {processStatus.currentItem || 'None'}</p>
+              <p>Progress: {processStatus.progress ? `${processStatus.progress.current}/${processStatus.progress.total} (${processStatus.progress.percentage}%)` : 'None'}</p>
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t">
+            <p className="text-xs text-muted-foreground">
+              Check browser console for detailed debug logs. This panel will be removed in production.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

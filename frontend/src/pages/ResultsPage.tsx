@@ -1,40 +1,22 @@
 // src/pages/ResultsPage.tsx
 import { useState, useEffect } from 'react'
-import {
-  Stack, Typography, Paper, Button, Select, MenuItem,
-  FormControl, InputLabel, Chip, Box, Card, CardContent,
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  IconButton, Tooltip
-} from '@mui/material'
-import {
-  DataGrid,
-  type GridColDef
-} from '@mui/x-data-grid'
-import { 
-  Download, Visibility, Refresh,
-  ThumbUp, ThumbDown, Star
-} from '@mui/icons-material'
-import { api } from '../api/ApiClient'
-import { checkBackendStatus, type BackendStatus } from '../utils/backendStatus'
+import { BarChart3, RefreshCw, Download, AlertCircle } from 'lucide-react'
 
-interface AnalyzedReview {
-  id: number
-  app_name: string
-  app_id: number
-  review_id: string
-  author: string
-  review_text: string
-  voted_up: boolean
-  votes_up: number
-  votes_funny: number
-  weighted_vote_score: number
-  playtime_forever: number
-  timestamp_created: number
-  sentiment: string
-  topics: string[]
-  summary: string
-  rating: number
-}
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import { api } from '../api/ApiClient'
+import { checkBackendStatus } from '../utils/backendStatus'
+import { SimpleReviewsTable } from '../components/SimpleReviewsTable'
+
 
 interface ResultsFilter {
   app_id?: number
@@ -43,16 +25,12 @@ interface ResultsFilter {
 }
 
 export default function ResultsPage() {
-  const [reviews, setReviews] = useState<AnalyzedReview[]>([])
+  const [reviews, setReviews] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(25)
-  const [selectedReview, setSelectedReview] = useState<AnalyzedReview | null>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [availableApps, setAvailableApps] = useState<{id: number, name: string}[]>([])
-  const [filters, setFilters] = useState<ResultsFilter>({})
-  const [backendStatus, setBackendStatus] = useState<BackendStatus>({
+  const [availableApps, setAvailableApps] = useState([])
+  const [filters, setFilters] = useState({})
+  const [backendStatus, setBackendStatus] = useState({
     isConnected: false,
     hasResultsEndpoint: false,
     hasResultsAppsEndpoint: false
@@ -75,12 +53,12 @@ export default function ResultsPage() {
     initializeResults()
   }, [])
 
-  // Load results when page/filters change (only if backend supports it)
+  // Load results when filters change (only if backend supports it)
   useEffect(() => {
     if (backendStatus.hasResultsEndpoint) {
       loadResults()
     }
-  }, [page, pageSize, filters, backendStatus.hasResultsEndpoint])
+  }, [filters, backendStatus.hasResultsEndpoint])
 
   const loadAvailableApps = async () => {
     try {
@@ -88,7 +66,6 @@ export default function ResultsPage() {
       setAvailableApps(response.data)
     } catch (error) {
       console.error('Failed to load available apps:', error)
-      // Set empty array as fallback
       setAvailableApps([])
     }
   }
@@ -97,8 +74,8 @@ export default function ResultsPage() {
     setLoading(true)
     try {
       const params = {
-        page: page + 1,
-        per_page: pageSize,
+        page: 1,
+        per_page: 25,
         ...filters
       }
       const response = await api.get('/results', { params })
@@ -106,7 +83,6 @@ export default function ResultsPage() {
       setTotal(response.data.total || 0)
     } catch (error) {
       console.error('Failed to load results:', error)
-      // Show empty state when API is not available
       setReviews([])
       setTotal(0)
     } finally {
@@ -134,310 +110,174 @@ export default function ResultsPage() {
     }
   }
 
-  const getSentimentColor = (sentiment: string) => {
-    switch (sentiment?.toLowerCase()) {
-      case 'positive': return 'success'
-      case 'negative': return 'error'
-      case 'neutral': return 'default'
-      default: return 'default'
-    }
-  }
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp * 1000).toLocaleDateString()
-  }
-
-  const formatPlaytime = (minutes: number) => {
-    if (minutes < 60) return `${minutes}m`
-    const hours = Math.floor(minutes / 60)
-    return `${hours}h ${minutes % 60}m`
-  }
-
-  const columns: GridColDef[] = [
-    { 
-      field: 'app_name', 
-      headerName: 'Game', 
-      width: 200,
-      renderCell: (params) => (
-        <Box>
-          <Typography variant="body2" fontWeight="bold">
-            {params.value}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            ID: {params.row.app_id}
-          </Typography>
-        </Box>
-      )
-    },
-    {
-      field: 'author',
-      headerName: 'Author',
-      width: 150
-    },
-    {
-      field: 'sentiment',
-      headerName: 'Sentiment',
-      width: 120,
-      renderCell: (params) => (
-        <Chip
-          label={params.value}
-          color={getSentimentColor(params.value) as any}
-          size="small"
-        />
-      )
-    },
-    {
-      field: 'rating',
-      headerName: 'Rating',
-      width: 100,
-      renderCell: (params) => (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Star fontSize="small" color="primary" />
-          <Typography variant="body2">{params.value}/5</Typography>
-        </Box>
-      )
-    },
-    {
-      field: 'voted_up',
-      headerName: 'Recommended',
-      width: 120,
-      renderCell: (params) => (
-        params.value ? 
-          <ThumbUp color="success" fontSize="small" /> : 
-          <ThumbDown color="error" fontSize="small" />
-      )
-    },
-    {
-      field: 'playtime_forever',
-      headerName: 'Playtime',
-      width: 100,
-      renderCell: (params) => formatPlaytime(params.value)
-    },
-    {
-      field: 'timestamp_created',
-      headerName: 'Date',
-      width: 120,
-      renderCell: (params) => formatDate(params.value)
-    },
-    {
-      field: 'topics',
-      headerName: 'Topics',
-      width: 200,
-      renderCell: (params) => (
-        <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
-          {params.value?.slice(0, 2).map((topic: string, i: number) => (
-            <Chip key={i} label={topic} size="small" variant="outlined" />
-          ))}
-          {params.value?.length > 2 && (
-            <Chip label={`+${params.value.length - 2}`} size="small" />
-          )}
-        </Box>
-      )
-    },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      sortable: false,
-      renderCell: (params) => (
-        <Tooltip title="View Details">
-          <IconButton
-            size="small"
-            onClick={() => {
-              setSelectedReview(params.row)
-              setDialogOpen(true)
-            }}
-          >
-            <Visibility />
-          </IconButton>
-        </Tooltip>
-      )
-    }
-  ]
-
   return (
-    <Stack spacing={3}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h4">Analysis Results</Typography>
-        <Chip
-          label={backendStatus.isConnected ? 'Backend Connected' : 'Backend Disconnected'}
-          color={backendStatus.isConnected ? 'success' : 'error'}
-          size="small"
-        />
-      </Box>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex items-center justify-center gap-3">
+          <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
+            <BarChart3 className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Analysis Results
+          </h1>
+        </div>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          View and analyze your Steam review data with powerful filtering options.
+        </p>
+      </div>
+
+      {/* Status */}
+      <Card className="border-2 border-primary/20">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              Backend Status
+            </CardTitle>
+            <Badge variant={backendStatus.isConnected ? "default" : "destructive"}>
+              {backendStatus.isConnected ? 'Connected' : 'Disconnected'}
+            </Badge>
+          </div>
+        </CardHeader>
+      </Card>
 
       {/* Filters and Actions */}
-      <Card>
+      <Card className="border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-xl">Filters & Export</CardTitle>
+          <CardDescription>
+            Filter your results and export data
+          </CardDescription>
+        </CardHeader>
         <CardContent>
-          <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-            <FormControl size="small" sx={{ minWidth: 200 }} disabled={!backendStatus.hasResultsAppsEndpoint}>
-              <InputLabel>Filter by Game</InputLabel>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Filter by Game</label>
               <Select
-                value={filters.app_id || ''}
-                onChange={(e) => setFilters(prev => ({ 
+                value={filters.app_id?.toString() || ''}
+                onValueChange={(value) => setFilters(prev => ({ 
                   ...prev, 
-                  app_id: e.target.value || undefined 
+                  app_id: value ? parseInt(value) : undefined 
                 }))}
-                label="Filter by Game"
+                disabled={!backendStatus.hasResultsAppsEndpoint}
               >
-                <MenuItem value="">All Games</MenuItem>
-                {availableApps.map(app => (
-                  <MenuItem key={app.id} value={app.id}>
-                    {app.name}
-                  </MenuItem>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="All Games" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Games</SelectItem>
+                  {availableApps.map(app => (
+                    <SelectItem key={app.id} value={app.id.toString()}>
+                      {app.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
-            </FormControl>
+            </div>
 
-            <FormControl size="small" sx={{ minWidth: 150 }}>
-              <InputLabel>Sentiment</InputLabel>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Sentiment</label>
               <Select
                 value={filters.sentiment || ''}
-                onChange={(e) => setFilters(prev => ({ 
+                onValueChange={(value) => setFilters(prev => ({ 
                   ...prev, 
-                  sentiment: e.target.value || undefined 
+                  sentiment: value || undefined 
                 }))}
-                label="Sentiment"
               >
-                <MenuItem value="">All</MenuItem>
-                <MenuItem value="positive">Positive</MenuItem>
-                <MenuItem value="negative">Negative</MenuItem>
-                <MenuItem value="neutral">Neutral</MenuItem>
+                <SelectTrigger>
+                  <SelectValue placeholder="All Sentiments" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All</SelectItem>
+                  <SelectItem value="positive">Positive</SelectItem>
+                  <SelectItem value="negative">Negative</SelectItem>
+                  <SelectItem value="neutral">Neutral</SelectItem>
+                </SelectContent>
               </Select>
-            </FormControl>
+            </div>
 
             <Button
-              variant="outlined"
-              startIcon={<Refresh />}
+              variant="outline"
               onClick={loadResults}
-              disabled={!backendStatus.hasResultsEndpoint}
+              disabled={!backendStatus.hasResultsEndpoint || loading}
+              className="h-10"
             >
-              Refresh
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {loading ? 'Loading...' : 'Refresh'}
             </Button>
 
-            <Button
-              variant="contained"
-              startIcon={<Download />}
-              onClick={() => handleExport('csv')}
-              disabled={!backendStatus.hasResultsEndpoint}
-            >
-              Export CSV
-            </Button>
-
-            <Button
-              variant="outlined"
-              startIcon={<Download />}
-              onClick={() => handleExport('json')}
-              disabled={!backendStatus.hasResultsEndpoint}
-            >
-              Export JSON
-            </Button>
-          </Stack>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => handleExport('csv')}
+                disabled={!backendStatus.hasResultsEndpoint}
+                className="flex-1"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                CSV
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => handleExport('json')}
+                disabled={!backendStatus.hasResultsEndpoint}
+                className="flex-1"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                JSON
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
-      {/* Results Grid */}
-      <Paper sx={{ height: 600, width: '100%' }}>
-        {reviews.length === 0 && !loading ? (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', p: 4 }}>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              No Analysis Results Available
-            </Typography>
-            <Typography variant="body2" color="text.secondary" textAlign="center">
-              The Results viewer will display analyzed reviews once you have:
-              <br />• Added games using the App Finder
-              <br />• Configured your analysis settings
-              <br />• Run the analysis from the Dashboard
-            </Typography>
-          </Box>
-        ) : (
-          <DataGrid
-            rows={reviews}
-            columns={columns}
-            rowCount={total}
-            loading={loading}
-            pagination
-            paginationMode="server"
-            paginationModel={{ page, pageSize }}
-            onPaginationModelChange={(model) => {
-              setPage(model.page)
-              setPageSize(model.pageSize)
-            }}
-            pageSizeOptions={[10, 25, 50, 100]}
-            disableRowSelectionOnClick
-            getRowHeight={() => 80}
-          />
-        )}
-      </Paper>
-
-      {/* Review Detail Dialog */}
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>Review Details</DialogTitle>
-        <DialogContent>
-          {selectedReview && (
-            <Stack spacing={2}>
-              <Box>
-                <Typography variant="h6">{selectedReview.app_name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  By {selectedReview.author} • {formatDate(selectedReview.timestamp_created)}
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle2" gutterBottom>Review Text:</Typography>
-                <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-                  <Typography variant="body2">
-                    {selectedReview.review_text}
-                  </Typography>
-                </Paper>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle2" gutterBottom>AI Analysis:</Typography>
-                <Paper sx={{ p: 2, bgcolor: 'primary.50' }}>
-                  <Typography variant="body2">
-                    {selectedReview.summary}
-                  </Typography>
-                </Paper>
-              </Box>
-
-              <Box>
-                <Typography variant="subtitle2" gutterBottom>Topics:</Typography>
-                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                  {selectedReview.topics?.map((topic, i) => (
-                    <Chip key={i} label={topic} variant="outlined" />
-                  ))}
-                </Box>
-              </Box>
-
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Chip
-                  label={selectedReview.sentiment}
-                  color={getSentimentColor(selectedReview.sentiment) as any}
-                />
-                <Chip
-                  icon={<Star />}
-                  label={`${selectedReview.rating}/5`}
-                  color="primary"
-                  variant="outlined"
-                />
-                <Chip
-                  label={`${selectedReview.votes_up} helpful`}
-                  variant="outlined"
-                />
-              </Box>
-            </Stack>
+      {/* Results Display */}
+      <Card className="border border-border/50">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-xl">Analysis Results</CardTitle>
+            <Badge variant="outline">
+              {total} total reviews
+            </Badge>
+          </div>
+          <CardDescription>
+            {loading ? "Loading reviews..." : "Browse and analyze your Steam review data"}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {!backendStatus.hasResultsEndpoint ? (
+            <div className="flex items-center justify-center py-16 text-center">
+              <div className="space-y-4">
+                <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto opacity-50" />
+                <div>
+                  <h3 className="text-lg font-semibold">Backend Not Available</h3>
+                  <p className="text-muted-foreground mt-2 max-w-md">
+                    The results endpoint is not available. Please ensure your backend is running.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : reviews.length === 0 && !loading ? (
+            <div className="flex items-center justify-center py-16 text-center">
+              <div className="space-y-4">
+                <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto opacity-50" />
+                <div>
+                  <h3 className="text-lg font-semibold">No Analysis Results Available</h3>
+                  <p className="text-muted-foreground mt-2 max-w-md">
+                    The Results viewer will display analyzed reviews once you have:
+                  </p>
+                  <ul className="text-sm text-muted-foreground mt-3 space-y-1">
+                    <li>• Added games using the Game Finder</li>
+                    <li>• Configured your analysis settings</li>
+                    <li>• Run the analysis from the Dashboard</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <SimpleReviewsTable data={reviews} />
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    </Stack>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

@@ -1,357 +1,378 @@
 // src/pages/SettingsPage.tsx
 import { useEffect, useState } from 'react'
+import { Save, RotateCcw, Settings, Database, Zap, Shield, Gamepad2 } from 'lucide-react'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 import {
-  Button, TextField, Checkbox, FormControlLabel, Select, MenuItem,
-  Typography, Stack, Card, CardContent,
-  Chip, Box, FormControl, InputLabel, Alert, Accordion,
-  AccordionSummary, AccordionDetails
-} from '@mui/material'
-import { Save, RestoreFromTrash, ExpandMore } from '@mui/icons-material'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
 import { getConfig, setConfig } from '../api/ApiClient'
 
-interface FullConfig { [key:string]: any }
+interface FullConfig { 
+  [key: string]: any
+  app_ids?: number[]
+  llm_provider?: string
+  api_key?: string
+  model_name?: string
+  max_reviews?: number
+  enable_caching?: boolean
+  debug_mode?: boolean
+}
 
 export default function SettingsPage() {
-  const [cfg, setCfg] = useState<FullConfig|null>(null)
+  const [cfg, setCfg] = useState<FullConfig | null>(null)
   const [dirty, setDirty] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getConfig().then(r => setCfg(r.data))
+    getConfig()
+      .then(r => {
+        setCfg(r.data)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Failed to load config:', error)
+        toast.error('Failed to load configuration')
+        setLoading(false)
+      })
   }, [])
 
-  if (!cfg) return <div>Loading configuration...</div>
-
   const onFieldChange = (path: string, value: any) => {
+    if (!cfg) return
+    
     const next = JSON.parse(JSON.stringify(cfg))
-    path.split('.').reduce((o,k,i,arr) => {
-      if (i === arr.length-1) o[k]=value
-      return o[k]
+    const keys = path.split('.')
+    const lastKey = keys.pop()!
+    
+    const target = keys.reduce((obj, key) => {
+      if (!obj[key]) obj[key] = {}
+      return obj[key]
     }, next)
-    setCfg(next); setDirty(true)
+    
+    target[lastKey] = value
+    setCfg(next)
+    setDirty(true)
   }
 
-  const save = async () => {
+  const handleSave = async () => {
+    if (!cfg || !dirty) return
+    
     setSaving(true)
     try {
-      await setConfig(cfg!)
+      await setConfig(cfg)
       setDirty(false)
+      toast.success('Configuration saved successfully!')
     } catch (error) {
       console.error('Failed to save config:', error)
+      toast.error('Failed to save configuration')
     } finally {
       setSaving(false)
     }
   }
 
-  const resetToDefaults = () => {
-    // Reset to default values - you would typically get these from the backend
-    const defaults = {
-      ...cfg,
-      fetching: {
-        reviews_per_app: 100,
-        max_requests_per_app: 10,
-        enable_complete_scraping: false,
-        min_playtime_hours: 0.5,
-        filter_by_language: true,
-        target_language: 'english'
-      },
-      analysis: {
-        reviews_to_analyze: 50,
-        skip_scraping: false,
-        enable_sentiment_analysis: true,
-        enable_topic_modeling: true,
-        max_topics: 10
-      }
+  const handleReset = () => {
+    if (!cfg) return
+    
+    // Reset to default values
+    const defaults: FullConfig = {
+      app_ids: [],
+      llm_provider: 'openai',
+      model_name: 'gpt-3.5-turbo',
+      max_reviews: 100,
+      enable_caching: true,
+      debug_mode: false
     }
-    setCfg(defaults)
+    
+    setCfg({ ...cfg, ...defaults })
     setDirty(true)
+    toast.info('Configuration reset to defaults')
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <div className="space-y-4 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto" />
+          <p className="text-muted-foreground">Loading configuration...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!cfg) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <div className="text-center space-y-4">
+          <Shield className="h-12 w-12 text-muted-foreground mx-auto" />
+          <div>
+            <h3 className="text-lg font-semibold">Configuration Error</h3>
+            <p className="text-muted-foreground">Unable to load application settings</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <Stack spacing={3}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h4">Configuration Settings</Typography>
-        <Stack direction="row" spacing={2}>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
+              <Settings className="h-8 w-8 text-primary" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Application Settings
+            </h1>
+          </div>
+          <p className="text-lg text-muted-foreground">
+            Configure your Steam review analysis parameters and preferences.
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3">
+          {dirty && (
+            <Badge variant="secondary" className="px-3 py-1">
+              Unsaved changes
+            </Badge>
+          )}
           <Button
-            variant="outlined"
-            startIcon={<RestoreFromTrash />}
-            onClick={resetToDefaults}
+            variant="outline"
+            onClick={handleReset}
+            disabled={saving}
           >
-            Reset to Defaults
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
           </Button>
           <Button
-            variant="contained"
-            startIcon={<Save />}
+            onClick={handleSave}
             disabled={!dirty || saving}
-            onClick={save}
+            className="steam-gradient hover:opacity-90"
           >
-            {saving ? 'Saving...' : 'Save Settings'}
+            {saving ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4 mr-2" />
+                Save Changes
+              </>
+            )}
           </Button>
-        </Stack>
-      </Box>
+        </div>
+      </div>
 
-      {dirty && (
-        <Alert severity="warning">
-          You have unsaved changes. Don't forget to save your configuration.
-        </Alert>
-      )}
-
-      {/* App Selection */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Selected Apps</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Card>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Currently selected Steam applications for analysis:
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Game Configuration */}
+        <Card className="border-2 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Gamepad2 className="h-5 w-5" />
+              Game Configuration
+            </CardTitle>
+            <CardDescription>
+              Manage the Steam games in your analysis collection
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="app_ids">Selected Games</Label>
+              <div className="p-4 rounded-lg border bg-muted/20 min-h-20">
                 {cfg.app_ids && cfg.app_ids.length > 0 ? (
-                  cfg.app_ids.map((id: number) => (
-                    <Chip 
-                      key={id} 
-                      label={`App ID: ${id}`} 
-                      onDelete={() => {
-                        const newIds = cfg.app_ids.filter((appId: number) => appId !== id)
-                        onFieldChange('app_ids', newIds)
-                      }}
-                    />
-                  ))
+                  <div className="flex flex-wrap gap-2">
+                    {cfg.app_ids.map((appId: number) => (
+                      <Badge key={appId} variant="secondary" className="px-3 py-1">
+                        App ID: {appId}
+                      </Badge>
+                    ))}
+                  </div>
                 ) : (
-                  <Typography variant="body2" color="text.secondary">
-                    No apps selected. Use the App Finder to add games for analysis.
-                  </Typography>
+                  <p className="text-sm text-muted-foreground text-center py-4">
+                    No games selected. Use the Game Finder to add games to your collection.
+                  </p>
                 )}
-              </Box>
-            </CardContent>
-          </Card>
-        </AccordionDetails>
-      </Accordion>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Games can be added using the Game Finder page
+              </p>
+            </div>
 
-      {/* Fetching Settings */}
-      <Accordion defaultExpanded>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Data Fetching & Filtering</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={3}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-            <TextField
-              fullWidth
-              label="Reviews per App"
-              type="number"
-                value={cfg.fetching?.reviews_per_app || 100}
-                onChange={e => onFieldChange('fetching.reviews_per_app', +e.target.value)}
-                helperText="Maximum number of reviews to fetch per game"
-              />
-            <TextField
-              fullWidth
-              label="Max Requests per App"
-              type="number"
-                value={cfg.fetching?.max_requests_per_app || 10}
-                onChange={e => onFieldChange('fetching.max_requests_per_app', +e.target.value)}
-                helperText="API request limit to prevent rate limiting"
-            />
-            </Stack>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <TextField
-                fullWidth
-                label="Minimum Playtime (hours)"
+            <div className="space-y-3">
+              <Label htmlFor="max_reviews">Maximum Reviews per Game</Label>
+              <Input
+                id="max_reviews"
                 type="number"
-                slotProps={{ htmlInput: { step: "0.1" } }}
-                value={cfg.fetching?.min_playtime_hours || 0.5}
-                onChange={e => onFieldChange('fetching.min_playtime_hours', +e.target.value)}
-                helperText="Filter reviews by minimum playtime"
+                value={cfg.max_reviews || 100}
+                onChange={(e) => onFieldChange('max_reviews', parseInt(e.target.value) || 100)}
+                min="1"
+                max="10000"
               />
-              <FormControl fullWidth>
-                <InputLabel>Target Language</InputLabel>
-                <Select
-                  value={cfg.fetching?.target_language || 'english'}
-                  onChange={e => onFieldChange('fetching.target_language', e.target.value)}
-                  label="Target Language"
-                >
-                  <MenuItem value="english">English</MenuItem>
-                  <MenuItem value="spanish">Spanish</MenuItem>
-                  <MenuItem value="french">French</MenuItem>
-                  <MenuItem value="german">German</MenuItem>
-                  <MenuItem value="all">All Languages</MenuItem>
-                </Select>
-              </FormControl>  
-            </Stack>
-            <Stack spacing={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                    checked={cfg.fetching?.enable_complete_scraping || false}
-                    onChange={(_, v) => onFieldChange('fetching.enable_complete_scraping', v)}
-                />
-              }
-                label="Enable Complete Scraping (fetch all available reviews)"
-            />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={cfg.fetching?.filter_by_language || true}
-                    onChange={(_, v) => onFieldChange('fetching.filter_by_language', v)}
-                  />
-                }
-                label="Filter reviews by selected language"
-              />
-            </Stack>
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
+              <p className="text-xs text-muted-foreground">
+                Limit the number of reviews to analyze per game (1-10,000)
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Analysis Settings */}
-      <Accordion defaultExpanded>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">AI Analysis Configuration</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={3}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-            <TextField
-              fullWidth
-              label="Reviews to Analyze"
-              type="number"
-                value={cfg.analysis?.reviews_to_analyze || 50}
-                onChange={e => onFieldChange('analysis.reviews_to_analyze', +e.target.value)}
-                helperText="Number of reviews to process with AI"
-              />
-              <TextField
-                fullWidth
-                label="Max Topics to Extract"
-                type="number"
-                value={cfg.analysis?.max_topics || 10}
-                onChange={e => onFieldChange('analysis.max_topics', +e.target.value)}
-                helperText="Maximum number of topics to identify per review"
-              />
-            </Stack>
-            <Stack spacing={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={cfg.analysis?.skip_scraping || false}
-                    onChange={(_,v) => onFieldChange('analysis.skip_scraping', v)}
-                  />
-                }
-                label="Skip scraping phase (analyze existing data only)"
-            />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={cfg.analysis?.enable_sentiment_analysis !== false}
-                    onChange={(_,v) => onFieldChange('analysis.enable_sentiment_analysis', v)}
-                  />
-                }
-                label="Enable sentiment analysis"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={cfg.analysis?.enable_topic_modeling !== false}
-                    onChange={(_,v) => onFieldChange('analysis.enable_topic_modeling', v)}
-                  />
-                }
-                label="Enable topic modeling and extraction"
-              />
-            </Stack>
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
+        {/* AI Configuration */}
+        <Card className="border-2 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5" />
+              AI Analysis Settings
+            </CardTitle>
+            <CardDescription>
+              Configure the language model for review analysis
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="llm_provider">LLM Provider</Label>
+              <Select
+                value={cfg.llm_provider || 'openai'}
+                onValueChange={(value) => onFieldChange('llm_provider', value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select provider" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="openai">OpenAI</SelectItem>
+                  <SelectItem value="anthropic">Anthropic</SelectItem>
+                  <SelectItem value="local">Local Model</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-      {/* LLM Settings */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">LLM Configuration</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={3}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <FormControl fullWidth>
-                <InputLabel>LLM Provider</InputLabel>
-                <Select
-                  value={cfg.llm?.provider || 'openai'}
-                  onChange={e => onFieldChange('llm.provider', e.target.value)}
-                  label="LLM Provider"
-                >
-                  <MenuItem value="openai">OpenAI</MenuItem>
-                  <MenuItem value="anthropic">Anthropic</MenuItem>
-                  <MenuItem value="local">Local Model</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                fullWidth
-                label="Model Name"
-                value={cfg.llm?.model_name || 'gpt-3.5-turbo'}
-                onChange={e => onFieldChange('llm.model_name', e.target.value)}
-                helperText="Specific model version to use"
+            <div className="space-y-3">
+              <Label htmlFor="model_name">Model Name</Label>
+              <Input
+                id="model_name"
+                value={cfg.model_name || ''}
+                onChange={(e) => onFieldChange('model_name', e.target.value)}
+                placeholder="e.g., gpt-3.5-turbo, claude-3-sonnet"
               />
-            </Stack>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <TextField
-                fullWidth
-                label="API Endpoint"
-                value={cfg.llm?.api_endpoint || ''}
-                onChange={e => onFieldChange('llm.api_endpoint', e.target.value)}
-                helperText="Custom API endpoint (for local models)"
-              />
-              <TextField
-                fullWidth
-                label="Temperature"
-                type="number"
-                slotProps={{ htmlInput: { step: "0.1", min: 0, max: 2 } }}
-                value={cfg.llm?.temperature || 0.7}
-                onChange={e => onFieldChange('llm.temperature', +e.target.value)}
-                helperText="Model creativity (0.0 - 2.0)"
-              />
-            </Stack>
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
+              <p className="text-xs text-muted-foreground">
+                Specify the exact model name to use for analysis
+              </p>
+            </div>
 
-      {/* Export Settings */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Export & Output Settings</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={3}>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-              <TextField
-                fullWidth
-                label="Output Directory"
-                value={cfg.output?.directory || './output'}
-                onChange={e => onFieldChange('output.directory', e.target.value)}
-                helperText="Directory to save analysis results"
+            <div className="space-y-3">
+              <Label htmlFor="api_key">API Key</Label>
+              <Input
+                id="api_key"
+                type="password"
+                value={cfg.api_key || ''}
+                onChange={(e) => onFieldChange('api_key', e.target.value)}
+                placeholder="Enter your API key"
               />
-              <FormControl fullWidth>
-                <InputLabel>Default Export Format</InputLabel>
-                <Select
-                  value={cfg.output?.default_format || 'csv'}
-                  onChange={e => onFieldChange('output.default_format', e.target.value)}
-                  label="Default Export Format"
-                >
-                  <MenuItem value="csv">CSV</MenuItem>
-                  <MenuItem value="json">JSON</MenuItem>
-                  <MenuItem value="xlsx">Excel</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={cfg.output?.include_raw_data !== false}
-                  onChange={(_,v) => onFieldChange('output.include_raw_data', v)}
-                />
-              }
-              label="Include raw review data in exports"
-            />
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-    </Stack>
+              <p className="text-xs text-muted-foreground">
+                Your API key is stored securely and never transmitted in logs
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Performance Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Performance & Caching
+            </CardTitle>
+            <CardDescription>
+              Optimize analysis speed and resource usage
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
+              <div className="space-y-1">
+                <div className="font-medium">Enable Caching</div>
+                <div className="text-sm text-muted-foreground">
+                  Cache API responses to improve performance
+                </div>
+              </div>
+              <Switch
+                checked={cfg.enable_caching || false}
+                onCheckedChange={(checked) => onFieldChange('enable_caching', checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
+              <div className="space-y-1">
+                <div className="font-medium">Debug Mode</div>
+                <div className="text-sm text-muted-foreground">
+                  Enable detailed logging for troubleshooting
+                </div>
+              </div>
+              <Switch
+                checked={cfg.debug_mode || false}
+                onCheckedChange={(checked) => onFieldChange('debug_mode', checked)}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* System Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              System Information
+            </CardTitle>
+            <CardDescription>
+              Current application status and diagnostics
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span className="text-muted-foreground">Games Selected:</span>
+                <div className="font-medium">{cfg.app_ids?.length || 0}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Provider:</span>
+                <div className="font-medium capitalize">{cfg.llm_provider || 'Not set'}</div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Caching:</span>
+                <div className="font-medium">
+                  {cfg.enable_caching ? 'Enabled' : 'Disabled'}
+                </div>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Debug:</span>
+                <div className="font-medium">
+                  {cfg.debug_mode ? 'Enabled' : 'Disabled'}
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="text-xs text-muted-foreground space-y-1">
+              <p>Configuration is automatically saved to the backend.</p>
+              <p>Changes take effect immediately for new analysis runs.</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }

@@ -1,20 +1,9 @@
 // src/api/WebSocketClient.ts
 import { useEffect, useState, useRef } from 'react'
+import type { WSMessage, WebSocketState } from '../types/websocket'
 
-export interface WSMessage { 
-  type: string
-  level?: string
-  message?: string
-  timestamp?: string
-  [key:string]: any 
-}
-
-export interface WebSocketState {
-  messages: WSMessage[]
-  connectionState: 'connecting' | 'connected' | 'disconnected' | 'error'
-  send?: (data: any) => void
-  reconnect: () => void
-}
+// Re-export types for backward compatibility
+export type { WSMessage, WebSocketState }
 
 export function useWebSocket(url: string): WebSocketState {
   const [messages, setMessages] = useState<WSMessage[]>([])
@@ -42,6 +31,7 @@ export function useWebSocket(url: string): WebSocketState {
       ws.onmessage = (event) => {
         try {
           const msg = JSON.parse(event.data)
+          console.log('📨 WebSocket received:', msg)
           setMessages((prev) => [...prev.slice(-49), msg]) // Keep last 50 messages
         } catch (error) {
           console.error('Failed to parse WebSocket message:', error)

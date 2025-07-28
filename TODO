@@ -15,5 +15,6 @@ Make a matrix recommending models (compare different modedls/costs/token rate)
 Commands: 
 cd Documents\GitHub\Refactored-Review-Analyser\frontend
 npm run dev
-Documents\GitHub\Refactored-Review-Analyser\backend
+cd Documents\GitHub\Refactored-Review-Analyser\backend
+.\venv\Scripts\Activate
 uvicorn app.main:app --reload --port 8000

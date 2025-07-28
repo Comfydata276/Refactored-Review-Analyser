@@ -1,0 +1,9 @@
+{
+    "app_name": "Fallout 76",
+    "app_id": 1151340,
+    "models_analysed": [
+        "gemma3:12b-it-qat",
+        "gpt-4.1 Nano"
+    ],
+    "aggregate_results": {}
+}

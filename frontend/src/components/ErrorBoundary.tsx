@@ -1,7 +1,9 @@
 // src/components/ErrorBoundary.tsx
 import React from 'react'
-import { Card, CardContent, Typography, Button, Stack, Alert } from '@mui/material'
-import { Refresh, Error } from '@mui/icons-material'
+import { RefreshCw, AlertCircle } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 interface ErrorBoundaryState {
   hasError: boolean
@@ -28,33 +30,40 @@ export class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <Card sx={{ m: 2, maxWidth: 600, mx: 'auto' }}>
-          <CardContent>
-            <Stack spacing={2} alignItems="center">
-              <Error color="error" sx={{ fontSize: 48 }} />
-              <Typography variant="h5">Something went wrong</Typography>
-              <Typography variant="body2" color="text.secondary" textAlign="center">
-                The application encountered an unexpected error. Please try refreshing the page.
-              </Typography>
-              
-              {this.state.error && (
-                <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
-                  <Typography variant="caption" component="pre">
-                    {this.state.error.message}
-                  </Typography>
-                </Alert>
-              )}
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <Card className="max-w-md w-full border-destructive/20">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center space-y-4 text-center">
+                <div className="p-3 rounded-full bg-destructive/10 border border-destructive/20">
+                  <AlertCircle className="h-8 w-8 text-destructive" />
+                </div>
+                <h2 className="text-xl font-semibold">Something went wrong</h2>
+                <p className="text-muted-foreground">
+                  The application encountered an unexpected error. Please try refreshing the page.
+                </p>
+                
+                {this.state.error && (
+                  <Alert className="w-full">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <pre className="text-xs font-mono whitespace-pre-wrap">
+                        {this.state.error.message}
+                      </pre>
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-              <Button
-                variant="contained"
-                startIcon={<Refresh />}
-                onClick={() => window.location.reload()}
-              >
-                Refresh Page
-              </Button>
-            </Stack>
-          </CardContent>
-        </Card>
+                <Button
+                  onClick={() => window.location.reload()}
+                  className="gap-2"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  Refresh Page
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )
     }
 

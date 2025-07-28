@@ -1,303 +1,342 @@
 // src/pages/HelpPage.tsx
-import { 
-  Typography, Stack, Card, CardContent, Accordion,
-  AccordionSummary, AccordionDetails, List, ListItem,
-  ListItemText, ListItemIcon, Chip, Box, Divider,
-  Paper
-} from '@mui/material'
-import { 
-  ExpandMore, PlayArrow, Search, Edit, Analytics,
-  Settings, FolderOpen, Error
-} from '@mui/icons-material'
+import {
+  HelpCircle, Play, Search, Edit, BarChart3,
+  Settings, FolderOpen, AlertCircle, ChevronDown
+} from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 
 export default function HelpPage() {
   return (
-    <Stack spacing={3}>
-      <Typography variant="h4">Help & Documentation</Typography>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex items-center justify-center gap-3">
+          <div className="p-3 rounded-full bg-primary/10 border border-primary/20">
+            <HelpCircle className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            Help & Documentation
+          </h1>
+        </div>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Complete guide to using the Steam Review Analyzer.
+        </p>
+      </div>
 
       {/* Quick Start Guide */}
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Quick Start Guide</Typography>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
+      <Card className="border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-xl">Quick Start Guide</CardTitle>
+          <CardDescription>
             Get started with the Steam Review Analyzer in 4 simple steps:
-          </Typography>
-          <List>
-            <ListItem>
-              <ListItemIcon><Search color="primary" /></ListItemIcon>
-              <ListItemText 
-                primary="1. Find Games" 
-                secondary="Use the App Finder to search and select Steam games for analysis"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><Settings color="primary" /></ListItemIcon>
-              <ListItemText 
-                primary="2. Configure Settings" 
-                secondary="Adjust fetching parameters, analysis options, and LLM configuration"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><Edit color="primary" /></ListItemIcon>
-              <ListItemText 
-                primary="3. Customize Prompt" 
-                secondary="Edit the AI prompt to guide the analysis according to your needs" 
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><PlayArrow color="primary" /></ListItemIcon>
-              <ListItemText 
-                primary="4. Run Analysis" 
-                secondary="Start the scraping and analysis process from the Dashboard"
-              />
-            </ListItem>
-          </List>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/20">
+              <div className="p-2 rounded-full bg-primary/10">
+                <Search className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">1. Find Games</h3>
+                <p className="text-sm text-muted-foreground">
+                  Use the App Finder to search and select Steam games for analysis
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/20">
+              <div className="p-2 rounded-full bg-primary/10">
+                <Settings className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">2. Configure Settings</h3>
+                <p className="text-sm text-muted-foreground">
+                  Adjust fetching parameters, analysis options, and LLM configuration
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/20">
+              <div className="p-2 rounded-full bg-primary/10">
+                <Edit className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">3. Customize Prompt</h3>
+                <p className="text-sm text-muted-foreground">
+                  Edit the AI prompt to guide the analysis according to your needs
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/20">
+              <div className="p-2 rounded-full bg-primary/10">
+                <Play className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold">4. Run Analysis</h3>
+                <p className="text-sm text-muted-foreground">
+                  Start the scraping and analysis process from the Dashboard
+                </p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       {/* Feature Overview */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Feature Overview</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={2}>
-            <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                <Analytics sx={{ mr: 1, verticalAlign: 'middle' }} />
-                Dashboard
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Central control panel for starting/stopping processes, monitoring real-time progress, 
-                and viewing activity logs with detailed status updates.
-              </Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                <Search sx={{ mr: 1, verticalAlign: 'middle' }} />
-                App Finder
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Search Steam's database by game name, App ID, or Steam URL. Add multiple games 
-                to your analysis queue with bulk selection features.
-              </Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                <Edit sx={{ mr: 1, verticalAlign: 'middle' }} />
-                Prompt Editor
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Monaco-powered editor for customizing the AI analysis prompt. Write detailed 
-                instructions for sentiment analysis, topic extraction, and review summarization.
-              </Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                <Analytics sx={{ mr: 1, verticalAlign: 'middle' }} />
-                Results Viewer
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Browse analyzed reviews with advanced filtering, sorting, and export capabilities. 
-                View detailed AI insights including sentiment, topics, and summaries.
-              </Typography>
-            </Box>
-          </Stack>
-        </AccordionDetails>
+      <Accordion type="single" collapsible className="border border-border/50 rounded-lg">
+        <AccordionItem value="features">
+          <AccordionTrigger className="px-6 py-4 text-lg font-semibold">
+            Feature Overview
+          </AccordionTrigger>
+          <AccordionContent className="px-6 pb-4">
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <BarChart3 className="h-5 w-5 text-primary mt-1" />
+                <div>
+                  <h4 className="font-semibold">Dashboard</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Central control panel for starting/stopping processes, monitoring real-time progress, 
+                    and viewing activity logs with detailed status updates.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Search className="h-5 w-5 text-primary mt-1" />
+                <div>
+                  <h4 className="font-semibold">App Finder</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Search Steam's database by game name, App ID, or Steam URL. Add multiple games 
+                    to your analysis queue with bulk selection features.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Edit className="h-5 w-5 text-primary mt-1" />
+                <div>
+                  <h4 className="font-semibold">Prompt Editor</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Monaco-powered editor for customizing the AI analysis prompt. Write detailed 
+                    instructions for sentiment analysis, topic extraction, and review summarization.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <BarChart3 className="h-5 w-5 text-primary mt-1" />
+                <div>
+                  <h4 className="font-semibold">Results Viewer</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Browse analyzed reviews with advanced filtering, sorting, and export capabilities. 
+                    View detailed AI insights including sentiment, topics, and summaries.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
       {/* Configuration Guide */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Configuration Guide</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={2}>
-            <Typography variant="subtitle2">Data Fetching Settings:</Typography>
-            <List dense>
-              <ListItem>
-                <ListItemText 
-                  primary="Reviews per App" 
-                  secondary="Maximum number of reviews to fetch per game (default: 100)"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="Complete Scraping" 
-                  secondary="Enable to fetch all available reviews, ignoring the per-app limit"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="Language Filtering" 
-                  secondary="Filter reviews by language to focus on specific regions"
-                />
-              </ListItem>
-            </List>
+      <Accordion type="single" collapsible className="border border-border/50 rounded-lg">
+        <AccordionItem value="configuration">
+          <AccordionTrigger className="px-6 py-4 text-lg font-semibold">
+            Configuration Guide
+          </AccordionTrigger>
+          <AccordionContent className="px-6 pb-4">
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold mb-3">Data Fetching Settings:</h4>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Reviews per App</p>
+                      <p className="text-sm text-muted-foreground">Maximum number of reviews to fetch per game (default: 100)</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Complete Scraping</p>
+                      <p className="text-sm text-muted-foreground">Enable to fetch all available reviews, ignoring the per-app limit</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Language Filtering</p>
+                      <p className="text-sm text-muted-foreground">Filter reviews by language to focus on specific regions</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-            <Typography variant="subtitle2">AI Analysis Settings:</Typography>
-            <List dense>
-              <ListItem>
-                <ListItemText 
-                  primary="Reviews to Analyze" 
-                  secondary="Number of reviews to process with AI (subset of fetched reviews)"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="Skip Scraping" 
-                  secondary="Use existing cached data instead of fetching new reviews"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="LLM Provider" 
-                  secondary="Choose between OpenAI, Anthropic, or local models"
-                />
-              </ListItem>
-            </List>
-          </Stack>
-        </AccordionDetails>
+              <div>
+                <h4 className="font-semibold mb-3">AI Analysis Settings:</h4>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Reviews to Analyze</p>
+                      <p className="text-sm text-muted-foreground">Number of reviews to process with AI (subset of fetched reviews)</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Skip Scraping</p>
+                      <p className="text-sm text-muted-foreground">Use existing cached data instead of fetching new reviews</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">LLM Provider</p>
+                      <p className="text-sm text-muted-foreground">Choose between OpenAI, Anthropic, or local models</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
       {/* File Structure */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Output Files & Structure</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={2}>
-            <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-              <Typography variant="body2" component="pre" sx={{ fontFamily: 'monospace' }}>
-{`output/
+      <Accordion type="single" collapsible className="border border-border/50 rounded-lg">
+        <AccordionItem value="files">
+          <AccordionTrigger className="px-6 py-4 text-lg font-semibold">
+            Output Files & Structure
+          </AccordionTrigger>
+          <AccordionContent className="px-6 pb-4">
+            <div className="space-y-4">
+              <div className="bg-secondary/20 p-4 rounded-lg font-mono text-sm">
+                <pre>{`output/
 ├── raw/
 │   └── GameName_AppID_raw_reviews.csv
 ├── analyzed/
 │   └── GameName_AppID_ModelName_analyzed.csv
 └── summary/
-    └── GameName_AppID_summary.json`}
-              </Typography>
-            </Paper>
-            
-            <List dense>
-              <ListItem>
-                <ListItemIcon><FolderOpen /></ListItemIcon>
-                <ListItemText 
-                  primary="raw/" 
-                  secondary="Original review data fetched from Steam API"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon><FolderOpen /></ListItemIcon>
-                <ListItemText 
-                  primary="analyzed/" 
-                  secondary="Reviews with AI analysis (sentiment, topics, summaries)"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon><FolderOpen /></ListItemIcon>
-                <ListItemText 
-                  primary="summary/" 
-                  secondary="Aggregate statistics and insights"
-                />
-              </ListItem>
-            </List>
-          </Stack>
-        </AccordionDetails>
+    └── GameName_AppID_summary.json`}</pre>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <FolderOpen className="h-5 w-5 text-primary mt-1" />
+                  <div>
+                    <p className="font-medium">raw/</p>
+                    <p className="text-sm text-muted-foreground">Original review data fetched from Steam API</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <FolderOpen className="h-5 w-5 text-primary mt-1" />
+                  <div>
+                    <p className="font-medium">analyzed/</p>
+                    <p className="text-sm text-muted-foreground">Reviews with AI analysis (sentiment, topics, summaries)</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <FolderOpen className="h-5 w-5 text-primary mt-1" />
+                  <div>
+                    <p className="font-medium">summary/</p>
+                    <p className="text-sm text-muted-foreground">Aggregate statistics and insights</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
       {/* Troubleshooting */}
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography variant="h6">Troubleshooting</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={2}>
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>
-                <Error color="error" sx={{ mr: 1, verticalAlign: 'middle' }} />
-                Common Issues
-              </Typography>
-              
-              <List dense>
-                <ListItem>
-                  <ListItemText 
-                    primary="API Rate Limiting" 
-                    secondary="Reduce 'Max Requests per App' or enable delays between requests"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText 
-                    primary="LLM Connection Errors" 
-                    secondary="Check API keys, endpoint URLs, and network connectivity"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText 
-                    primary="No Reviews Found" 
-                    secondary="Game may have few reviews or language filters may be too restrictive"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText 
-                    primary="Process Stuck" 
-                    secondary="Use the Stop button and check activity logs for error details"
-                  />
-                </ListItem>
-              </List>
-            </Box>
+      <Accordion type="single" collapsible className="border border-border/50 rounded-lg">
+        <AccordionItem value="troubleshooting">
+          <AccordionTrigger className="px-6 py-4 text-lg font-semibold">
+            Troubleshooting
+          </AccordionTrigger>
+          <AccordionContent className="px-6 pb-4">
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertCircle className="h-5 w-5 text-destructive" />
+                  <h4 className="font-semibold">Common Issues</h4>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">API Rate Limiting</p>
+                      <p className="text-sm text-muted-foreground">Reduce 'Max Requests per App' or enable delays between requests</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">LLM Connection Errors</p>
+                      <p className="text-sm text-muted-foreground">Check API keys, endpoint URLs, and network connectivity</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">No Reviews Found</p>
+                      <p className="text-sm text-muted-foreground">Game may have few reviews or language filters may be too restrictive</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-destructive mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium">Process Stuck</p>
+                      <p className="text-sm text-muted-foreground">Use the Stop button and check activity logs for error details</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-            <Box>
-              <Typography variant="subtitle2" gutterBottom>Performance Tips</Typography>
-              <List dense>
-                <ListItem>
-                  <ListItemText 
-                    primary="• Start with smaller datasets (50-100 reviews) for testing"
-                    secondary=""
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText 
-                    primary="• Use 'Skip Scraping' to re-analyze existing data"
-                    secondary=""
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText 
-                    primary="• Monitor the activity log for progress and errors"
-                    secondary=""
-                  />
-                </ListItem>
-              </List>
-            </Box>
-          </Stack>
-        </AccordionDetails>
+              <div>
+                <h4 className="font-semibold mb-3">Performance Tips</h4>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <p>• Start with smaller datasets (50-100 reviews) for testing</p>
+                  <p>• Use 'Skip Scraping' to re-analyze existing data</p>
+                  <p>• Monitor the activity log for progress and errors</p>
+                </div>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
 
       {/* About */}
-      <Card>
+      <Card className="border border-border/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            About Steam Review Analyzer
+          </CardTitle>
+          <div className="flex gap-2 mt-2">
+            <Badge variant="default">Version 2.0</Badge>
+            <Badge variant="outline">React + TypeScript</Badge>
+            <Badge variant="outline">shadcn/ui</Badge>
+          </div>
+        </CardHeader>
         <CardContent>
-          <Typography variant="h6" gutterBottom>About Steam Review Analyzer</Typography>
-          <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-            <Chip label="Version 2.0" color="primary" size="small" />
-            <Chip label="React + TypeScript" variant="outlined" size="small" />
-            <Chip label="Material UI" variant="outlined" size="small" />
-          </Stack>
-          <Typography variant="body2" color="text.secondary">
+          <p className="text-muted-foreground mb-4">
             A modern web application for scraping and analyzing Steam game reviews using 
-            large language models. Built with React, TypeScript, and Material UI for the 
+            large language models. Built with React, TypeScript, and shadcn/ui for the 
             frontend, with a Python FastAPI backend for data processing and AI integration.
-          </Typography>
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="caption" color="text.secondary">
+          </p>
+          <Separator className="my-4" />
+          <p className="text-sm text-muted-foreground">
             This tool helps game developers, researchers, and analysts understand player 
             sentiment and feedback through automated review analysis.
-          </Typography>
+          </p>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

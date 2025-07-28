@@ -26,7 +26,7 @@ llm_providers:
 analysis:
   enable_resume: false
   resume_validation: false
-  reviews_to_analyze: 100
+  reviews_to_analyze: 2
   api_retries: 3
   api_retry_delay: 1
   ollama_retries: 1
@@ -76,3 +76,7 @@ appearance:
   scaling: 100%
 app_ids:
 - 38410
+- 22370
+- 1151340
+max_reviews: 1000
+debug_mode: false
