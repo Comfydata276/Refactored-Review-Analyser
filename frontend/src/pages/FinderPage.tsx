@@ -1,6 +1,6 @@
 // src/pages/FinderPage.tsx
 import { useEffect, useState } from 'react'
-import { Search, Plus, GamepadIcon, Check, X } from 'lucide-react'
+import { Search, Plus, GamepadIcon, Check, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select"
 
 import { searchApps, getConfig, setConfig } from '../api/ApiClient'
+import { SelectedApps } from '../components/SelectedApps'
 import { cn } from "@/lib/utils"
 
 interface AppHit {
@@ -28,7 +29,7 @@ interface AppHit {
 export default function FinderPage() {
   const [query, setQuery] = useState<string>('')
   const [type, setType] = useState<'name' | 'id' | 'url'>('name')
-  const [page] = useState<number>(0)
+  const [page, setPage] = useState<number>(0)
   const [perPage] = useState<number>(20)
 
   const [hits, setHits] = useState<AppHit[]>([])
@@ -48,15 +49,20 @@ export default function FinderPage() {
   }, [])
 
   // Perform search
-  const doSearch = async () => {
+  const doSearch = async (resetPage = true) => {
     if (!query.trim()) {
       toast.error("Please enter a search term")
       return
     }
     
+    if (resetPage) {
+      setPage(0)
+    }
+    
     setLoading(true)
     try {
-      const res = await searchApps(query, type, page + 1, perPage) // API expects 1-based page
+      const currentPage = resetPage ? 1 : page + 1
+      const res = await searchApps(query, type, currentPage, perPage) // API expects 1-based page
       setHits(res.data.results || [])
       setTotal(res.data.total || 0)
       setSelectedIds(new Set()) // Clear selection on new search
@@ -72,6 +78,22 @@ export default function FinderPage() {
       setTotal(0)
       setSelectedIds(new Set())
       toast.error("Failed to search games. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Handle pagination
+  const goToPage = async (newPage: number) => {
+    setPage(newPage)
+    setLoading(true)
+    try {
+      const res = await searchApps(query, type, newPage + 1, perPage) // API expects 1-based page
+      setHits(res.data.results || [])
+      setSelectedIds(new Set()) // Clear selection on page change
+    } catch (error) {
+      console.error('Failed to load page:', error)
+      toast.error("Failed to load page. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -102,12 +124,23 @@ export default function FinderPage() {
     if (!cfg || selectedIds.size === 0) return
     
     try {
-      const current = new Set<number>(cfg.app_ids || [])
-      const newApps = Array.from(selectedIds).filter(id => !current.has(id))
+      const currentApps = cfg.selected_apps || []
+      const currentIds = new Set<number>(currentApps.map((app: any) => app.appid))
       
-      selectedIds.forEach((id) => current.add(id))
+      const newApps = Array.from(selectedIds)
+        .filter(id => !currentIds.has(id))
+        .map(id => {
+          const hit = hits.find(h => h.appid === id)
+          return { appid: id, name: hit?.name || `Game ${id}` }
+        })
       
-      const newCfg = { ...cfg, app_ids: Array.from(current) }
+      const updatedApps = [...currentApps, ...newApps]
+      const newCfg = { 
+        ...cfg, 
+        selected_apps: updatedApps,
+        app_ids: updatedApps.map((app: any) => app.appid) // Keep backward compatibility
+      }
+      
       await setConfig(newCfg)
       setCfg(newCfg)
       
@@ -117,6 +150,34 @@ export default function FinderPage() {
     } catch (error) {
       console.error('Failed to update config:', error)
       toast.error("Failed to add games to configuration")
+    }
+  }
+
+  // Add single app to config
+  const addSingleApp = async (app: AppHit) => {
+    if (!cfg) return
+    
+    try {
+      const currentApps = cfg.selected_apps || []
+      const currentIds = new Set<number>(currentApps.map((a: any) => a.appid))
+      
+      if (currentIds.has(app.appid)) return // Already added
+      
+      const newApp = { appid: app.appid, name: app.name }
+      const updatedApps = [...currentApps, newApp]
+      const newCfg = { 
+        ...cfg, 
+        selected_apps: updatedApps,
+        app_ids: updatedApps.map((a: any) => a.appid)
+      }
+      
+      await setConfig(newCfg)
+      setCfg(newCfg)
+      
+      toast.success(`Added "${app.name}" to your collection!`)
+    } catch (error) {
+      console.error('Failed to add app:', error)
+      toast.error("Failed to add game to configuration")
     }
   }
 
@@ -130,6 +191,14 @@ export default function FinderPage() {
   const isAllSelected = hits.length > 0 && selectedIds.size === hits.length
   const isIndeterminate = selectedIds.size > 0 && selectedIds.size < hits.length
   const existingAppIds = new Set(cfg?.app_ids || [])
+  
+  // Get selected apps with proper names
+  const selectedApps = cfg?.selected_apps || []
+  
+  // Calculate pagination info
+  const totalPages = Math.ceil(total / perPage)
+  const hasNextPage = page < totalPages - 1
+  const hasPrevPage = page > 0
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/20 p-6">
@@ -148,6 +217,13 @@ export default function FinderPage() {
             Discover and add Steam games to your analysis collection. Search by name, ID, or Steam URL.
           </p>
         </div>
+
+        {/* Selected Apps Section */}
+        <SelectedApps 
+          apps={selectedApps}
+          config={cfg}
+          onConfigUpdate={setCfg}
+        />
 
         {/* Search Section */}
         <Card className="border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
@@ -250,10 +326,13 @@ export default function FinderPage() {
                       </TableHead>
                       <TableHead className="w-32">App ID</TableHead>
                       <TableHead>Game Name</TableHead>
-                      <TableHead className="w-32 text-center">Status</TableHead>
+                      <TableHead className="w-32 text-center">Action</TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody>
+                </Table>
+                <div className="max-h-[400px] overflow-y-auto">
+                  <Table>
+                    <TableBody>
                     {hits.map((app) => {
                       const isSelected = selectedIds.has(app.appid)
                       const isInCollection = existingAppIds.has(app.appid)
@@ -292,17 +371,75 @@ export default function FinderPage() {
                                 In Collection
                               </Badge>
                             ) : (
-                              <Badge variant="outline">
-                                Available
-                              </Badge>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => addSingleApp(app)}
+                                className="h-7 px-3 text-xs hover:bg-primary/10 hover:text-primary hover:border-primary/50"
+                              >
+                                <Plus className="h-3 w-3 mr-1" />
+                                Add
+                              </Button>
                             )}
                           </TableCell>
                         </TableRow>
                       )
                     })}
-                  </TableBody>
-                </Table>
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
+              
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-6 py-4 border-t">
+                  <p className="text-sm text-muted-foreground">
+                    Page {page + 1} of {totalPages} • {total} total games
+                  </p>
+                  
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => goToPage(page - 1)}
+                      disabled={!hasPrevPage || loading}
+                      className="h-8 w-8 p-0"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        const pageNum = page < 3 ? i : page - 2 + i
+                        if (pageNum >= totalPages) return null
+                        
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={pageNum === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => goToPage(pageNum)}
+                            disabled={loading}
+                            className="h-8 w-8 p-0 text-xs"
+                          >
+                            {pageNum + 1}
+                          </Button>
+                        )
+                      })}
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => goToPage(page + 1)}
+                      disabled={!hasNextPage || loading}
+                      className="h-8 w-8 p-0"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

@@ -121,7 +121,11 @@ class AnalysisOrchestrator:
         """Runs only the review scraping and saving part of the workflow."""
         try:
             self.config_manager.reload_config()
-            self._send_to_gui({"type": "analysis_started"})
+            self._send_to_gui({
+                "type": "analysis_started",
+                "process_type": "scraping",
+                "message": "Starting scraping process..."
+            })
 
             enable_complete = bool(self._current_complete_scraping)
             scrape_type = "complete" if enable_complete else "limited"
@@ -238,13 +242,23 @@ class AnalysisOrchestrator:
         """The main analysis workflow, now with skip scraping capability."""
         try:
             self.config_manager.reload_config()
-            self._send_to_gui({"type": "analysis_started"})
+            self._send_to_gui({
+                "type": "analysis_started", 
+                "process_type": "scraping",
+                "message": "Starting analysis workflow..."
+            })
 
             skip_scraping = bool(self._current_skip_scraping)
             enable_complete = bool(self._current_complete_scraping)
 
             if skip_scraping:
                 workflow_type = "analysis-only (using existing raw reviews)"
+                # Update process type to analysis since we're skipping scraping
+                self._send_to_gui({
+                    "type": "process_type_change",
+                    "process_type": "analysis",
+                    "message": f"Starting {workflow_type}..."
+                })
             else:
                 scrape_type = "complete" if enable_complete else "limited"
                 workflow_type = f"{scrape_type} analysis workflow"
@@ -348,6 +362,14 @@ class AnalysisOrchestrator:
                 else:
                     reviews_to_analyze_limit = 100
 
+                # Transition from scraping to analysis phase
+                if not skip_scraping:
+                    self._send_to_gui({
+                        "type": "process_type_change",
+                        "process_type": "analysis",
+                        "message": "Transitioning to analysis phase..."
+                    })
+
                 for provider, models in \
                         selected_models_by_provider.items():
                     if self.stop_event.is_set():
@@ -359,6 +381,7 @@ class AnalysisOrchestrator:
 
                         self._send_to_gui({
                             "type": "status_update",
+                            "process_type": "analysis",
                             "app": app_name,
                             "model": model
                         })

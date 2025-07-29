@@ -1,9 +1,0 @@
-{
-    "app_name": "Fallout 3 - Game of the Year Edition",
-    "app_id": 22370,
-    "models_analysed": [
-        "gemma3:12b-it-qat",
-        "gpt-4.1 Nano"
-    ],
-    "aggregate_results": {}
-}

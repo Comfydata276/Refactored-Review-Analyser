@@ -52,19 +52,23 @@ class LLMAnalyser:
         """Loads the analysis prompt from the specified file."""
         import os
 
-        # 1) Try explicit path from config
+        # 1) Get prompt filename from config (defaults to 'prompt.txt')
+        prompt_filename = self.config_manager.get_setting(
+            ["analysis", "prompt_file"], "prompt.txt"
+        )
+
+        # 2) Try explicit path from config (deprecated but still supported)
         prompt_path = self.config_manager.get_setting(
             ["analysis", "prompt_file_path"], None
         )
 
-        # 2) If not set, fallback to project-level default
+        # 3) If explicit path not set, use filename with prompts directory
         if not prompt_path:
-            # e.g. <repo>/Scripts/prompt.txt
             prompt_path = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "prompt.txt")
+                os.path.join(os.path.dirname(__file__), "..", "..", "prompts", prompt_filename)
             )
 
-        # 3) Attempt to read; on failure return minimal default
+        # 4) Attempt to read; on failure return minimal default
         try:
             with open(prompt_path, "r", encoding="utf-8") as f:
                 return f.read()
@@ -75,7 +79,7 @@ class LLMAnalyser:
     def get_selected_models_by_provider(self):
         """
         Reads the config and returns a dictionary of enabled models grouped by provider.
-        e.g., {'ollama': ['llama3'], 'openai': ['GPT-4 Turbo']}
+        e.g., {'ollama': ['gemma3'], 'openai': ['GPT-4.1']}
         """
         selected = {}
         # Correctly fetch the nested config section. Pass path list to get_setting.
@@ -160,6 +164,14 @@ class LLMAnalyser:
 
         # ---- 4) Initialise provider ----
         api_model = self._get_api_model_name(provider_name, model_display_name)
+        progress_callback({
+            "type": "log",
+            "message": (
+                f"Model resolution: '{model_display_name}' -> '{api_model}' "
+                f"for provider '{provider_name}'"
+            ),
+            "level": "info"
+        })
         if not api_model:
             progress_callback({
                 "type": "log",
@@ -171,13 +183,14 @@ class LLMAnalyser:
             })
             return analysed_results
 
+        model_config = self._get_model_config(provider_name, model_display_name)
         provider = get_llm_provider(
-            provider_name, api_model, self.config_manager, progress_callback
+            provider_name, api_model, self.config_manager, progress_callback, model_config
         )
         if not provider:
             progress_callback({
                 "type": "log",
-                "message": f"Failed to initialise provider '{provider_name}'.",
+                "message": f"Failed to initialise provider '{provider_name}' with model '{api_model}'.",
                 "level": "error"
             })
             return analysed_results
@@ -188,8 +201,27 @@ class LLMAnalyser:
 
         # ---- 5) Batched path if supported ----
         can_batch = batch_size > 1 and hasattr(provider, 'analyze_batch')
+        progress_callback({
+            "type": "log",
+            "message": (
+                f"Batch check: batch_size={batch_size}, "
+                f"has_analyze_batch={hasattr(provider, 'analyze_batch')}, "
+                f"can_batch={can_batch}"
+            ),
+            "level": "info"
+        })
         if can_batch:
-            for start in range(0, len(reviews_to_analyze), batch_size):
+            total_batches = (len(reviews_to_analyze) + batch_size - 1) // batch_size
+            progress_callback({
+                "type": "log",
+                "message": (
+                    f"Using batch processing: {total_batches} batches of "
+                    f"up to {batch_size} reviews each"
+                ),
+                "level": "info"
+            })
+            
+            for batch_idx, start in enumerate(range(0, len(reviews_to_analyze), batch_size), 1):
                 if stop_event.is_set():
                     progress_callback({
                         "type": "log",
@@ -201,23 +233,67 @@ class LLMAnalyser:
                 chunk = reviews_to_analyze[start:start + batch_size]
                 texts = [r.get('review', '') for r in chunk]
 
+                progress_callback({
+                    "type": "log",
+                    "message": (
+                        f"Processing batch {batch_idx}/{total_batches} "
+                        f"({len(chunk)} reviews)..."
+                    ),
+                    "level": "info"
+                })
+
                 raw_multi = provider.analyze_batch(texts, self.prompt)
                 if not raw_multi:
+                    progress_callback({
+                        "type": "log",
+                        "message": f"Batch {batch_idx} returned no results, skipping",
+                        "level": "warning"
+                    })
                     continue
 
                 parts = splitter.split(raw_multi)
                 # parts[0] is header; parts[1:] map to chunk entries
+                batch_processed = 0
+                progress_callback({
+                    "type": "log",
+                    "message": f"Batch response split into {len(parts)} parts",
+                    "level": "info"
+                })
+                
                 for idx, block in enumerate(parts[1:], start=1):
                     snippet = block.strip()
                     if not snippet:
+                        progress_callback({
+                            "type": "log",
+                            "message": f"Empty response block {idx}, skipping",
+                            "level": "warning"
+                        })
                         continue
-                    record = chunk[idx - 1]
-                    parsed = parse_llm_output(snippet)
-                    analysed_results.append({**record, **parsed})
-                    progress_callback({
-                        "type": "progress_reviews_current",
-                        "value": len(analysed_results)
-                    })
+                    
+                    if idx <= len(chunk):
+                        record = chunk[idx - 1]
+                        parsed = parse_llm_output(snippet)
+                        analysed_results.append({**record, **parsed})
+                        batch_processed += 1
+                        progress_callback({
+                            "type": "progress_reviews_current",
+                            "value": len(analysed_results)
+                        })
+                    else:
+                        progress_callback({
+                            "type": "log",
+                            "message": f"More response blocks than input reviews: {idx} > {len(chunk)}",
+                            "level": "warning"
+                        })
+
+                progress_callback({
+                    "type": "log",
+                    "message": (
+                        f"Completed batch {batch_idx}/{total_batches} "
+                        f"({batch_processed}/{len(chunk)} reviews processed)"
+                    ),
+                    "level": "info"
+                })
 
                 # Periodic save
                 if len(analysed_results) % periodic_interval == 0:
@@ -228,7 +304,7 @@ class LLMAnalyser:
                         "type": "log",
                         "message": (
                             f"Periodic save: {len(analysed_results)}/"
-                            f"{total_target}"
+                            f"{total_target} reviews completed"
                         ),
                         "level": "info"
                     })
@@ -297,33 +373,70 @@ class LLMAnalyser:
 
         return analysed_results
 
-    def _get_api_model_name(self, provider_name, model_display_name):
+    def _get_api_model_name(self, provider_name, model_identifier):
         """
-        Finds the correct API model name based on the provider and display name.
+        Finds the correct API model name based on the provider and model identifier.
+        The model_identifier could be either a display_name or api_name from enabled_models.
         """
         if provider_name == 'ollama':
             # For Ollama, the display name IS the API name.
-            return model_display_name
+            return model_identifier
 
         # For cloud providers, look up the api_name from the available_models list.
         available_models = self.config_manager.get_setting(['llm_providers', provider_name, 'available_models'], [])
+        
+        # First try to match by display_name
         for model_info in available_models:
-            if isinstance(model_info, dict) and model_info.get('display_name') == model_display_name:
+            if isinstance(model_info, dict) and model_info.get('display_name') == model_identifier:
+                return model_info.get('api_name')
+        
+        # If no display_name match, try to match by api_name (direct match)
+        for model_info in available_models:
+            if isinstance(model_info, dict) and model_info.get('api_name') == model_identifier:
                 return model_info.get('api_name')
 
+        # If still no match, return the identifier as-is (it might be a valid API name)
         logger.warning(
-            f"Could not find a matching API name for display name '{model_display_name}' under provider '{provider_name}'.")
+            f"Could not find matching model info for '{model_identifier}' under provider '{provider_name}'. Using as-is.")
+        return model_identifier
+
+    def _get_model_config(self, provider_name, model_identifier):
+        """
+        Gets the full model configuration for reasoning effort handling.
+        The model_identifier could be either a display_name or api_name from enabled_models.
+        """
+        if provider_name == 'ollama':
+            return None
+
+        available_models = self.config_manager.get_setting(['llm_providers', provider_name, 'available_models'], [])
+        
+        # First try to match by display_name
+        for model_info in available_models:
+            if isinstance(model_info, dict) and model_info.get('display_name') == model_identifier:
+                return model_info
+        
+        # If no display_name match, try to match by api_name
+        for model_info in available_models:
+            if isinstance(model_info, dict) and model_info.get('api_name') == model_identifier:
+                return model_info
+                
         return None
 
 
 # --- Abstract Base Class for Individual Providers ---
 class LLMProvider(ABC):
-    def __init__(self, model_name, config_manager, progress_callback=None):
+    def __init__(self, model_name, config_manager, progress_callback=None, model_config=None):
         self.model_name = model_name
         self.config = config_manager
         self.progress_callback = progress_callback
+        self.model_config = model_config or {}
         self.retries = self.config.get_setting(['analysis', 'api_retries'], 2)
         self.retry_delay = self.config.get_setting(['analysis', 'api_retry_delay'], 5)
+        
+        # Handle reasoning effort if the model is tagged as 'Reasoning'
+        self.reasoning_effort = None
+        if self.model_config.get('tags') and 'Reasoning' in self.model_config.get('tags', []):
+            self.reasoning_effort = self.model_config.get('reasoning_level', 'medium')
 
     def _send_log_to_gui(self, level, message):
         if self.progress_callback:
@@ -402,22 +515,35 @@ class OllamaProvider(LLMProvider):
 
 
 class OpenAIProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None):
-        super().__init__(model_name, config_manager, progress_callback)
+    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+        super().__init__(model_name, config_manager, progress_callback, model_config)
         assert openai is not None, "openai library not available at runtime"
         openai_any = cast(Any, openai)
         self.client = openai_any.OpenAI(api_key=api_key)
 
     def analyze(self, review_text, prompt):
         def do_analysis():
+            messages = [
+                {
+                    "role": "user",
+                    "content": self._construct_full_prompt(review_text, prompt),
+                }
+            ]
+            
+            # Add reasoning effort for o models if configured
+            extra_params = {}
+            if self.reasoning_effort and (self.model_name.startswith('o1') or self.model_name.startswith('o4')):
+                if self.reasoning_effort == 'low':
+                    extra_params['reasoning_effort'] = 'low'
+                elif self.reasoning_effort == 'medium':
+                    extra_params['reasoning_effort'] = 'medium'
+                elif self.reasoning_effort == 'high':
+                    extra_params['reasoning_effort'] = 'high'
+            
             response = self.client.chat.completions.create(
                 model=self.model_name,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": self._construct_full_prompt(review_text, prompt),
-                    }
-                ],
+                messages=messages,
+                **extra_params
             )
             return str(response.choices[0].message.content).strip()
 
@@ -444,9 +570,20 @@ class OpenAIProvider(LLMProvider):
                 {"role": "user",   "content": payload}
             ]
 
+            # Add reasoning effort for o models if configured
+            extra_params = {}
+            if self.reasoning_effort and (self.model_name.startswith('o1') or self.model_name.startswith('o4')):
+                if self.reasoning_effort == 'low':
+                    extra_params['reasoning_effort'] = 'low'
+                elif self.reasoning_effort == 'medium':
+                    extra_params['reasoning_effort'] = 'medium'
+                elif self.reasoning_effort == 'high':
+                    extra_params['reasoning_effort'] = 'high'
+
             response = self.client.chat.completions.create(
                 model=self.model_name,
-                messages=messages
+                messages=messages,
+                **extra_params
             )
             return str(response.choices[0].message.content).strip()
 
@@ -454,8 +591,8 @@ class OpenAIProvider(LLMProvider):
 
 
 class GeminiProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None):
-        super().__init__(model_name, config_manager, progress_callback)
+    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+        super().__init__(model_name, config_manager, progress_callback, model_config)
         assert genai is not None, "google-generativeai library not available"
         genai_any = cast(Any, genai)
         genai_any.configure(api_key=api_key)
@@ -489,14 +626,14 @@ class GeminiProvider(LLMProvider):
 
 
 class ClaudeProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None):
-        super().__init__(model_name, config_manager, progress_callback)
+    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+        super().__init__(model_name, config_manager, progress_callback, model_config)
         assert anthropic is not None, "anthropic library not available"
         self.client = cast(Any, anthropic).Anthropic(api_key=api_key)
 
     def analyze(self, review_text, prompt):
         def do_analysis():
-            message = self.client.messages.create(model=self.model_name, max_tokens=1024, messages=[
+            message = self.client.messages.create(model=self.model_name, max_tokens=4096, messages=[
                 {"role": "user", "content": self._construct_full_prompt(review_text, prompt)}])
             return str(message.content[0].text).strip()
 
@@ -517,7 +654,7 @@ class ClaudeProvider(LLMProvider):
 
             message = self.client.messages.create(
                 model=self.model_name,
-                max_tokens=1024,
+                max_tokens=4096,
                 messages=[{"role": "user", "content": payload}]
             )
             # Claude response may be in message.content or message.content[0]
@@ -530,7 +667,7 @@ class ClaudeProvider(LLMProvider):
 
 
 # --- Factory Function and Parser ---
-def get_llm_provider(provider_name, model_name, config_manager, progress_callback=None):
+def get_llm_provider(provider_name, model_name, config_manager, progress_callback=None, model_config=None):
     provider_name = provider_name.lower()
 
     def log_error(message):
@@ -554,17 +691,29 @@ def get_llm_provider(provider_name, model_name, config_manager, progress_callbac
         if not openai:
             log_error("'openai' library not installed.")
             return None
-        return OpenAIProvider(model_name, api_key, config_manager, progress_callback)
+        try:
+            return OpenAIProvider(model_name, api_key, config_manager, progress_callback, model_config)
+        except Exception as e:
+            log_error(f"Failed to initialize OpenAI provider: {e}")
+            return None
     elif provider_name == 'gemini':
         if not genai:
             log_error("'google-generativeai' library not installed.")
             return None
-        return GeminiProvider(model_name, api_key, config_manager, progress_callback)
+        try:
+            return GeminiProvider(model_name, api_key, config_manager, progress_callback, model_config)
+        except Exception as e:
+            log_error(f"Failed to initialize Gemini provider: {e}")
+            return None
     elif provider_name == 'claude':
         if not anthropic:
             log_error("'anthropic' library not installed.")
             return None
-        return ClaudeProvider(model_name, api_key, config_manager, progress_callback)
+        try:
+            return ClaudeProvider(model_name, api_key, config_manager, progress_callback, model_config)
+        except Exception as e:
+            log_error(f"Failed to initialize Claude provider: {e}")
+            return None
     else:
         log_error(f"Unknown provider '{provider_name}' requested.")
         return None

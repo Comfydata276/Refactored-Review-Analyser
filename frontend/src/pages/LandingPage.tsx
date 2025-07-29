@@ -19,17 +19,63 @@ import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
 
-import { startScrape, startAnalyse, stopProcess } from '../api/ApiClient'
+import { startScrape, startAnalyse, stopProcess, getConfig, setConfig } from '../api/ApiClient'
 import { useWebSocket } from '../api/WebSocketClient'
 import { useProcessStatus } from '../hooks/useProcessStatus'
 import { ProcessStatusCard } from '../components/ProcessStatusCard'
 import { ActivityLog } from '../components/ActivityLog'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
 
 export default function LandingPage() {
   const { messages, connectionState, reconnect, send } = useWebSocket('/ws')
   const processStatus = useProcessStatus(messages)
   const [completeMode, setCompleteMode] = useState(false)
   const [skipScraping, setSkipScraping] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  // Load configuration on component mount
+  useEffect(() => {
+    loadConfiguration()
+  }, [])
+
+  const loadConfiguration = async () => {
+    try {
+      const response = await getConfig()
+      const config = response.data
+      
+      // Update toggle states from backend config
+      setCompleteMode(config.fetching?.enable_complete_scraping || false)
+      setSkipScraping(config.analysis?.skip_scraping || false)
+    } catch (error) {
+      console.error('Failed to load configuration:', error)
+      toast.error('Failed to load configuration')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateConfigSetting = async (path: string[], value: any) => {
+    try {
+      const response = await getConfig()
+      const config = response.data
+      
+      // Update the nested config value
+      const keys = path.slice()
+      const lastKey = keys.pop()!
+      const target = keys.reduce((obj, key) => {
+        if (!obj[key]) obj[key] = {}
+        return obj[key]
+      }, config)
+      target[lastKey] = value
+      
+      // Save updated config
+      await setConfig(config)
+    } catch (error) {
+      console.error('Failed to update config:', error)
+      toast.error('Failed to update configuration')
+    }
+  }
 
 
   const handleStartScrape = async () => {
@@ -172,8 +218,12 @@ export default function LandingPage() {
                 </div>
                 <Switch
                   checked={completeMode}
-                  onCheckedChange={setCompleteMode}
-                  disabled={processStatus.isRunning}
+                  onCheckedChange={async (checked) => {
+                    setCompleteMode(checked)
+                    await updateConfigSetting(['fetching', 'enable_complete_scraping'], checked)
+                    toast.success(`Complete scraping mode ${checked ? 'enabled' : 'disabled'}`)
+                  }}
+                  disabled={processStatus.isRunning || loading}
                 />
               </div>
 
@@ -186,8 +236,12 @@ export default function LandingPage() {
                 </div>
                 <Switch
                   checked={skipScraping}
-                  onCheckedChange={setSkipScraping}
-                  disabled={processStatus.isRunning}
+                  onCheckedChange={async (checked) => {
+                    setSkipScraping(checked)
+                    await updateConfigSetting(['analysis', 'skip_scraping'], checked)
+                    toast.success(`Skip scraping ${checked ? 'enabled' : 'disabled'}`)
+                  }}
+                  disabled={processStatus.isRunning || loading}
                 />
               </div>
             </div>

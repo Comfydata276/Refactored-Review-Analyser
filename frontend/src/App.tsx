@@ -12,6 +12,7 @@ import FinderPage from './pages/FinderPage'
 import PromptPage from './pages/PromptPage'
 import ResultsPage from './pages/ResultsPage'
 import HelpPage from './pages/HelpPage'
+import LLMPage from './pages/LLMPage'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/finder" element={<FinderPage />} />
               <Route path="/prompt" element={<PromptPage />} />
               <Route path="/results" element={<ResultsPage />} />
+              <Route path="/llm" element={<LLMPage />} />
               <Route path="/help" element={<HelpPage />} />
             </Routes>
           </AppLayout>

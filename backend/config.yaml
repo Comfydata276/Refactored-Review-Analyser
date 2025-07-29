@@ -1,28 +1,62 @@
 llm_providers:
   ollama:
     available_models:
-    - phi4:14b
-    - granite3.3:8b
-    - qwen3:14b-q4_K_M
-    - gemma3:12b-it-qat
-    enabled: true
+    - display_name: gemma3:1b-it-fp16
+      api_name: gemma3:1b-it-fp16
+      tags:
+      - General
+      enabled: true
+    enabled: false
     enabled_models:
     - gemma3:12b-it-qat
   openai:
     available_models:
-    - display_name: gpt-4.1 Nano
-      api_name: pip install -r requirements.txt
+    - display_name: o4-mini
+      api_name: o4-mini
+      tags:
+      - Reasoning
+      reasoning_level: high
+      enabled: true
+    - display_name: GPT-4.1 Nano
+      api_name: gpt-4.1-nano-2025-04-14
+      tags:
+      - General
+      enabled: true
     enabled: true
     enabled_models:
-    - gpt-4.1 Nano
+    - o4-mini
+    - gpt-4.1-nano-2025-04-14
   gemini:
-    available_models: []
-    enabled: false
-    enabled_models: []
+    available_models:
+    - display_name: Gemini 2.5 Pro
+      api_name: gemini-2.5-pro
+      tags:
+      - General
+      enabled: true
+    - display_name: Gemini 2.5 Flash Lite
+      api_name: gemini-2.5-flash-lite
+      tags:
+      - General
+      enabled: true
+    enabled: true
+    enabled_models:
+    - gemini-2.5-flash-lite
   claude:
-    available_models: []
-    enabled: false
-    enabled_models: []
+    available_models:
+    - display_name: Claude 3.5 Haiku
+      api_name: claude-3-5-haiku-latest
+      tags:
+      - General
+      enabled: true
+    - display_name: Claude 4 Sonnet
+      api_name: claude-sonnet-4-0
+      tags:
+      - General
+      enabled: true
+    enabled: true
+    enabled_models:
+    - claude-3-5-haiku-latest
+    - claude-sonnet-4-0
 analysis:
   enable_resume: false
   resume_validation: false
@@ -34,12 +68,14 @@ analysis:
   periodic_save_interval: 10
   skip_scraping: false
   validate_raw_reviews: false
+  prompt_file: new_prompt.txt
+  api_batch_size: 5
 fetching:
   reviews_per_app: 100
   max_requests_per_app: 5
   language: all
   num_per_page: 100
-  enable_complete_scraping: false
+  enable_complete_scraping: true
   scraping_timeout: 3600
   start_date: ''
   end_date: ''
@@ -75,8 +111,9 @@ appearance:
   theme: System
   scaling: 100%
 app_ids:
-- 38410
-- 22370
-- 1151340
+- 526870
 max_reviews: 1000
 debug_mode: false
+selected_apps:
+- appid: 526870
+  name: Satisfactory

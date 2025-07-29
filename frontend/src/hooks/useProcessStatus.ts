@@ -148,8 +148,14 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
       }
     } else if (isRunning) {
       // Process is running - determine current process type
+      // First, look for explicit process_type_change messages which are most authoritative
       for (let i = recentMessages.length - 1; i >= 0; i--) {
         const msg = recentMessages[i]
+        
+        if (msg.type === 'process_type_change' && msg.process_type) {
+          processType = msg.process_type
+          break
+        }
         
         if (msg.process_type) {
           processType = msg.process_type
@@ -170,6 +176,12 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
     // If no process type determined yet, scan for any process type indicators
     if (processType === 'idle') {
       for (const msg of recentMessages.reverse()) {
+        // Prioritize explicit process_type_change messages
+        if (msg.type === 'process_type_change' && msg.process_type) {
+          processType = msg.process_type
+          break
+        }
+        
         if (msg.process_type) {
           processType = msg.process_type
           break
@@ -241,15 +253,19 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
     }
 
     // Temporary debug logging to help troubleshoot
-    if (lastStartMessage || lastFinishMessage) {
+    const hasProcessTypeChange = recentMessages.some(msg => msg.type === 'process_type_change')
+    if (lastStartMessage || lastFinishMessage || hasProcessTypeChange) {
       console.log('🔍 ProcessStatus Debug:', {
         lastStartMessage: lastStartMessage?.type,
         lastFinishMessage: lastFinishMessage?.type,
+        hasProcessTypeChange,
         isRunning,
         processType,
         statusMessage,
         completionMessage,
-        lastCompletedProcess
+        lastCompletedProcess,
+        recentProcessTypes: recentMessages.filter(msg => msg.process_type || msg.type === 'process_type_change')
+          .map(msg => ({ type: msg.type, process_type: msg.process_type }))
       })
     }
 

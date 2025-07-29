@@ -11,7 +11,14 @@
       "mcp__context7__resolve-library-id",
       "mcp__context7__get-library-docs",
       "Bash(npm ls:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:geshan.com.np)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(move:*)"
     ],
     "deny": []
   }

@@ -9,7 +9,8 @@ import {
   HelpCircle,
   GamepadIcon,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Zap
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -44,8 +45,7 @@ const navigationItems = [
     title: "Results",
     href: "/results",
     icon: BarChart3,
-    description: "View analysis results",
-    badge: "New"
+    description: "View analysis results"
   }
 ]
 
@@ -55,6 +55,12 @@ const secondaryItems = [
     href: "/settings",
     icon: Settings,
     description: "App configuration"
+  },
+  {
+    title: "LLM Models",
+    href: "/llm",
+    icon: Zap,
+    description: "Manage AI models"
   },
   {
     title: "Help",
