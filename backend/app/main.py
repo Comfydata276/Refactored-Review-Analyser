@@ -737,6 +737,9 @@ def start_scraping(complete: bool = False):
     Begin scraping-only mode.
     Body JSON: { "complete": true|false }
     """
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"🔍 DEBUG: /scrape endpoint called with complete={complete} (type: {type(complete)})")
     orchestrator.start_scraping_only(enable_complete_scraping=complete)
     return {"status": "scraping_started", "complete": complete}
 

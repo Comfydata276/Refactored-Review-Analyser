@@ -107,6 +107,7 @@ class SteamAPI:
             'num_per_page': 100,
         }
 
+        logger.info(f"🔍 DEBUG: fetch_reviews_for_app called with app_id={app_id}, scrape_all={scrape_all} (type: {type(scrape_all)})")
         logger.info(f"Fetching reviews for app {app_id} (scrape_all={scrape_all})")
 
         while len(reviews) < num_reviews_to_fetch and request_count < max_requests:
@@ -299,7 +300,11 @@ class SteamAPI:
                 "level": "info"
             })
 
-        return reviews if scrape_all else reviews[:num_reviews_to_fetch]
+        # For complete scraping, return all reviews. For limited scraping, respect the limit.
+        if scrape_all:
+            return reviews
+        else:
+            return reviews[:num_reviews_to_fetch]
 
     def _format_elapsed_time(self, elapsed_time):
         """Format elapsed time as HH:MM:SS"""

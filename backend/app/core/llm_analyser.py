@@ -212,6 +212,14 @@ class LLMAnalyser:
         })
         if can_batch:
             total_batches = (len(reviews_to_analyze) + batch_size - 1) // batch_size
+            
+            # Signal transition to batch analysis mode
+            progress_callback({
+                "type": "process_type_change",
+                "process_type": "batch_analysis",
+                "message": f"Switching to batch analysis mode: {total_batches} batches of up to {batch_size} reviews each"
+            })
+            
             progress_callback({
                 "type": "log",
                 "message": (
@@ -235,6 +243,7 @@ class LLMAnalyser:
 
                 progress_callback({
                     "type": "log",
+                    "process_type": "batch_analysis",
                     "message": (
                         f"Processing batch {batch_idx}/{total_batches} "
                         f"({len(chunk)} reviews)..."
@@ -277,6 +286,7 @@ class LLMAnalyser:
                         batch_processed += 1
                         progress_callback({
                             "type": "progress_reviews_current",
+                            "process_type": "batch_analysis",
                             "value": len(analysed_results)
                         })
                     else:
@@ -288,6 +298,7 @@ class LLMAnalyser:
 
                 progress_callback({
                     "type": "log",
+                    "process_type": "batch_analysis",
                     "message": (
                         f"Completed batch {batch_idx}/{total_batches} "
                         f"({batch_processed}/{len(chunk)} reviews processed)"

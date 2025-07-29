@@ -22,8 +22,8 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
 
     // Find the most recent process state
     let isRunning = false
-    let processType: 'scraping' | 'analysis' | 'idle' = 'idle'
-    let lastCompletedProcess: 'scraping' | 'analysis' | null = null
+    let processType: 'scraping' | 'analysis' | 'batch_analysis' | 'idle' = 'idle'
+    let lastCompletedProcess: 'scraping' | 'analysis' | 'batch_analysis' | null = null
     let completionMessage: string | null = null
 
     // First, look for explicit start/finish signals
@@ -119,6 +119,10 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
           lastCompletedProcess = 'scraping'
           completionMessage = msg.message
           break
+        } else if (msgText.includes('batch') && msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
+          lastCompletedProcess = 'batch_analysis'
+          completionMessage = msg.message
+          break
         } else if (msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
           lastCompletedProcess = 'analysis'
           completionMessage = msg.message
@@ -144,7 +148,9 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
       
       processType = lastCompletedProcess || 'idle'
       if (!completionMessage && lastCompletedProcess) {
-        completionMessage = lastCompletedProcess === 'scraping' ? 'Scraping complete.' : 'Analysis complete.'
+        completionMessage = lastCompletedProcess === 'scraping' ? 'Scraping complete.' : 
+                           lastCompletedProcess === 'batch_analysis' ? 'Batch analysis complete.' : 
+                           'Analysis complete.'
       }
     } else if (isRunning) {
       // Process is running - determine current process type
@@ -165,6 +171,9 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
         const msgText = (msg.message || '').toLowerCase()
         if (msgText.includes('scrap') || msgText.includes('download') || msgText.includes('review') || msgText.includes('steam')) {
           processType = 'scraping'
+          break
+        } else if (msgText.includes('batch') && (msgText.includes('analy') || msgText.includes('processing'))) {
+          processType = 'batch_analysis'
           break
         } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai') || msgText.includes('sentiment')) {
           processType = 'analysis'
@@ -191,6 +200,9 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
         if (msgText.includes('scrap') || msgText.includes('download') || msgText.includes('review') || msgText.includes('steam')) {
           processType = 'scraping'
           break
+        } else if (msgText.includes('batch') && (msgText.includes('analy') || msgText.includes('processing'))) {
+          processType = 'batch_analysis'
+          break
         } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai') || msgText.includes('sentiment')) {
           processType = 'analysis'
           break
@@ -214,6 +226,8 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
           ? 'Scraping reviews from Steam...' 
           : processType === 'analysis'
           ? 'Analyzing review data...'
+          : processType === 'batch_analysis'
+          ? 'Processing batched reviews...'
           : 'Process running...'
       }
     } else if (!isRunning && lastFinishMessage) {
@@ -235,6 +249,7 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
         if (statusMessage === 'Ready') {
           statusMessage = processType === 'scraping' ? 'Scraping complete.' : 
                          processType === 'analysis' ? 'Analysis complete.' : 
+                         processType === 'batch_analysis' ? 'Batch analysis complete.' :
                          'Process completed.'
         }
       }

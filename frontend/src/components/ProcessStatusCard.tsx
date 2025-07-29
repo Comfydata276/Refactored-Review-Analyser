@@ -18,6 +18,7 @@ const getProcessIcon = (processType: ProcessStatus['processType']) => {
   switch (processType) {
     case 'scraping': return Download
     case 'analysis': return BarChart3
+    case 'batch_analysis': return BarChart3
     default: return Activity
   }
 }
@@ -26,6 +27,7 @@ const getProcessLabel = (processType: ProcessStatus['processType']) => {
   switch (processType) {
     case 'scraping': return 'Scraping Reviews'
     case 'analysis': return 'Analyzing Data'
+    case 'batch_analysis': return 'Batch Analysis'
     default: return 'Process Status'
   }
 }
@@ -35,6 +37,7 @@ const getProcessColor = (processType: ProcessStatus['processType'], isRunning: b
     switch (processType) {
       case 'scraping': return 'text-green-500'
       case 'analysis': return 'text-purple-500'
+      case 'batch_analysis': return 'text-orange-500'
       default: return 'text-blue-500'
     }
   } else {
@@ -42,6 +45,7 @@ const getProcessColor = (processType: ProcessStatus['processType'], isRunning: b
     switch (processType) {
       case 'scraping': return 'text-green-600'
       case 'analysis': return 'text-purple-600'
+      case 'batch_analysis': return 'text-orange-600'
       default: return 'text-muted-foreground'
     }
   }
@@ -77,7 +81,8 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
                 "transition-all duration-300",
                 status.isRunning && "animate-pulse",
                 !status.isRunning && status.processType === 'scraping' && "bg-green-100 text-green-800 border-green-200",
-                !status.isRunning && status.processType === 'analysis' && "bg-purple-100 text-purple-800 border-purple-200"
+                !status.isRunning && status.processType === 'analysis' && "bg-purple-100 text-purple-800 border-purple-200",
+                !status.isRunning && status.processType === 'batch_analysis' && "bg-orange-100 text-orange-800 border-orange-200"
               )}
             >
               {status.isRunning ? "Running" : status.processType !== 'idle' ? "Complete" : "Idle"}
@@ -107,7 +112,9 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
           {/* Completion Indicator */}
           {!status.isRunning && status.processType !== 'idle' && (
             <p className="text-xs text-muted-foreground mt-1">
-              {status.processType === 'scraping' ? '✓ Scraping completed' : '✓ Analysis completed'}
+              {status.processType === 'scraping' ? '✓ Scraping completed' : 
+               status.processType === 'batch_analysis' ? '✓ Batch analysis completed' : 
+               '✓ Analysis completed'}
             </p>
           )}
         </div>

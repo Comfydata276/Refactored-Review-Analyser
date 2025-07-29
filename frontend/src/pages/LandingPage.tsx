@@ -80,6 +80,7 @@ export default function LandingPage() {
 
   const handleStartScrape = async () => {
     try {
+      console.log('🔍 DEBUG: handleStartScrape called with completeMode:', completeMode)
       await startScrape(completeMode)
     } catch (error) {
       console.error('Failed to start scraping:', error)
@@ -276,19 +277,27 @@ export default function LandingPage() {
                 variant="outline"
                 className={cn(
                   "w-full h-14 text-base border-2 transition-all duration-300",
-                  processStatus.processType === 'analysis' && processStatus.isRunning
-                    ? "bg-purple-500/10 border-purple-500/30 text-purple-600"
-                    : processStatus.processType === 'analysis' && !processStatus.isRunning
-                    ? "bg-purple-500/5 border-purple-500/20 text-purple-700 hover:bg-purple-500/10"
+                  (processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && processStatus.isRunning
+                    ? processStatus.processType === 'batch_analysis' 
+                      ? "bg-orange-500/10 border-orange-500/30 text-orange-600"
+                      : "bg-purple-500/10 border-purple-500/30 text-purple-600"
+                    : (processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && !processStatus.isRunning
+                    ? processStatus.processType === 'batch_analysis'
+                      ? "bg-orange-500/5 border-orange-500/20 text-orange-700 hover:bg-orange-500/10"
+                      : "bg-purple-500/5 border-purple-500/20 text-purple-700 hover:bg-purple-500/10"
                     : ""
                 )}
                 size="lg"
               >
                 <BarChart3 className="h-5 w-5 mr-2" />
-                {processStatus.processType === 'analysis' && processStatus.isRunning 
-                  ? 'Analysis In Progress...'
-                  : processStatus.processType === 'analysis' && !processStatus.isRunning
-                  ? '✓ Analysis Complete'
+                {(processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && processStatus.isRunning 
+                  ? processStatus.processType === 'batch_analysis' 
+                    ? 'Batch Analysis In Progress...'
+                    : 'Analysis In Progress...'
+                  : (processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && !processStatus.isRunning
+                  ? processStatus.processType === 'batch_analysis'
+                    ? '✓ Batch Analysis Complete'
+                    : '✓ Analysis Complete'
                   : 'Start Analysis Process'
                 }
               </Button>
@@ -315,13 +324,16 @@ export default function LandingPage() {
                 ? "bg-green-500/10 border-green-500/20" 
                 : processStatus.processType === 'analysis'
                 ? "bg-purple-500/10 border-purple-500/20"
+                : processStatus.processType === 'batch_analysis'
+                ? "bg-orange-500/10 border-orange-500/20"
                 : "bg-primary/10 border-primary/20"
             )}>
               <div className="flex items-center gap-3">
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent opacity-70" />
                 <div className="flex-1">
                   <p className="font-medium">
-                    {processStatus.processType === 'scraping' ? 'Scraping Reviews' : 'Analyzing Data'}
+                    {processStatus.processType === 'scraping' ? 'Scraping Reviews' : 
+                     processStatus.processType === 'batch_analysis' ? 'Batch Analysis' : 'Analyzing Data'}
                   </p>
                   <p className="text-sm opacity-70 mt-1">
                     {processStatus.currentItem || 'Monitor detailed progress in the activity log below'}

@@ -1,11 +1,3 @@
-- Add a time estimate for the analyse. How long per review, number of reviews * time 
-- LLM Prompt engineering 
-- output showing that batch processing is 100% working 
-- Make application even more universal 
-- handle output edge cases 
-- Adaptability for different studys / columns 
-- Modern UI 
-
 TODO
 x Fix llm processing for each vendor 
 x Add a way to see and remove games in the game finder tab 
@@ -21,7 +13,9 @@ Add time estimate for analysis and scraping
 x Output to show batch processing is working
 Add more robust llm status to the UI (what LLM is running and when)
 Redo Session Stats
-
+Fix complete scraping (a varibale is being incorrectly assigned somewhere)
+Remove the process log from dashboard
+Remove the summary.json files
 
 Make a matrix recommending models (compare different modedls/costs/token rate)
 2x Reasoning Models

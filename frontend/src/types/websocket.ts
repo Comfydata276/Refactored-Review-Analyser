@@ -17,7 +17,7 @@ export interface WSMessage {
   
   // Process status information
   status?: 'running' | 'complete' | 'stopped' | 'finished' | string
-  process_type?: 'scraping' | 'analysis' | 'idle'
+  process_type?: 'scraping' | 'analysis' | 'batch_analysis' | 'idle'
   current_item?: string
   
   // Additional backend-specific fields
@@ -37,7 +37,7 @@ export interface WebSocketState {
 
 export interface ProcessStatus {
   isRunning: boolean
-  processType: 'scraping' | 'analysis' | 'idle'
+  processType: 'scraping' | 'analysis' | 'batch_analysis' | 'idle'
   currentItem?: string
   progress?: {
     current: number

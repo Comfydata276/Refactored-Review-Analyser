@@ -63,6 +63,7 @@ class AnalysisOrchestrator:
             )
         )
         self._current_complete_scraping = bool(raw)
+        logger.info(f"🔍 DEBUG: start_scraping_only called with enable_complete_scraping={enable_complete_scraping}, resolved to {self._current_complete_scraping}")
         self._start_process(self._run_scrape_only_flow)
 
     def start_analysis(self, enable_complete_scraping=None, skip_scraping=None):
@@ -129,6 +130,7 @@ class AnalysisOrchestrator:
 
             enable_complete = bool(self._current_complete_scraping)
             scrape_type = "complete" if enable_complete else "limited"
+            logger.info(f"🔍 DEBUG: _run_scrape_only_flow using enable_complete={enable_complete} (from self._current_complete_scraping={self._current_complete_scraping})")
 
             self._send_to_gui({
                 "type": "log",
@@ -177,6 +179,7 @@ class AnalysisOrchestrator:
                         reviews_snapshot, app_name, current_app_id
                     )
 
+                logger.info(f"🔍 DEBUG: Calling steam_api.fetch_reviews_for_app with scrape_all={bool(enable_complete)} for app {app_id}")
                 reviews = steam_api.fetch_reviews_for_app(
                     app_id,
                     scrape_all=bool(enable_complete),
