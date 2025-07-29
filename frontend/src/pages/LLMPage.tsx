@@ -44,6 +44,7 @@ import {
 } from '@/components/ui/dialog'
 
 import { getConfig, setConfig, refreshOllamaModels, getApiKeys, setApiKey, removeApiKey } from '../api/ApiClient'
+import { useAccordionState } from '../contexts/DropdownStateContext'
 
 interface ModelConfig {
   display_name: string
@@ -81,6 +82,9 @@ export default function LLMPage() {
   } | null>(null)
   const [showApiKey, setShowApiKey] = useState<Record<string, boolean>>({})
   const [refreshingOllama, setRefreshingOllama] = useState(false)
+
+  // Use accordion state hook for persistent dropdown states
+  const accordionState = useAccordionState('llm-providers-accordion', ['ollama', 'openai', 'gemini', 'claude'])
 
   useEffect(() => {
     loadConfig()
@@ -368,11 +372,16 @@ export default function LLMPage() {
       </div>
 
       {/* Provider Sections */}
-      <Accordion type="multiple" defaultValue={["ollama", "openai", "gemini", "claude"]} className="w-full space-y-4">
+      <Accordion 
+        type="multiple" 
+        value={accordionState.value}
+        onValueChange={accordionState.onValueChange}
+        className="w-full space-y-4"
+      >
         {Object.entries(config.llm_providers || {}).map(([provider, providerConfig]) => (
           <AccordionItem key={provider} value={provider} className="border-2 border-primary/20 rounded-lg px-6">
-            <AccordionTrigger className="py-6">
-              <div className="flex items-center justify-between w-full mr-4">
+            <AccordionTrigger className="py-6 hover:no-underline">
+              <div className="flex items-center justify-between w-full mr-4 pointer-events-none">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                     {getProviderIcon(provider)}
@@ -385,7 +394,7 @@ export default function LLMPage() {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 pointer-events-auto">
                   <Switch
                     checked={providerConfig?.enabled || false}
                     onCheckedChange={(checked) => toggleProvider(provider, checked)}
@@ -635,7 +644,7 @@ function ModelEditDialog({ open, onClose, provider, model, onSave, saving }: Mod
           <div className="space-y-2">
             <Label>Tags</Label>
             <div className="flex flex-wrap gap-2">
-              {['Reasoning', 'General', 'Code', 'Creative'].map(tag => (
+              {['Reasoning', 'General', 'Lite', 'Fast'].map(tag => (
                 <Button
                   key={tag}
                   type="button"

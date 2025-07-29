@@ -1,11 +1,22 @@
 // src/hooks/useProcessStatus.ts
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import type { WSMessage, ProcessStatus } from '../types/websocket'
 
 // Re-export for backward compatibility
 export type { ProcessStatus }
 
 export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
+  const [trigger, setTrigger] = useState(0)
+  
+  // Force re-evaluation every second to handle time-based state transitions
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTrigger(prev => prev + 1)
+    }, 1000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
   return useMemo(() => {
 
     if (messages.length === 0) {
@@ -111,46 +122,56 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
     // Determine process type and completion details
     if (!isRunning && lastFinishMessage) {
       // Process completed - look for completion message and determine what completed
-      for (let i = recentMessages.length - 1; i >= 0; i--) {
-        const msg = recentMessages[i]
-        const msgText = (msg.message || '').toLowerCase()
-        
-        if (msgText.includes('scrap') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-          lastCompletedProcess = 'scraping'
-          completionMessage = msg.message
-          break
-        } else if (msgText.includes('batch') && msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-          lastCompletedProcess = 'batch_analysis'
-          completionMessage = msg.message
-          break
-        } else if (msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-          lastCompletedProcess = 'analysis'
-          completionMessage = msg.message
-          break
-        }
-      }
+      const finishTime = lastFinishMessage.timestamp ? new Date(lastFinishMessage.timestamp).getTime() : 0
+      const currentTime = Date.now()
+      const timeSinceCompletion = currentTime - finishTime
       
-      // If we couldn't determine from completion message, infer from recent activity
-      if (!lastCompletedProcess) {
+      // After 3 seconds of completion, revert to idle state to reset button states
+      if (timeSinceCompletion > 3000) {
+        processType = 'idle'
+        completionMessage = null
+      } else {
         for (let i = recentMessages.length - 1; i >= 0; i--) {
           const msg = recentMessages[i]
           const msgText = (msg.message || '').toLowerCase()
           
-          if (msgText.includes('scrap') || msgText.includes('review') || msgText.includes('steam')) {
+          if (msgText.includes('scrap') && (msgText.includes('complete') || msgText.includes('stopped'))) {
             lastCompletedProcess = 'scraping'
+            completionMessage = msg.message
             break
-          } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai')) {
+          } else if (msgText.includes('batch') && msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
+            lastCompletedProcess = 'batch_analysis'
+            completionMessage = msg.message
+            break
+          } else if (msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
             lastCompletedProcess = 'analysis'
+            completionMessage = msg.message
             break
           }
         }
-      }
-      
-      processType = lastCompletedProcess || 'idle'
-      if (!completionMessage && lastCompletedProcess) {
-        completionMessage = lastCompletedProcess === 'scraping' ? 'Scraping complete.' : 
-                           lastCompletedProcess === 'batch_analysis' ? 'Batch analysis complete.' : 
-                           'Analysis complete.'
+        
+        // If we couldn't determine from completion message, infer from recent activity
+        if (!lastCompletedProcess) {
+          for (let i = recentMessages.length - 1; i >= 0; i--) {
+            const msg = recentMessages[i]
+            const msgText = (msg.message || '').toLowerCase()
+            
+            if (msgText.includes('scrap') || msgText.includes('review') || msgText.includes('steam')) {
+              lastCompletedProcess = 'scraping'
+              break
+            } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai')) {
+              lastCompletedProcess = 'analysis'
+              break
+            }
+          }
+        }
+        
+        processType = lastCompletedProcess || 'idle'
+        if (!completionMessage && lastCompletedProcess) {
+          completionMessage = lastCompletedProcess === 'scraping' ? 'Scraping complete.' : 
+                             lastCompletedProcess === 'batch_analysis' ? 'Batch analysis complete.' : 
+                             'Analysis complete.'
+        }
       }
     } else if (isRunning) {
       // Process is running - determine current process type
@@ -285,5 +306,5 @@ export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
     }
 
     return result
-  }, [messages])
+  }, [messages, trigger])
 }

@@ -1,14 +1,28 @@
 llm_providers:
   ollama:
     available_models:
-    - display_name: gemma3:1b-it-fp16
-      api_name: gemma3:1b-it-fp16
+    - display_name: phi4:14b
+      api_name: phi4:14b
       tags:
       - General
       enabled: true
-    enabled: false
-    enabled_models:
-    - gemma3:12b-it-qat
+    - display_name: granite3.3:8b
+      api_name: granite3.3:8b
+      tags:
+      - General
+      enabled: true
+    - display_name: qwen3:14b-q4_K_M
+      api_name: qwen3:14b-q4_K_M
+      tags:
+      - General
+      enabled: true
+    - display_name: gemma3:12b-it-qat
+      api_name: gemma3:12b-it-qat
+      tags:
+      - General
+      enabled: true
+    enabled: true
+    enabled_models: []
   openai:
     available_models:
     - display_name: o4-mini
@@ -24,8 +38,8 @@ llm_providers:
       enabled: true
     enabled: true
     enabled_models:
-    - o4-mini
     - gpt-4.1-nano-2025-04-14
+    - o4-mini
   gemini:
     available_models:
     - display_name: Gemini 2.5 Pro
@@ -58,42 +72,24 @@ llm_providers:
     - claude-3-5-haiku-latest
     - claude-sonnet-4-0
 analysis:
-  enable_resume: false
-  resume_validation: false
-  reviews_to_analyze: 2
+  reviews_to_analyze: 20
   api_retries: 3
   api_retry_delay: 1
-  ollama_retries: 1
-  ollama_retry_delay: 5
-  periodic_save_interval: 10
-  skip_scraping: false
-  validate_raw_reviews: false
-  prompt_file: new_prompt.txt
   api_batch_size: 5
+  enable_resume: true
+  skip_scraping: true
 fetching:
-  reviews_per_app: 100
-  max_requests_per_app: 5
-  language: all
-  num_per_page: 100
-  enable_complete_scraping: true
+  reviews_per_app: 110
+  language: english
   scraping_timeout: 3600
-  start_date: ''
-  end_date: ''
-  max_empty_attempts: 3
-  initial_backoff_time: 1
-  max_backoff_time: 10
-  error_backoff_time: 30
+  enable_complete_scraping: false
 filtering:
   min_review_length: 50
   min_playtime_hours: 0
 advanced_filtering:
-  max_playtime_hours: 100000
-  max_review_length: 10000
   min_votes_up: 0
   early_access_only: false
-  exclude_early_access: false
   verified_purchase_only: false
-  exclude_received_free: false
 file_paths:
   raw_output_folder: output/raw
   analysed_output_folder: output/analysed
@@ -105,8 +101,6 @@ files:
 validation:
   validate_app_ids: true
   validate_models: true
-  validate_dates: true
-  validate_prompts: true
 appearance:
   theme: System
   scaling: 100%

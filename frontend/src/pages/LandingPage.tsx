@@ -24,11 +24,12 @@ import { useWebSocket } from '../api/WebSocketClient'
 import { useProcessStatus } from '../hooks/useProcessStatus'
 import { ProcessStatusCard } from '../components/ProcessStatusCard'
 import { ActivityLog } from '../components/ActivityLog'
+import { DynamicStatusCard } from '../components/DynamicStatusCard'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
 
 export default function LandingPage() {
-  const { messages, connectionState, reconnect, send } = useWebSocket('/ws')
+  const { messages, connectionState, reconnect, send, clearMessages } = useWebSocket('/ws')
   const processStatus = useProcessStatus(messages)
   const [completeMode, setCompleteMode] = useState(false)
   const [skipScraping, setSkipScraping] = useState(false)
@@ -123,76 +124,20 @@ export default function LandingPage() {
       </div>
 
       {/* Status Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Connection Status */}
-        <Card className="border-2 border-primary/20">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2">
-                {isConnected ? (
-                  <Wifi className="h-5 w-5 text-green-500" />
-                ) : (
-                  <WifiOff className="h-5 w-5 text-red-500" />
-                )}
-                Connection
-              </CardTitle>
-              <Badge variant={isConnected ? "default" : "destructive"}>
-                {connectionState}
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              WebSocket status for real-time updates
-            </p>
-            {!isConnected && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={reconnect}
-                className="mt-3"
-              >
-                Reconnect
-              </Button>
-            )}
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Dynamic Status Card - Connection/LLM/Scraping Info */}
+        <DynamicStatusCard 
+          messages={messages}
+          processStatus={processStatus}
+          connectionState={connectionState}
+          onReconnect={reconnect}
+        />
 
         {/* Process Status - Enhanced */}
         <ProcessStatusCard 
           status={processStatus}
           onStop={handleStop}
         />
-
-        {/* Statistics Card */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Database className="h-5 w-5" />
-              Session Stats
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Log Entries:</span>
-                <span className="font-mono">{messages.length}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Session Time:</span>
-                <span className="font-mono">
-                  {messages.length > 0 ? '45m 12s' : '0s'}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Status:</span>
-                <Badge variant="outline" className="text-xs">
-                  {processStatus.processType === 'idle' ? 'Ready' : processStatus.processType}
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Control Panel */}
@@ -207,9 +152,10 @@ export default function LandingPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Configuration Options */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
+          {/* Configuration and Action Controls */}
+          <div className="space-y-6">
+            {/* Mode Toggles */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
                 <div className="space-y-1">
                   <div className="font-medium">Complete Scraping Mode</div>
@@ -248,12 +194,12 @@ export default function LandingPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button
                 onClick={handleStartScrape}
                 disabled={processStatus.isRunning}
                 className={cn(
-                  "w-full h-14 text-base border-2 transition-all duration-300",
+                  "h-16 text-base border-2 transition-all duration-300",
                   processStatus.processType === 'scraping' && processStatus.isRunning
                     ? "bg-green-500/10 border-green-500/30 text-green-600"
                     : processStatus.processType === 'scraping' && !processStatus.isRunning
@@ -276,7 +222,7 @@ export default function LandingPage() {
                 disabled={processStatus.isRunning}
                 variant="outline"
                 className={cn(
-                  "w-full h-14 text-base border-2 transition-all duration-300",
+                  "h-16 text-base border-2 transition-all duration-300",
                   (processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && processStatus.isRunning
                     ? processStatus.processType === 'batch_analysis' 
                       ? "bg-orange-500/10 border-orange-500/30 text-orange-600"
@@ -300,18 +246,6 @@ export default function LandingPage() {
                     : '✓ Analysis Complete'
                   : 'Start Analysis Process'
                 }
-              </Button>
-
-              {/* CRITICAL: Stop Process Button */}
-              <Button
-                onClick={handleStop}
-                disabled={!processStatus.isRunning}
-                variant="destructive"
-                className="w-full h-12 text-base"
-                size="lg"
-              >
-                <Square className="h-4 w-4 mr-2" />
-                Stop Current Process
               </Button>
             </div>
           </div>

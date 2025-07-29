@@ -4,11 +4,7 @@ import { Sidebar } from "./Sidebar"
 import { Header } from "./Header"
 import { cn } from "@/lib/utils"
 
-interface AppLayoutProps {
-  children?: React.ReactNode
-}
-
-export function AppLayout({ children }: AppLayoutProps) {
+export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   return (
@@ -33,7 +29,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         {/* Page Content */}
         <main className="p-6 pt-20 min-h-screen">
           <div className="max-w-7xl mx-auto">
-            {children || <Outlet />}
+            <Outlet />
           </div>
         </main>
       </div>

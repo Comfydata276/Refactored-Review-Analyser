@@ -7,9 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import {
   Accordion,
   AccordionContent,
@@ -25,6 +23,9 @@ import {
 } from '@/components/ui/select'
 
 import { getConfig, setConfig } from '../api/ApiClient'
+import { useUnsavedChanges } from '../hooks/useUnsavedChanges'
+import { UnsavedChangesDialog } from '../components/UnsavedChangesDialog'
+import { useAccordionState } from '../contexts/DropdownStateContext'
 
 interface FullConfig { 
   [key: string]: any
@@ -60,6 +61,7 @@ interface FullConfig {
 
 export default function SettingsPage() {
   const [cfg, setCfg] = useState<FullConfig | null>(null)
+  const [originalCfg, setOriginalCfg] = useState<FullConfig | null>(null)
   const [dirty, setDirty] = useState(false)
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -68,6 +70,7 @@ export default function SettingsPage() {
     getConfig()
       .then(r => {
         setCfg(r.data)
+        setOriginalCfg(JSON.parse(JSON.stringify(r.data)))
         setLoading(false)
       })
       .catch(error => {
@@ -100,6 +103,7 @@ export default function SettingsPage() {
     setSaving(true)
     try {
       await setConfig(cfg)
+      setOriginalCfg(JSON.parse(JSON.stringify(cfg)))
       setDirty(false)
       toast.success('Configuration saved successfully!')
     } catch (error) {
@@ -150,6 +154,24 @@ export default function SettingsPage() {
     toast.info('Configuration reset to defaults')
   }
 
+  const handleDiscard = () => {
+    if (originalCfg) {
+      setCfg(JSON.parse(JSON.stringify(originalCfg)))
+      setDirty(false)
+    }
+  }
+
+  // Use the unsaved changes hook
+  const unsavedChanges = useUnsavedChanges({
+    hasUnsavedChanges: dirty,
+    onSave: handleSave,
+    onDiscard: handleDiscard
+  })
+
+  // Use accordion state hooks for persistent dropdown states
+  const leftAccordionState = useAccordionState('settings-left-accordion', ['analysis', 'filtering'])
+  const rightAccordionState = useAccordionState('settings-right-accordion', ['fetching', 'validation'])
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-96">
@@ -176,7 +198,16 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <>
+      <UnsavedChangesDialog
+        open={unsavedChanges.isBlocked}
+        onSave={unsavedChanges.save}
+        onDiscard={unsavedChanges.discard}
+        onCancel={unsavedChanges.reset}
+        saving={saving}
+      />
+      
+      <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-2">
@@ -231,11 +262,16 @@ export default function SettingsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column */}
         <div className="space-y-6">
-          <Accordion type="multiple" defaultValue={["analysis", "filtering"]} className="w-full space-y-4">
+          <Accordion 
+            type="multiple" 
+            value={leftAccordionState.value}
+            onValueChange={leftAccordionState.onValueChange}
+            className="w-full space-y-4"
+          >
             {/* Analysis Configuration */}
             <AccordionItem value="analysis" className="border-2 border-primary/20 rounded-lg px-6">
-          <AccordionTrigger className="py-6">
-            <div className="flex items-center gap-3">
+          <AccordionTrigger className="py-6 hover:no-underline">
+            <div className="flex items-center gap-3 flex-1 pointer-events-none">
               <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                 <Zap className="h-5 w-5 text-primary" />
               </div>
@@ -323,8 +359,8 @@ export default function SettingsPage() {
 
             {/* Review Filtering */}
             <AccordionItem value="filtering" className="border rounded-lg px-6">
-              <AccordionTrigger className="py-6">
-                <div className="flex items-center gap-3">
+              <AccordionTrigger className="py-6 hover:no-underline">
+                <div className="flex items-center gap-3 flex-1 pointer-events-none">
                   <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                     <Shield className="h-5 w-5 text-primary" />
                   </div>
@@ -413,11 +449,16 @@ export default function SettingsPage() {
 
         {/* Right Column */}
         <div className="space-y-6">
-          <Accordion type="multiple" defaultValue={["fetching", "validation"]} className="w-full space-y-4">
+          <Accordion 
+            type="multiple" 
+            value={rightAccordionState.value}
+            onValueChange={rightAccordionState.onValueChange}
+            className="w-full space-y-4"
+          >
             {/* Fetching Configuration */}
             <AccordionItem value="fetching" className="border-2 border-primary/20 rounded-lg px-6">
-          <AccordionTrigger className="py-6">
-            <div className="flex items-center gap-3">
+          <AccordionTrigger className="py-6 hover:no-underline">
+            <div className="flex items-center gap-3 flex-1 pointer-events-none">
               <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                 <Database className="h-5 w-5 text-primary" />
               </div>
@@ -484,8 +525,8 @@ export default function SettingsPage() {
 
             {/* Validation Settings */}
             <AccordionItem value="validation" className="border rounded-lg px-6">
-              <AccordionTrigger className="py-6">
-                <div className="flex items-center gap-3">
+              <AccordionTrigger className="py-6 hover:no-underline">
+                <div className="flex items-center gap-3 flex-1 pointer-events-none">
                   <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
                     <Shield className="h-5 w-5 text-primary" />
                   </div>
@@ -528,5 +569,6 @@ export default function SettingsPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

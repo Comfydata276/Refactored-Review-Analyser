@@ -1,9 +1,0 @@
-{
-    "app_name": "Satisfactory",
-    "app_id": 526870,
-    "models_analysed": [
-        "o4-mini",
-        "gpt-4.1-nano-2025-04-14"
-    ],
-    "aggregate_results": {}
-}

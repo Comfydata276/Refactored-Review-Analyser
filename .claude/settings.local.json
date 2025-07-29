@@ -18,7 +18,9 @@
       "Bash(pip install:*)",
       "Bash(curl:*)",
       "Bash(mkdir:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(grep:*)",
+      "Bash(dir)"
     ],
     "deny": []
   }

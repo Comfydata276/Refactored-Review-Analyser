@@ -11,11 +11,20 @@ x Remove the 'new' tag on the Results tab
 Review python version of the app and add in any missing features
 Add time estimate for analysis and scraping 
 x Output to show batch processing is working
-Add more robust llm status to the UI (what LLM is running and when)
+x Add more robust llm status to the UI (what LLM is running and when)
 Redo Session Stats
 Fix complete scraping (a varibale is being incorrectly assigned somewhere)
 Remove the process log from dashboard
-Remove the summary.json files
+x Remove the summary.json files
+If unable to analyse/scrape add reason to Process Status box on dashboard
+x In prompt page when clicking the file dropdown, updates in real time and scans for new files.
+x Remove placeholder LLM tags, add lite tag
+x When leaving settins page prompt user to save or discard unsaved changes
+x Memory of widget state for that session
+Make sure that the scraping correctly implements the resuming process and doesnt overwrite already scrapped reviews. 
+Buttons need to be reset to their default state. 
+The Active LLM Model should display a default message if the analyse has already been completed before instead of just saying 'detecting active model' 
+
 
 Make a matrix recommending models (compare different modedls/costs/token rate)
 2x Reasoning Models

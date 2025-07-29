@@ -5,8 +5,38 @@ import type { WSMessage, WebSocketState } from '../types/websocket'
 // Re-export types for backward compatibility
 export type { WSMessage, WebSocketState }
 
+// Persistent message storage utilities
+const MESSAGES_STORAGE_KEY = 'dashboard_messages'
+const MAX_STORED_MESSAGES = 100
+
+const loadStoredMessages = (): WSMessage[] => {
+  try {
+    const stored = localStorage.getItem(MESSAGES_STORAGE_KEY)
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      // Validate that it's an array of messages
+      if (Array.isArray(parsed)) {
+        return parsed.slice(-MAX_STORED_MESSAGES) // Keep only the most recent messages
+      }
+    }
+  } catch (error) {
+    console.warn('Failed to load stored messages:', error)
+  }
+  return []
+}
+
+const saveMessages = (messages: WSMessage[]) => {
+  try {
+    // Only store the most recent messages to prevent localStorage bloat
+    const messagesToStore = messages.slice(-MAX_STORED_MESSAGES)
+    localStorage.setItem(MESSAGES_STORAGE_KEY, JSON.stringify(messagesToStore))
+  } catch (error) {
+    console.warn('Failed to save messages:', error)
+  }
+}
+
 export function useWebSocket(url: string): WebSocketState {
-  const [messages, setMessages] = useState<WSMessage[]>([])
+  const [messages, setMessages] = useState<WSMessage[]>(() => loadStoredMessages())
   const [connectionState, setConnectionState] = useState<'connecting' | 'connected' | 'disconnected' | 'error'>('connecting')
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<number | undefined>(undefined)
@@ -32,7 +62,11 @@ export function useWebSocket(url: string): WebSocketState {
         try {
           const msg = JSON.parse(event.data)
           console.log('📨 WebSocket received:', msg)
-          setMessages((prev) => [...prev.slice(-49), msg]) // Keep last 50 messages
+          setMessages((prev) => {
+            const updated = [...prev.slice(-49), msg] // Keep last 50 messages in state
+            saveMessages(updated) // Persist to localStorage
+            return updated
+          })
         } catch (error) {
           console.error('Failed to parse WebSocket message:', error)
         }
@@ -80,6 +114,11 @@ export function useWebSocket(url: string): WebSocketState {
     connect()
   }
 
+  const clearMessages = () => {
+    setMessages([])
+    localStorage.removeItem(MESSAGES_STORAGE_KEY)
+  }
+
   useEffect(() => {
     connect()
 
@@ -97,6 +136,7 @@ export function useWebSocket(url: string): WebSocketState {
     messages, 
     connectionState, 
     send: connectionState === 'connected' ? send : undefined,
-    reconnect 
+    reconnect,
+    clearMessages
   }
 }

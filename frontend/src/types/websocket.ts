@@ -33,6 +33,7 @@ export interface WebSocketState {
   connectionState: 'connecting' | 'connected' | 'disconnected' | 'error'
   send?: (data: any) => void
   reconnect: () => void
+  clearMessages: () => void
 }
 
 export interface ProcessStatus {

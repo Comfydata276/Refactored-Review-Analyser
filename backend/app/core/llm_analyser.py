@@ -91,11 +91,14 @@ class LLMAnalyser:
                     selected[provider_name] = enabled_models
         return selected
 
-    def analyse_reviews(self, reviews, app_name, app_id, model_display_name, provider_name, progress_callback, stop_event):
+    def analyse_reviews(self, reviews, app_name, app_id, model_display_name, provider_name, progress_callback, stop_event, complete_scraping=False):
         """
         Analyses a list of reviews using the specified LLM provider.
         Supports batching via analysis.api_batch_size to reduce API calls,
         and can resume from partial progress if enabled.
+        
+        Args:
+            complete_scraping: If True, bypasses reviews_to_analyze limit and processes all reviews
         """
         from .data_processor import DataProcessor
         from .llm_analyser import get_llm_provider, parse_llm_output
@@ -103,8 +106,14 @@ class LLMAnalyser:
         data_processor = DataProcessor(self.config_manager)
 
         # ---- 1) Determine how many reviews to analyse and resume ----
-        reviews_limit = int(self.config_manager.get_setting(
-            ['analysis', 'reviews_to_analyze'], 100))
+        if complete_scraping:
+            reviews_limit = float('inf')  # No limit for complete scraping
+            logger.info(f"Complete scraping mode: analyzing ALL {len(reviews)} reviews for {app_name}")
+        else:
+            reviews_limit = int(self.config_manager.get_setting(
+                ['analysis', 'reviews_to_analyze'], 100))
+            logger.info(f"Limited analysis mode: analyzing up to {reviews_limit} reviews for {app_name}")
+        
         enable_resume = self.config_manager.get_setting(
             ['analysis', 'enable_resume'], True)
 
@@ -112,12 +121,14 @@ class LLMAnalyser:
             existing, is_progress = data_processor.check_existing_analysis(
                 app_name, app_id, model_display_name
             )
-            if existing and len(existing) >= reviews_limit:
+            
+            # For complete scraping, don't consider analysis "complete" based on limit
+            if existing and not complete_scraping and len(existing) >= reviews_limit:
                 progress_callback({
                     "type": "log",
                     "message": (
                         f"Already complete for {app_name}@{model_display_name}: "
-                        f"{len(existing)}/{reviews_limit}"
+                        f"{len(existing)}/{int(reviews_limit)}"
                     ),
                     "level": "info"
                 })
@@ -125,29 +136,49 @@ class LLMAnalyser:
 
             if existing:
                 done = len(existing)
-                remaining = reviews_limit - done
+                if complete_scraping:
+                    # For complete scraping, analyze all remaining reviews
+                    all_to_do, _ = data_processor.identify_reviews_to_analyze(
+                        reviews, existing
+                    )
+                    reviews_to_analyze = all_to_do
+                    remaining_str = f"{len(all_to_do)} remaining"
+                else:
+                    # For limited analysis, respect the limit
+                    remaining = int(reviews_limit) - done
+                    all_to_do, _ = data_processor.identify_reviews_to_analyze(
+                        reviews, existing
+                    )
+                    reviews_to_analyze = all_to_do[:remaining]
+                    remaining_str = f"{remaining} to go"
+                
                 progress_callback({
                     "type": "log",
                     "message": (
                         f"Resuming {app_name}@{model_display_name}: "
-                        f"{done} done, {remaining} to go"
+                        f"{done} done, {remaining_str}"
                     ),
                     "level": "info"
                 })
-                all_to_do, _ = data_processor.identify_reviews_to_analyze(
-                    reviews, existing
-                )
-                reviews_to_analyze = all_to_do[:remaining]
                 analysed_results = existing.copy()
             else:
-                reviews_to_analyze = reviews[:reviews_limit]
+                if complete_scraping:
+                    reviews_to_analyze = reviews  # Analyze all reviews
+                else:
+                    reviews_to_analyze = reviews[:int(reviews_limit)]
                 analysed_results = []
         else:
-            reviews_to_analyze = reviews[:reviews_limit]
+            if complete_scraping:
+                reviews_to_analyze = reviews  # Analyze all reviews
+            else:
+                reviews_to_analyze = reviews[:int(reviews_limit)]
             analysed_results = []
 
         # ---- 2) Initialise progress ----
-        total_target = reviews_limit
+        if complete_scraping:
+            total_target = len(reviews_to_analyze)
+        else:
+            total_target = int(reviews_limit)
         progress_callback({"type": "progress_reviews_total", "value": total_target})
         progress_callback({
             "type": "log",
@@ -217,7 +248,9 @@ class LLMAnalyser:
             progress_callback({
                 "type": "process_type_change",
                 "process_type": "batch_analysis",
-                "message": f"Switching to batch analysis mode: {total_batches} batches of up to {batch_size} reviews each"
+                "message": f"Switching to batch analysis mode: {total_batches} batches of up to {batch_size} reviews each",
+                "provider": provider_name,
+                "model": model_display_name
             })
             
             progress_callback({
@@ -226,7 +259,9 @@ class LLMAnalyser:
                     f"Using batch processing: {total_batches} batches of "
                     f"up to {batch_size} reviews each"
                 ),
-                "level": "info"
+                "level": "info",
+                "provider": provider_name,
+                "model": model_display_name
             })
             
             for batch_idx, start in enumerate(range(0, len(reviews_to_analyze), batch_size), 1):
@@ -248,7 +283,9 @@ class LLMAnalyser:
                         f"Processing batch {batch_idx}/{total_batches} "
                         f"({len(chunk)} reviews)..."
                     ),
-                    "level": "info"
+                    "level": "info",
+                    "provider": provider_name,
+                    "model": model_display_name
                 })
 
                 raw_multi = provider.analyze_batch(texts, self.prompt)
@@ -287,7 +324,9 @@ class LLMAnalyser:
                         progress_callback({
                             "type": "progress_reviews_current",
                             "process_type": "batch_analysis",
-                            "value": len(analysed_results)
+                            "value": len(analysed_results),
+                            "provider": provider_name,
+                            "model": model_display_name
                         })
                     else:
                         progress_callback({
@@ -333,7 +372,9 @@ class LLMAnalyser:
 
                 progress_callback({
                     "type": "progress_reviews_current",
-                    "value": len(analysed_results)
+                    "value": len(analysed_results),
+                    "provider": provider_name,
+                    "model": model_display_name
                 })
                 text = (review.get('review') or '').strip()
                 if not text:

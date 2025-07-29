@@ -74,27 +74,58 @@ export default function PromptPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [fileToDelete, setFileToDelete] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     loadPrompts()
+    
+    // Set up periodic polling for new files every 5 seconds
+    pollIntervalRef.current = setInterval(() => {
+      loadPrompts(false) // Don't show loading states during periodic updates
+    }, 5000)
+    
+    // Cleanup on unmount
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current)
+      }
+    }
   }, [])
 
-  const loadPrompts = async () => {
+  // Refresh files when dropdown is opened
+  const handleDropdownOpenChange = (open: boolean) => {
+    setIsDropdownOpen(open)
+    if (open) {
+      loadPrompts(false) // Refresh files when dropdown opens without loading state
+    }
+  }
+
+  const loadPrompts = async (showLoading = true) => {
     try {
-      setLoading(true)
+      if (showLoading) {
+        setLoading(true)
+      }
       setError(null)
       const response = await getPrompts()
       setPromptFiles(response.data.prompts)
       setActivePromptFile(response.data.active_prompt)
       
-      // Load the current prompt content
-      await loadCurrentPrompt()
+      // Load the current prompt content only on initial load
+      if (showLoading) {
+        await loadCurrentPrompt()
+      }
     } catch (err: any) {
-      setError(`Failed to load prompts: ${err.response?.data?.detail || err.message}`)
-      toast.error(`Failed to load prompts: ${err.response?.data?.detail || err.message}`)
+      // Only show error toast if this was a user-initiated action
+      if (showLoading) {
+        setError(`Failed to load prompts: ${err.response?.data?.detail || err.message}`)
+        toast.error(`Failed to load prompts: ${err.response?.data?.detail || err.message}`)
+      }
     } finally {
-      setLoading(false)
+      if (showLoading) {
+        setLoading(false)
+      }
     }
   }
 
@@ -134,7 +165,7 @@ export default function PromptPage() {
       toast.success(`Saved changes to ${currentFilename}`)
       
       // Refresh the prompt list to update modification times
-      loadPrompts()
+      loadPrompts(false)
       
       // Hide success message after 3 seconds
       setTimeout(() => setSuccess(false), 3000)
@@ -164,7 +195,7 @@ export default function PromptPage() {
       toast.success(`Switched to prompt: ${filename}`)
       
       // Refresh the prompt list
-      loadPrompts()
+      loadPrompts(false)
     } catch (err: any) {
       const errorMsg = `Failed to select prompt: ${err.response?.data?.detail || err.message}`
       setError(errorMsg)
@@ -181,7 +212,7 @@ export default function PromptPage() {
       toast.success(`Uploaded ${uploadedFilename} successfully`)
       
       // Refresh the prompt list
-      await loadPrompts()
+      await loadPrompts(false)
       
       // Optionally switch to the newly uploaded prompt
       const switchToNew = window.confirm(
@@ -207,7 +238,7 @@ export default function PromptPage() {
       toast.success(`Deleted ${filename}`)
       
       // Refresh the prompt list
-      await loadPrompts()
+      await loadPrompts(false)
       
       setDeleteDialogOpen(false)
       setFileToDelete('')
@@ -274,7 +305,7 @@ export default function PromptPage() {
           )}
           <Button
             variant="outline"
-            onClick={loadPrompts}
+            onClick={() => loadPrompts(true)}
             disabled={saving}
           >
             <RotateCcw className="h-4 w-4 mr-2" />
@@ -359,7 +390,12 @@ export default function PromptPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Select value={activePromptFile} onValueChange={handleSelectPrompt}>
+              <Select 
+                value={activePromptFile} 
+                onValueChange={handleSelectPrompt}
+                open={isDropdownOpen}
+                onOpenChange={handleDropdownOpenChange}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select prompt file" />
                 </SelectTrigger>
@@ -377,6 +413,14 @@ export default function PromptPage() {
                       </div>
                     </SelectItem>
                   ))}
+                  {promptFiles.length === 0 && (
+                    <SelectItem value="__placeholder__" disabled>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <FileText className="h-4 w-4" />
+                        No files found
+                      </div>
+                    </SelectItem>
+                  )}
                 </SelectContent>
               </Select>
               

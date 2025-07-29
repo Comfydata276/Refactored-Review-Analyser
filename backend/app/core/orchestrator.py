@@ -357,13 +357,17 @@ class AnalysisOrchestrator:
                 if self.stop_event.is_set():
                     break
 
-                limit_setting = self.config_manager.get_setting(
-                    ["analysis", "reviews_to_analyze"], 100
-                )
-                if isinstance(limit_setting, (int, float, str, bool)):
-                    reviews_to_analyze_limit = int(limit_setting)
+                # For complete scraping, we want to analyze all reviews, not just the limit
+                if enable_complete:
+                    reviews_to_analyze_limit = float('inf')  # No limit for complete scraping
                 else:
-                    reviews_to_analyze_limit = 100
+                    limit_setting = self.config_manager.get_setting(
+                        ["analysis", "reviews_to_analyze"], 100
+                    )
+                    if isinstance(limit_setting, (int, float, str, bool)):
+                        reviews_to_analyze_limit = int(limit_setting)
+                    else:
+                        reviews_to_analyze_limit = 100
 
                 # Transition from scraping to analysis phase
                 if not skip_scraping:
@@ -394,19 +398,22 @@ class AnalysisOrchestrator:
                                 app_name, app_id, model
                             )
 
+                        # For complete scraping, don't skip analysis based on limit
                         if (
                             existing_analysis
                             and not is_from_progress
+                            and not enable_complete
                             and len(existing_analysis)
                             >= reviews_to_analyze_limit
                         ):
+                            target_str = "ALL" if reviews_to_analyze_limit == float('inf') else str(int(reviews_to_analyze_limit))
                             self._send_to_gui({
                                 "type": "log",
                                 "message": (
                                     f"Analysis already complete for "
                                     f"{app_name} with {model} "
                                     f"({len(existing_analysis)} reviews, "
-                                    f"target: {reviews_to_analyze_limit})"
+                                    f"target: {target_str})"
                                 ),
                                 "level": "info"
                             })
@@ -415,13 +422,14 @@ class AnalysisOrchestrator:
                             existing_analysis
                             and not is_from_progress
                         ):
+                            target_str = "ALL" if reviews_to_analyze_limit == float('inf') else str(int(reviews_to_analyze_limit))
                             self._send_to_gui({
                                 "type": "log",
                                 "message": (
                                     f"Analysis partially complete for "
                                     f"{app_name} with {model} "
                                     f"({len(existing_analysis)} reviews, "
-                                    f"target: {reviews_to_analyze_limit}). "
+                                    f"target: {target_str}). "
                                     "Continuing analysis..."
                                 ),
                                 "level": "info"
@@ -447,7 +455,8 @@ class AnalysisOrchestrator:
                             model,
                             provider,
                             self._send_to_gui,
-                            self.stop_event
+                            self.stop_event,
+                            complete_scraping=enable_complete
                         )
 
                         if analysed_data:
@@ -476,19 +485,7 @@ class AnalysisOrchestrator:
                                 "level": "warning"
                             })
 
-                if not self.stop_event.is_set():
-                    data_processor.generate_summary_for_app(
-                        app_name,
-                        app_id,
-                        selected_models_by_provider
-                    )
-                    self._send_to_gui({
-                        "type": "log",
-                        "message": (
-                            f"Generated summary report for {app_name}"
-                        ),
-                        "level": "info"
-                    })
+                # Summary generation removed as requested
 
             self._send_to_gui({
                 "type": "progress_apps_current",
