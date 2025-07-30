@@ -1,27 +1,12 @@
 llm_providers:
   ollama:
     available_models:
-    - display_name: phi4:14b
-      api_name: phi4:14b
+    - display_name: gemma3:1b-it-fp16
+      api_name: gemma3:1b-it-fp16
       tags:
       - General
       enabled: true
-    - display_name: granite3.3:8b
-      api_name: granite3.3:8b
-      tags:
-      - General
-      enabled: true
-    - display_name: qwen3:14b-q4_K_M
-      api_name: qwen3:14b-q4_K_M
-      tags:
-      - General
-      enabled: true
-    - display_name: gemma3:12b-it-qat
-      api_name: gemma3:12b-it-qat
-      tags:
-      - General
-      enabled: true
-    enabled: true
+    enabled: false
     enabled_models: []
   openai:
     available_models:
@@ -34,12 +19,18 @@ llm_providers:
     - display_name: GPT-4.1 Nano
       api_name: gpt-4.1-nano-2025-04-14
       tags:
-      - General
+      - Fast
+      - Lite
+      enabled: true
+    - display_name: o3
+      api_name: o3
+      tags:
+      - Reasoning
+      reasoning_level: high
       enabled: true
     enabled: true
     enabled_models:
-    - gpt-4.1-nano-2025-04-14
-    - o4-mini
+    - o3
   gemini:
     available_models:
     - display_name: Gemini 2.5 Pro
@@ -78,6 +69,7 @@ analysis:
   api_batch_size: 5
   enable_resume: true
   skip_scraping: true
+  prompt_file: prompt.txt
 fetching:
   reviews_per_app: 110
   language: english
@@ -105,9 +97,9 @@ appearance:
   theme: System
   scaling: 100%
 app_ids:
-- 526870
+- 22370
 max_reviews: 1000
 debug_mode: false
 selected_apps:
-- appid: 526870
-  name: Satisfactory
+- appid: 22370
+  name: Fallout 3 - Game of the Year Edition

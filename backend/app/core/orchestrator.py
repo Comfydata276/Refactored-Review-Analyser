@@ -323,6 +323,16 @@ class AnalysisOrchestrator:
                     reviews = self._load_existing_reviews(
                         data_processor, app_id, app_name
                     )
+                    if reviews:
+                        self._send_to_gui({
+                            "type": "log",
+                            "message": (
+                                f"Skip scraping enabled - loaded {len(reviews):,} "
+                                f"existing reviews for {app_name}. Filtering will be "
+                                f"applied based on current settings."
+                            ),
+                            "level": "info"
+                        })
                 else:
                     reviews = self._get_or_fetch_reviews(
                         steam_api,
@@ -435,9 +445,25 @@ class AnalysisOrchestrator:
                                 "level": "info"
                             })
 
+                        # Apply filtering based on current settings
+                        reviews_before_filtering = len(reviews)
                         reviews_to_process = \
                             data_processor.filter_reviews(reviews)
-
+                        reviews_after_filtering = len(reviews_to_process)
+                        
+                        # Log filtering results for transparency
+                        if reviews_before_filtering != reviews_after_filtering:
+                            filtered_count = reviews_before_filtering - reviews_after_filtering
+                            self._send_to_gui({
+                                "type": "log",
+                                "message": (
+                                    f"Applied filtering for {app_name}: "
+                                    f"{reviews_before_filtering:,} → {reviews_after_filtering:,} reviews "
+                                    f"({filtered_count:,} filtered out)"
+                                ),
+                                "level": "info"
+                            })
+                        
                         self._send_to_gui({
                             "type": "log",
                             "message": (
@@ -523,7 +549,8 @@ class AnalysisOrchestrator:
     ):
         """
         Get reviews for an app, either from existing files or by fetching
-        from Steam.
+        from Steam. For complete scraping mode, always re-fetch to ensure
+        we get all available reviews.
         """
         sanitised_name = data_processor._sanitise_filename(app_name)
         raw_filename = f"{sanitised_name}_{app_id}_raw_reviews.csv"
@@ -535,7 +562,9 @@ class AnalysisOrchestrator:
         )
         raw_filepath = os.path.join(raw_folder, raw_filename)
 
-        if os.path.exists(raw_filepath):
+        # For complete scraping, always re-fetch to ensure we get all reviews
+        # For normal mode, use existing reviews if available
+        if os.path.exists(raw_filepath) and not enable_complete:
             try:
                 df = pd.read_csv(raw_filepath, low_memory=False)
                 df = df.fillna("")  # Replace NaN with empty strings
@@ -569,20 +598,40 @@ class AnalysisOrchestrator:
                 return reviews
             except Exception as e:
                 logger.error(f"Error reading existing raw reviews: {e}")
+        elif enable_complete and os.path.exists(raw_filepath):
+            self._send_to_gui({
+                "type": "log",
+                "message": (
+                    f"Complete scraping enabled - re-fetching all reviews for {app_name} "
+                    f"(ignoring existing {raw_filename})"
+                ),
+                "level": "info"
+            })
+
+        # Fetch reviews from Steam (either fresh or complete re-scrape)
+        def periodic_save_callback(reviews_snapshot, current_app_id):
+            data_processor.save_raw_reviews_periodic(
+                reviews_snapshot, app_name, current_app_id
+            )
 
         reviews = steam_api.fetch_reviews_for_app(
             app_id,
             scrape_all=bool(enable_complete),
             progress_callback=self._send_to_gui,
-            stop_event=self.stop_event
+            stop_event=self.stop_event,
+            periodic_save_callback=(
+                periodic_save_callback if enable_complete else None
+            )
         )
 
         if reviews:
             data_processor.save_raw_reviews(reviews, app_name, app_id)
+            scrape_type = "complete" if enable_complete else "limited"
             self._send_to_gui({
                 "type": "log",
                 "message": (
-                    f"Fetched {len(reviews):,} reviews for {app_name}"
+                    f"Fetched {len(reviews):,} reviews for {app_name} "
+                    f"({scrape_type} scraping)"
                 ),
                 "level": "info"
             })
@@ -620,7 +669,9 @@ class AnalysisOrchestrator:
 
     def _load_existing_reviews(self, data_processor, app_id, app_name):
         """
-        Load existing raw reviews for an app.
+        Load existing raw reviews for an app when skip scraping is enabled.
+        All reviews are loaded and filtering will be applied later based on 
+        current settings.
 
         Returns:
             list: List of review dictionaries or empty list if not found
@@ -658,11 +709,16 @@ class AnalysisOrchestrator:
                                 if review_text is not None else ""
                             )
 
+                # Get current filter settings for informative logging
+                min_length = self.config_manager.get_setting(['filtering', 'min_review_length'], 50)
+                min_playtime = self.config_manager.get_setting(['filtering', 'min_playtime_hours'], 0)
+                
                 self._send_to_gui({
                     "type": "log",
                     "message": (
-                        f"Loaded existing raw reviews for {app_name}: "
-                        f"{len(reviews):,} reviews"
+                        f"Loaded {len(reviews):,} existing raw reviews for {app_name}. "
+                        f"Will filter based on current settings: min_length={min_length}, "
+                        f"min_playtime={min_playtime}h"
                     ),
                     "level": "info"
                 })
@@ -670,7 +726,10 @@ class AnalysisOrchestrator:
             else:
                 self._send_to_gui({
                     "type": "log",
-                    "message": f"No existing raw reviews found for {app_name}",
+                    "message": (
+                        f"No existing raw reviews found for {app_name}. "
+                        f"You need to run scraping first or disable 'Skip Scraping'."
+                    ),
                     "level": "error"
                 })
                 return []
