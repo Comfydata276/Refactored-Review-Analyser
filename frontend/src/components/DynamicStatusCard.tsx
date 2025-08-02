@@ -5,7 +5,6 @@ import {
   Brain, 
   Download, 
   Settings,
-  Clock,
   Tag
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

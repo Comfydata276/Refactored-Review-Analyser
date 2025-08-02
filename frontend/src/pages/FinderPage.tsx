@@ -261,7 +261,7 @@ export default function FinderPage() {
               </Select>
 
               <Button 
-                onClick={doSearch}
+                onClick={() => doSearch()}
                 disabled={loading || !query.trim()}
                 size="lg"
                 className="h-12 px-8 steam-gradient hover:opacity-90 transition-opacity"

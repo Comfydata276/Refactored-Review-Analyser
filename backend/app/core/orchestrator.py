@@ -33,6 +33,33 @@ class AnalysisOrchestrator:
         self._current_complete_scraping: bool = False
         self._current_skip_scraping: bool = False
 
+    def join(self, timeout: float | None = None):
+        if self.thread and self.thread.is_alive():
+            self.stop_event.set()           # ask it to finish
+            self.thread.join(timeout=timeout)
+
+    def _notify_phase(self, phase: str):
+        """
+        Emit a phase_change event to the GUI.
+
+        Rules
+        -----
+        - Consecutive duplicates are suppressed (no spam).
+        - When the *idle* phase is requested we always allow it through and
+          clear the cached phase so the next real run can fire again.
+        """
+        # De-duplication guard (not applied to 'idle')
+        current = getattr(self, "_current_phase", None)
+        if phase != "idle" and current == phase:
+            logger.info(f"🔄 Phase '{phase}' already active, skipping notification")
+            return
+
+        # Update / clear the cached value
+        self._current_phase = None if phase == "idle" else phase
+
+        # Send event
+        self._send_to_gui({"type": "phase_change", "phase": phase})
+
     def _start_process(self, target_function):
         """Generic starter for any process to avoid code duplication."""
         if self.thread and self.thread.is_alive():
@@ -66,7 +93,7 @@ class AnalysisOrchestrator:
         logger.info(f"🔍 DEBUG: start_scraping_only called with enable_complete_scraping={enable_complete_scraping}, resolved to {self._current_complete_scraping}")
         self._start_process(self._run_scrape_only_flow)
 
-    def start_analysis(self, enable_complete_scraping=None, skip_scraping=None):
+    def start_analysis(self, enable_complete_scraping: bool | None = None, skip_scraping: bool | None = None):
         """
         Start the full analysis process.
 
@@ -76,24 +103,18 @@ class AnalysisOrchestrator:
             skip_scraping: If specified, skip the review scraping process
               entirely
         """
-        raw1 = (
+        self._current_complete_scraping = (
             enable_complete_scraping
             if enable_complete_scraping is not None
             else self.config_manager.get_setting(
-                ["fetching", "enable_complete_scraping"], False
-            )
+                ["fetching", "enable_complete_scraping"], False)
         )
-        self._current_complete_scraping = bool(raw1)
-
-        raw2 = (
+        self._current_skip_scraping = (
             skip_scraping
             if skip_scraping is not None
             else self.config_manager.get_setting(
-                ["analysis", "skip_scraping"], False
-            )
+                ["analysis", "skip_scraping"], False)
         )
-        self._current_skip_scraping = bool(raw2)
-
         self._start_process(self._run_analysis_flow)
 
     def stop_analysis(self):
@@ -118,27 +139,42 @@ class AnalysisOrchestrator:
         if self.gui_queue:
             self.gui_queue.put(data)
 
-    def _run_scrape_only_flow(self):
-        """Runs only the review scraping and saving part of the workflow."""
-        try:
-            self.config_manager.reload_config()
-            self._send_to_gui({
-                "type": "analysis_started",
-                "process_type": "scraping",
-                "message": "Starting scraping process..."
-            })
+    def _create_llm_callback(self):
+        """
+        Create a callback function for LLM analyzer that intercepts
+        process_type_change messages and converts them to phase_change.
+        """
+        def callback(data):
+            # Intercept process_type_change from LLM analyzer
+            if data.get("type") == "process_type_change":
+                process_type = data.get("process_type")
+                logger.info(f"🔄 DEBUG: LLM analyzer sent process_type_change: {process_type}")
+                if process_type == "batch_analysis":
+                    self._notify_phase("batch_analysis")
+                elif process_type == "analysis":
+                    self._notify_phase("analysis")
+                # Don't forward the original message, phase_change handles it
+                return
+            
+            # Forward all other messages normally
+            self._send_to_gui(data)
+        
+        return callback
 
+    def _run_scrape_only_flow(self):
+        """Run the scraper without any analysis step."""
+        try:
+            self._notify_phase("scraping")
+
+            self.config_manager.reload_config()
             enable_complete = bool(self._current_complete_scraping)
             scrape_type = "complete" if enable_complete else "limited"
-            logger.info(f"🔍 DEBUG: _run_scrape_only_flow using enable_complete={enable_complete} (from self._current_complete_scraping={self._current_complete_scraping})")
 
             self._send_to_gui({
                 "type": "log",
-                "message": (
-                    f"Starting {scrape_type} review scraping..."
-                    f" (enable_complete={enable_complete})"
-                ),
-                "level": "info"
+                "message": f"Starting {scrape_type} review scraping "
+                           f"(enable_complete={enable_complete})",
+                "level": "info",
             })
 
             steam_api = SteamAPI(self.config_manager)
@@ -148,129 +184,99 @@ class AnalysisOrchestrator:
             if not app_ids:
                 raise ValueError("No App IDs configured for scraping.")
 
-            self._send_to_gui({
-                "type": "progress_apps_total",
-                "value": len(app_ids)
-            })
+            self._send_to_gui({"type": "progress_apps_total",
+                               "value": len(app_ids)})
 
-            for i, app_id in enumerate(app_ids):
+            for idx, app_id in enumerate(app_ids):
                 if self.stop_event.is_set():
                     break
 
-                self._send_to_gui({
-                    "type": "progress_apps_current",
-                    "value": i
-                })
+                self._send_to_gui({"type": "progress_apps_current",
+                                   "value": idx})
+
                 app_name = steam_api.get_app_name(app_id)
 
                 self._send_to_gui({
                     "type": "log",
-                    "message": (
-                        f"Starting {scrape_type} scraping for: "
-                        f"{app_name} (ID: {app_id})"
-                    ),
-                    "level": "info"
+                    "message": f"Starting {scrape_type} scraping for "
+                               f"{app_name} (ID: {app_id})",
+                    "level": "info",
                 })
 
-                def periodic_save_callback(
-                    reviews_snapshot, current_app_id
-                ):
-                    data_processor.save_raw_reviews_periodic(
-                        reviews_snapshot, app_name, current_app_id
-                    )
+                # Periodic save callback (only for complete mode)
+                def periodic_save(revs, _aid):
+                    data_processor.save_raw_reviews_periodic(revs, app_name, _aid)
 
-                logger.info(f"🔍 DEBUG: Calling steam_api.fetch_reviews_for_app with scrape_all={bool(enable_complete)} for app {app_id}")
                 reviews = steam_api.fetch_reviews_for_app(
                     app_id,
-                    scrape_all=bool(enable_complete),
+                    scrape_all=enable_complete,
                     progress_callback=self._send_to_gui,
                     stop_event=self.stop_event,
-                    periodic_save_callback=(
-                        periodic_save_callback if enable_complete else None
-                    ),
+                    periodic_save_callback=(periodic_save if enable_complete else None),
                 )
 
                 if reviews:
-                    data_processor.save_raw_reviews(
-                        reviews, app_name, app_id
-                    )
+                    data_processor.save_raw_reviews(reviews, app_name, app_id)
                     self._send_to_gui({
                         "type": "log",
-                        "message": (
-                            f"Saved {len(reviews):,} reviews for "
-                            f"{app_name}"
-                        ),
-                        "level": "info"
+                        "message": f"Saved {len(reviews):,} reviews for {app_name}",
+                        "level": "info",
                     })
                 else:
                     self._send_to_gui({
                         "type": "log",
                         "message": f"No reviews found for {app_name}",
-                        "level": "warning"
+                        "level": "warning",
                     })
 
-                if self.stop_event.is_set():
-                    break
+            # Force progress bar to 100 %
+            self._send_to_gui({"type": "progress_apps_current",
+                               "value": len(app_ids)})
 
-            self._send_to_gui({
-                "type": "progress_apps_current",
-                "value": len(app_ids)
-            })
-
-        except Exception as e:
-            logger.error(
-                f"An error occurred during scraping: {e}", exc_info=True
-            )
-            self._send_to_gui({
-                "type": "log",
-                "message": f"Error: {e}",
-                "level": "error"
-            })
+        except Exception as exc:
+            logger.exception("Scraping flow error")
+            self._send_to_gui({"type": "log",
+                               "message": f"Error: {exc}",
+                               "level": "error"})
         finally:
-            final_message = (
-                "Scraping complete."
-                if not self.stop_event.is_set()
-                else "Scraping stopped. All progress has been saved."
-            )
+            final_msg = ("Scraping complete."
+                         if not self.stop_event.is_set()
+                         else "Scraping stopped. Progress has been saved.")
+            self._send_to_gui({"type": "log",
+                               "message": final_msg,
+                               "level": "info"})
+
+            # ----- NEW: End-of-phase signalling ----------------------------
             self._send_to_gui({
-                "type": "log",
-                "message": final_message,
-                "level": "info"
+                "type":  "phase_end",
+                "phase": self._current_phase or "scraping",
             })
+            self._notify_phase("idle")       # tell GUI we're idle again
+            # ----------------------------------------------------------------
+
+            # House-keeping
             self.stop_event.clear()
-            self._send_to_gui({"type": "analysis_finished"})
             self._current_complete_scraping = False
 
     def _run_analysis_flow(self):
-        """The main analysis workflow, now with skip scraping capability."""
+        """
+        Full workflow: optional scraping phase followed by analysis.
+        Respect *skip_scraping* and *enable_complete_scraping* flags.
+        """
         try:
-            self.config_manager.reload_config()
-            self._send_to_gui({
-                "type": "analysis_started", 
-                "process_type": "scraping",
-                "message": "Starting analysis workflow..."
-            })
+            first_phase = "analysis" if self._current_skip_scraping else "scraping"
+            self._notify_phase(first_phase)
 
-            skip_scraping = bool(self._current_skip_scraping)
+            self.config_manager.reload_config()
+            skip_scraping   = bool(self._current_skip_scraping)
             enable_complete = bool(self._current_complete_scraping)
 
-            if skip_scraping:
-                workflow_type = "analysis-only (using existing raw reviews)"
-                # Update process type to analysis since we're skipping scraping
-                self._send_to_gui({
-                    "type": "process_type_change",
-                    "process_type": "analysis",
-                    "message": f"Starting {workflow_type}..."
-                })
-            else:
-                scrape_type = "complete" if enable_complete else "limited"
-                workflow_type = f"{scrape_type} analysis workflow"
-
-            self._send_to_gui({
-                "type": "log",
-                "message": f"Starting {workflow_type}...",
-                "level": "info"
-            })
+            desc = ("analysis-only (existing raw reviews)" if skip_scraping else
+                    f"{'complete' if enable_complete else 'limited'} analysis workflow")
+            self._send_to_gui({"type": "log",
+                               "message": f"Starting {desc}…",
+                               "level": "info"}
+                               )
 
             steam_api = SteamAPI(self.config_manager)
             llm_analyser = LLMAnalyser(self.config_manager)
@@ -280,59 +286,44 @@ class AnalysisOrchestrator:
             if not app_ids:
                 raise ValueError("No App IDs configured for analysis.")
 
-            selected_models_by_provider = \
-                llm_analyser.get_selected_models_by_provider()
-            if not any(selected_models_by_provider.values()):
-                raise ValueError(
-                    "No LLM models have been selected for analysis."
-                )
+            selected = llm_analyser.get_selected_models_by_provider()
+            if not any(selected.values()):
+                raise ValueError("No LLM models have been selected for analysis.")
 
             if skip_scraping:
-                missing_apps = self._validate_raw_reviews_exist(
+                missing = self._validate_raw_reviews_exist(
                     app_ids, data_processor, steam_api
                 )
-                if missing_apps:
-                    self._handle_missing_raw_reviews(missing_apps)
+                if missing:
+                    self._handle_missing_raw_reviews(missing)
                     return
 
-            total_apps = len(app_ids)
-            self._send_to_gui({
-                "type": "progress_apps_total",
-                "value": total_apps
-            })
+            self._send_to_gui(
+                {"type": "progress_apps_total", "value": len(app_ids)}
+            )
 
-            for i, app_id in enumerate(app_ids):
+            for idx, app_id in enumerate(app_ids):
                 if self.stop_event.is_set():
                     break
 
-                self._send_to_gui({
-                    "type": "progress_apps_current",
-                    "value": i
-                })
+                self._send_to_gui(
+                    {"type": "progress_apps_current", "value": idx}
+                )
                 app_name = steam_api.get_app_name(app_id)
 
-                self._send_to_gui({
-                    "type": "log",
-                    "message": (
-                        f"Processing app: {app_name} (ID: {app_id})"
-                    ),
-                    "level": "info"
-                })
+                self._send_to_gui(
+                    {
+                        "type": "log",
+                        "message": f"Processing {app_name} (ID: {app_id})",
+                        "level": "info",
+                    }
+                )
 
+                # ── SCRAPING (optional) ─────────────────────────────
                 if skip_scraping:
                     reviews = self._load_existing_reviews(
                         data_processor, app_id, app_name
                     )
-                    if reviews:
-                        self._send_to_gui({
-                            "type": "log",
-                            "message": (
-                                f"Skip scraping enabled - loaded {len(reviews):,} "
-                                f"existing reviews for {app_name}. Filtering will be "
-                                f"applied based on current settings."
-                            ),
-                            "level": "info"
-                        })
                 else:
                     reviews = self._get_or_fetch_reviews(
                         steam_api,
@@ -343,205 +334,170 @@ class AnalysisOrchestrator:
                     )
 
                 if not reviews:
-                    self._send_to_gui({
-                        "type": "log",
-                        "message": (
-                            f"No reviews found for {app_name}. Skipping."
-                        ),
-                        "level": "warning"
-                    })
+                    self._send_to_gui(
+                        {
+                            "type": "log",
+                            "message": (
+                                f"No reviews available for {app_name}. Skipping."
+                            ),
+                            "level": "warning",
+                        }
+                    )
                     continue
 
                 reviews = data_processor.clean_reviews_data(reviews)
                 if not reviews:
-                    self._send_to_gui({
-                        "type": "log",
-                        "message": (
-                            f"No valid reviews after cleaning for "
-                            f"{app_name}. Skipping."
-                        ),
-                        "level": "warning"
-                    })
+                    self._send_to_gui(
+                        {
+                            "type": "log",
+                            "message": (
+                                f"No valid reviews after cleaning "
+                                f"for {app_name}. Skipping."
+                            ),
+                            "level": "warning",
+                        }
+                    )
                     continue
 
-                if self.stop_event.is_set():
-                    break
+                # If we just finished scraping, flip to analysis exactly once.
+                if not skip_scraping and self._current_phase != "analysis":
+                    self._notify_phase("analysis")
 
-                # For complete scraping, we want to analyze all reviews, not just the limit
-                if enable_complete:
-                    reviews_to_analyze_limit = float('inf')  # No limit for complete scraping
-                else:
-                    limit_setting = self.config_manager.get_setting(
-                        ["analysis", "reviews_to_analyze"], 100
+                # ── ANALYSIS ───────────────────────────────────────
+                limit = (
+                    float("inf")
+                    if enable_complete
+                    else int(
+                        self.config_manager.get_setting(
+                            ["analysis", "reviews_to_analyze"], 100
+                        )
                     )
-                    if isinstance(limit_setting, (int, float, str, bool)):
-                        reviews_to_analyze_limit = int(limit_setting)
-                    else:
-                        reviews_to_analyze_limit = 100
+                )
 
-                # Transition from scraping to analysis phase
-                if not skip_scraping:
-                    self._send_to_gui({
-                        "type": "process_type_change",
-                        "process_type": "analysis",
-                        "message": "Transitioning to analysis phase..."
-                    })
-
-                for provider, models in \
-                        selected_models_by_provider.items():
+                for provider, models in selected.items():
                     if self.stop_event.is_set():
                         break
-
                     for model in models:
                         if self.stop_event.is_set():
                             break
 
-                        self._send_to_gui({
-                            "type": "status_update",
-                            "process_type": "analysis",
-                            "app": app_name,
-                            "model": model
-                        })
+                        self._send_to_gui(
+                            {"type": "status_update", "app": app_name, "model": model}
+                        )
 
-                        existing_analysis, is_from_progress = \
-                            data_processor.check_existing_analysis(
-                                app_name, app_id, model
+                        existing, resumed = data_processor.check_existing_analysis(
+                            app_name, app_id, model
+                        )
+                        if (
+                            existing
+                            and not resumed
+                            and not enable_complete
+                            and len(existing) >= limit
+                        ):
+                            self._send_to_gui(
+                                {
+                                    "type": "log",
+                                    "message": (
+                                        f"Analysis already complete for {app_name} "
+                                        f"with {model} ({len(existing)} reviews)"
+                                    ),
+                                    "level": "info",
+                                }
+                            )
+                            continue
+
+                        filtered = data_processor.filter_reviews(reviews)
+                        if len(filtered) != len(reviews):
+                            self._send_to_gui(
+                                {
+                                    "type": "log",
+                                    "message": (
+                                        f"Applied filtering for {app_name}: "
+                                        f"{len(reviews):,} → {len(filtered):,}"
+                                    ),
+                                    "level": "info",
+                                }
                             )
 
-                        # For complete scraping, don't skip analysis based on limit
-                        if (
-                            existing_analysis
-                            and not is_from_progress
-                            and not enable_complete
-                            and len(existing_analysis)
-                            >= reviews_to_analyze_limit
-                        ):
-                            target_str = "ALL" if reviews_to_analyze_limit == float('inf') else str(int(reviews_to_analyze_limit))
-                            self._send_to_gui({
+                        self._send_to_gui(
+                            {
                                 "type": "log",
                                 "message": (
-                                    f"Analysis already complete for "
-                                    f"{app_name} with {model} "
-                                    f"({len(existing_analysis)} reviews, "
-                                    f"target: {target_str})"
+                                    f"Analyzing {len(filtered):,} reviews "
+                                    f"for {app_name} with {model}"
                                 ),
-                                "level": "info"
-                            })
-                            continue
-                        elif (
-                            existing_analysis
-                            and not is_from_progress
-                        ):
-                            target_str = "ALL" if reviews_to_analyze_limit == float('inf') else str(int(reviews_to_analyze_limit))
-                            self._send_to_gui({
-                                "type": "log",
-                                "message": (
-                                    f"Analysis partially complete for "
-                                    f"{app_name} with {model} "
-                                    f"({len(existing_analysis)} reviews, "
-                                    f"target: {target_str}). "
-                                    "Continuing analysis..."
-                                ),
-                                "level": "info"
-                            })
+                                "level": "info",
+                            }
+                        )
 
-                        # Apply filtering based on current settings
-                        reviews_before_filtering = len(reviews)
-                        reviews_to_process = \
-                            data_processor.filter_reviews(reviews)
-                        reviews_after_filtering = len(reviews_to_process)
-                        
-                        # Log filtering results for transparency
-                        if reviews_before_filtering != reviews_after_filtering:
-                            filtered_count = reviews_before_filtering - reviews_after_filtering
-                            self._send_to_gui({
-                                "type": "log",
-                                "message": (
-                                    f"Applied filtering for {app_name}: "
-                                    f"{reviews_before_filtering:,} → {reviews_after_filtering:,} reviews "
-                                    f"({filtered_count:,} filtered out)"
-                                ),
-                                "level": "info"
-                            })
-                        
-                        self._send_to_gui({
-                            "type": "log",
-                            "message": (
-                                f"Analyzing {len(reviews_to_process):,} "
-                                f"filtered reviews for {app_name} "
-                                f"with {model}"
-                            ),
-                            "level": "info"
-                        })
-
-                        analysed_data = llm_analyser.analyse_reviews(
-                            reviews_to_process,
+                        analysed = llm_analyser.analyse_reviews(
+                            filtered,
                             app_name,
                             app_id,
                             model,
                             provider,
-                            self._send_to_gui,
+                            self._create_llm_callback(),
                             self.stop_event,
-                            complete_scraping=enable_complete
+                            complete_scraping=enable_complete,
                         )
 
-                        if analysed_data:
+                        if analysed:
                             data_processor.save_analysed_data(
-                                analysed_data, app_name, app_id, model
+                                analysed, app_name, app_id, model
                             )
                             data_processor.cleanup_progress_file(
                                 app_name, app_id, model
                             )
-                            self._send_to_gui({
-                                "type": "log",
-                                "message": (
-                                    f"Completed analysis of "
-                                    f"{len(analysed_data):,} reviews "
-                                    f"with {model}"
-                                ),
-                                "level": "info"
-                            })
+                            self._send_to_gui(
+                                {
+                                    "type": "log",
+                                    "message": (
+                                        f"Completed analysis of "
+                                        f"{len(analysed):,} reviews with {model}"
+                                    ),
+                                    "level": "info",
+                                }
+                            )
                         else:
-                            self._send_to_gui({
-                                "type": "log",
-                                "message": (
-                                    f"No analyzed data returned for "
-                                    f"{app_name} with {model}"
-                                ),
-                                "level": "warning"
-                            })
+                            self._send_to_gui(
+                                {
+                                    "type": "log",
+                                    "message": (
+                                        f"No analysed data returned for "
+                                        f"{app_name} with {model}"
+                                    ),
+                                    "level": "warning",
+                                }
+                            )
 
-                # Summary generation removed as requested
-
-            self._send_to_gui({
-                "type": "progress_apps_current",
-                "value": total_apps
-            })
-
-        except Exception as e:
-            logger.error(
-                f"An error occurred during analysis: {e}", exc_info=True
+            # Force progress bar to full
+            self._send_to_gui(
+                {"type": "progress_apps_current", "value": len(app_ids)}
             )
-            self._send_to_gui({
-                "type": "log",
-                "message": f"Error: {e}",
-                "level": "error"
-            })
+
+        except Exception as exc:
+            logger.exception("Analysis flow error")
+            self._send_to_gui({"type": "log",
+                               "message": f"Error: {exc}",
+                               "level": "error"})
         finally:
-            final_message = (
-                "Analysis complete."
-                if not self.stop_event.is_set()
-                else "Analysis stopped. All progress has been saved."
-            )
+            final_msg = ("Analysis complete."
+                         if not self.stop_event.is_set()
+                         else "Analysis stopped. Progress has been saved.")
+            self._send_to_gui({"type": "log",
+                               "message": final_msg,
+                               "level": "info"})
+
             self._send_to_gui({
-                "type": "log",
-                "message": final_message,
-                "level": "info"
+                "type":  "phase_end",
+                "phase": self._current_phase or "analysis",
             })
+            self._notify_phase("idle")       # GUI back to idle
+
+            # House-keeping
             self.stop_event.clear()
-            self._send_to_gui({"type": "analysis_finished"})
             self._current_complete_scraping = False
-            self._current_skip_scraping = False
+            self._current_skip_scraping     = False
 
     def _get_or_fetch_reviews(
         self, steam_api, data_processor, app_id, app_name,

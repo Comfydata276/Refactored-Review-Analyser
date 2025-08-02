@@ -1,310 +1,206 @@
-// src/hooks/useProcessStatus.ts
-import { useMemo, useState, useEffect } from 'react'
-import type { WSMessage, ProcessStatus } from '../types/websocket'
+import { useEffect, useReducer, useRef } from "react"
+import type { WSMessage } from "../types/websocket"
 
-// Re-export for backward compatibility
-export type { ProcessStatus }
+/* ------------------------------------------------------------------ */
+/*  Types                                                             */
+/* ------------------------------------------------------------------ */
 
-export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
-  const [trigger, setTrigger] = useState(0)
-  
-  // Force re-evaluation every second to handle time-based state transitions
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTrigger(prev => prev + 1)
-    }, 1000)
-    
-    return () => clearInterval(interval)
-  }, [])
+type Phase = "scraping" | "analysis" | "batch_analysis" | "idle"
 
-  return useMemo(() => {
+export interface ProcessStatus {
+  isRunning: boolean
+  processType: Phase
+  statusMessage: string
+  currentItem?: string
+  progress?: { current: number; total: number; percentage: number }
+  lastFinished?: Phase
+}
 
-    if (messages.length === 0) {
+/* ------------------------------------------------------------------ */
+/*  Reducer                                                           */
+/* ------------------------------------------------------------------ */
+
+const initialState: ProcessStatus = {
+  isRunning: false,
+  processType: "idle",
+  statusMessage: "Ready"
+}
+
+function reducer(state: ProcessStatus, msg: WSMessage | { type: '_rebuild_complete', payload: ProcessStatus }): ProcessStatus {
+  switch (msg.type) {
+    /* Special case for rebuilding status from all messages */
+    case "_rebuild_complete":
+      return (msg as any).payload
+    /* -------------------------------------------------------------- */
+    /*  Phase starts                                                  */
+    /* -------------------------------------------------------------- */
+    case "phase_change": {
+      if (!msg.phase) return state
+      if (msg.phase === "idle") {
+        return { ...state, isRunning: false, processType: "idle" }
+      }
+
+      const phase = msg.phase as Phase
+      return {
+        isRunning: true,
+        processType: phase,
+        statusMessage:
+          phase === "scraping"
+            ? "Scraping reviews…"
+            : phase === "analysis"
+            ? "Analyzing reviews…"
+            : "Running batch analysis…",
+        currentItem: undefined,
+        progress: undefined
+      }
+    }
+
+    /* -------------------------------------------------------------- */
+    /*  Phase finished                                                */
+    /* -------------------------------------------------------------- */
+    case "phase_end": {
+      const done = (msg.phase ?? state.processType) as Phase
       return {
         isRunning: false,
-        processType: 'idle',
-        statusMessage: 'No activity'
+        processType: "idle",
+        statusMessage:
+          done === "scraping"
+            ? "Scraping completed"
+            : done === "batch_analysis"
+            ? "Batch analysis completed"
+            : "Analysis completed",
+        lastFinished: done
       }
     }
 
-    // Get the latest few messages for analysis
-    const recentMessages = messages.slice(-20) // Increase window for better detection
-    const latestMessage = messages[messages.length - 1]
-
-    // Find the most recent process state
-    let isRunning = false
-    let processType: 'scraping' | 'analysis' | 'batch_analysis' | 'idle' = 'idle'
-    let lastCompletedProcess: 'scraping' | 'analysis' | 'batch_analysis' | null = null
-    let completionMessage: string | null = null
-
-    // First, look for explicit start/finish signals
-    let lastStartMessage: WSMessage | null = null
-    let lastFinishMessage: WSMessage | null = null
-
-    // Find the most recent start and finish messages
-    for (let i = recentMessages.length - 1; i >= 0; i--) {
-      const msg = recentMessages[i]
-      
-      if (msg.type === 'analysis_started' && !lastStartMessage) {
-        lastStartMessage = msg
+    /* legacy support */
+    case "analysis_finished":
+      return {
+        isRunning: false,
+        processType: "idle",
+        statusMessage:
+          state.processType === "scraping"
+            ? "Scraping completed"
+            : state.processType === "batch_analysis"
+            ? "Batch analysis completed"
+            : "Analysis completed",
+        lastFinished: state.processType
       }
-      
-      if (msg.type === 'analysis_finished' && !lastFinishMessage) {
-        lastFinishMessage = msg
-      }
-      
-      // Break early if we found both
-      if (lastStartMessage && lastFinishMessage) break
+
+    /* -------------------------------------------------------------- */
+    /*  Context / label                                               */
+    /* -------------------------------------------------------------- */
+    case "status_update": {
+      const label = msg.app ?? msg.model ?? ""
+      return { ...state, currentItem: label, statusMessage: `Processing ${label}` }
     }
 
-    // Determine if process is running based on start/finish sequence
-    if (lastStartMessage && lastFinishMessage) {
-      // Compare timestamps or message order to see which is more recent
-      const startIndex = recentMessages.indexOf(lastStartMessage)
-      const finishIndex = recentMessages.indexOf(lastFinishMessage)
-      
-      if (startIndex > finishIndex) {
-        // Start is more recent than finish - process is running
-        isRunning = true
-      } else {
-        // Finish is more recent than start - process completed
-        isRunning = false
+    /* -------------------------------------------------------------- */
+    /*  Progress bar                                                  */
+    /* -------------------------------------------------------------- */
+    case "progress_apps_total":
+      return {
+        ...state,
+        progress: { current: 0, total: msg.value ?? 0, percentage: 0 }
       }
-    } else if (lastStartMessage && !lastFinishMessage) {
-      // Only start message found - process is running
-      isRunning = true
-    } else if (!lastStartMessage && lastFinishMessage) {
-      // Only finish message found - process completed
-      isRunning = false
-    } else {
-      // No explicit start/finish messages, fall back to content analysis
-      for (let i = recentMessages.length - 1; i >= 0; i--) {
-        const msg = recentMessages[i]
-        const msgText = (msg.message || '').toLowerCase()
 
-        // Check for explicit completion states first
-        if (msg.status === 'complete' || msg.status === 'finished' || msg.status === 'stopped' ||
-            msgText.includes('completed') || msgText.includes('finished') || msgText.includes('stopped') ||
-            msgText.includes('done') || msgText.includes('success')) {
-          
-          if (!isRunning) {
-            isRunning = false
-            break
-          }
-          continue
-        }
-
-        // Check for running states
-        if (msg.status === 'running' || msg.status === 'active' || msg.status === 'processing') {
-          isRunning = true
-          break
-        }
-        
-        // Progress indicators suggest running process
-        if ((msg.type === 'progress' || msg.progress) && msg.progress) {
-          if (msg.progress.current < msg.progress.total) {
-            isRunning = true
-            break
-          }
-        }
-
-        // Message content indicators for running processes
-        if (msgText.includes('starting') || msgText.includes('processing') || 
-            msgText.includes('scraping') || msgText.includes('analyzing') ||
-            msgText.includes('downloading') || msgText.includes('fetching') ||
-            msgText.includes('running')) {
-          isRunning = true
-          break
-        }
-      }
-    }
-
-    // Determine process type and completion details
-    if (!isRunning && lastFinishMessage) {
-      // Process completed - look for completion message and determine what completed
-      const finishTime = lastFinishMessage.timestamp ? new Date(lastFinishMessage.timestamp).getTime() : 0
-      const currentTime = Date.now()
-      const timeSinceCompletion = currentTime - finishTime
-      
-      // After 3 seconds of completion, revert to idle state to reset button states
-      if (timeSinceCompletion > 3000) {
-        processType = 'idle'
-        completionMessage = null
-      } else {
-        for (let i = recentMessages.length - 1; i >= 0; i--) {
-          const msg = recentMessages[i]
-          const msgText = (msg.message || '').toLowerCase()
-          
-          if (msgText.includes('scrap') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-            lastCompletedProcess = 'scraping'
-            completionMessage = msg.message
-            break
-          } else if (msgText.includes('batch') && msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-            lastCompletedProcess = 'batch_analysis'
-            completionMessage = msg.message
-            break
-          } else if (msgText.includes('analy') && (msgText.includes('complete') || msgText.includes('stopped'))) {
-            lastCompletedProcess = 'analysis'
-            completionMessage = msg.message
-            break
-          }
-        }
-        
-        // If we couldn't determine from completion message, infer from recent activity
-        if (!lastCompletedProcess) {
-          for (let i = recentMessages.length - 1; i >= 0; i--) {
-            const msg = recentMessages[i]
-            const msgText = (msg.message || '').toLowerCase()
-            
-            if (msgText.includes('scrap') || msgText.includes('review') || msgText.includes('steam')) {
-              lastCompletedProcess = 'scraping'
-              break
-            } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai')) {
-              lastCompletedProcess = 'analysis'
-              break
+    case "progress_apps_current":
+      return state.progress
+        ? {
+            ...state,
+            progress: {
+              ...state.progress,
+              current: msg.value ?? state.progress.current,
+              percentage:
+                state.progress.total > 0
+                  ? ((msg.value ?? 0) / state.progress.total) * 100
+                  : 0
             }
           }
-        }
-        
-        processType = lastCompletedProcess || 'idle'
-        if (!completionMessage && lastCompletedProcess) {
-          completionMessage = lastCompletedProcess === 'scraping' ? 'Scraping complete.' : 
-                             lastCompletedProcess === 'batch_analysis' ? 'Batch analysis complete.' : 
-                             'Analysis complete.'
-        }
-      }
-    } else if (isRunning) {
-      // Process is running - determine current process type
-      // First, look for explicit process_type_change messages which are most authoritative
-      for (let i = recentMessages.length - 1; i >= 0; i--) {
-        const msg = recentMessages[i]
-        
-        if (msg.type === 'process_type_change' && msg.process_type) {
-          processType = msg.process_type
-          break
-        }
-        
-        if (msg.process_type) {
-          processType = msg.process_type
-          break
-        }
-        
-        const msgText = (msg.message || '').toLowerCase()
-        if (msgText.includes('scrap') || msgText.includes('download') || msgText.includes('review') || msgText.includes('steam')) {
-          processType = 'scraping'
-          break
-        } else if (msgText.includes('batch') && (msgText.includes('analy') || msgText.includes('processing'))) {
-          processType = 'batch_analysis'
-          break
-        } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai') || msgText.includes('sentiment')) {
-          processType = 'analysis'
-          break
-        }
-      }
-    }
+        : state
 
-    // If no process type determined yet, scan for any process type indicators
-    if (processType === 'idle') {
-      for (const msg of recentMessages.reverse()) {
-        // Prioritize explicit process_type_change messages
-        if (msg.type === 'process_type_change' && msg.process_type) {
-          processType = msg.process_type
-          break
-        }
-        
-        if (msg.process_type) {
-          processType = msg.process_type
-          break
-        }
-        
-        const msgText = (msg.message || '').toLowerCase()
-        if (msgText.includes('scrap') || msgText.includes('download') || msgText.includes('review') || msgText.includes('steam')) {
-          processType = 'scraping'
-          break
-        } else if (msgText.includes('batch') && (msgText.includes('analy') || msgText.includes('processing'))) {
-          processType = 'batch_analysis'
-          break
-        } else if (msgText.includes('analy') || msgText.includes('llm') || msgText.includes('ai') || msgText.includes('sentiment')) {
-          processType = 'analysis'
-          break
+    /* -------------------------------------------------------------- */
+    /*  Live log message while running                                */
+    /* -------------------------------------------------------------- */
+    case "log":
+      return state.isRunning
+        ? { ...state, statusMessage: msg.message ?? state.statusMessage }
+        : state
+
+    default:
+      return state
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Hook                                                              */
+/* ------------------------------------------------------------------ */
+
+export function useProcessStatus(messages: WSMessage[]): ProcessStatus {
+  const [status, dispatch] = useReducer(reducer, initialState)
+
+  /* Index of the last element we dispatched */
+  const cursor = useRef(-1)
+  const lastRebuildTime = useRef(0)
+
+  /* Force rebuild status from all messages when page becomes visible */
+  const rebuildStatusFromAllMessages = () => {
+    console.log('🔄 Rebuilding process status from all messages')
+    let newStatus = initialState
+    
+    // Process all messages to rebuild current state
+    for (const message of messages) {
+      newStatus = reducer(newStatus, message)
+    }
+    
+    // Reset the cursor to the current length
+    cursor.current = messages.length - 1
+    lastRebuildTime.current = Date.now()
+    
+    // Force update the status
+    dispatch({ type: '_rebuild_complete', payload: newStatus } as any)
+  }
+
+  /* Handle page visibility changes */
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        // Page became visible - check if we need to rebuild
+        const timeSinceLastRebuild = Date.now() - lastRebuildTime.current
+        if (timeSinceLastRebuild > 5000) { // Rebuild if it's been more than 5 seconds
+          rebuildStatusFromAllMessages()
         }
       }
     }
 
-    // Get status message and current item
-    let statusMessage = 'Ready'
-    let currentItem: string | undefined
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [messages])
 
-    if (isRunning) {
-      // Process is currently running
-      if (latestMessage?.current_item) {
-        currentItem = latestMessage.current_item
-        statusMessage = `Processing ${latestMessage.current_item}`
-      } else if (latestMessage?.message) {
-        statusMessage = latestMessage.message
-      } else {
-        statusMessage = processType === 'scraping' 
-          ? 'Scraping reviews from Steam...' 
-          : processType === 'analysis'
-          ? 'Analyzing review data...'
-          : processType === 'batch_analysis'
-          ? 'Processing batched reviews...'
-          : 'Process running...'
-      }
-    } else if (!isRunning && lastFinishMessage) {
-      // Process completed - show completion details
-      if (completionMessage) {
-        statusMessage = completionMessage
-      } else {
-        // Look for the final completion message near the finish signal
-        for (let i = recentMessages.length - 1; i >= 0; i--) {
-          const msg = recentMessages[i]
-          if (msg.type === 'log' && msg.message && 
-              (msg.message.includes('complete') || msg.message.includes('stopped'))) {
-            statusMessage = msg.message
-            break
-          }
-        }
-        
-        // Fallback to generic completion message
-        if (statusMessage === 'Ready') {
-          statusMessage = processType === 'scraping' ? 'Scraping complete.' : 
-                         processType === 'analysis' ? 'Analysis complete.' : 
-                         processType === 'batch_analysis' ? 'Batch analysis complete.' :
-                         'Process completed.'
-        }
-      }
-    } else {
-      // No active or recent completed process
-      statusMessage = latestMessage?.message || 'Ready to start processing'
+  useEffect(() => {
+    if (messages.length === 0) {
+      cursor.current = -1
+      return
     }
 
-    const result = {
-      isRunning,
-      processType,
-      currentItem,
-      progress: isRunning ? latestMessage?.progress : undefined, // Only show progress if running
-      statusMessage,
-      lastActivity: latestMessage?.timestamp
+    /* If the array has shrunk (trimmed to 50) reset the cursor and rebuild */
+    if (cursor.current >= messages.length) {
+      console.log('📊 Messages array shrunk, rebuilding status')
+      rebuildStatusFromAllMessages()
+      return
     }
 
-    // Temporary debug logging to help troubleshoot
-    const hasProcessTypeChange = recentMessages.some(msg => msg.type === 'process_type_change')
-    if (lastStartMessage || lastFinishMessage || hasProcessTypeChange) {
-      console.log('🔍 ProcessStatus Debug:', {
-        lastStartMessage: lastStartMessage?.type,
-        lastFinishMessage: lastFinishMessage?.type,
-        hasProcessTypeChange,
-        isRunning,
-        processType,
-        statusMessage,
-        completionMessage,
-        lastCompletedProcess,
-        recentProcessTypes: recentMessages.filter(msg => msg.process_type || msg.type === 'process_type_change')
-          .map(msg => ({ type: msg.type, process_type: msg.process_type }))
-      })
+    /* Dispatch every *new* message                                    */
+    let hasNewMessages = false
+    for (let i = cursor.current + 1; i < messages.length; i++) {
+      dispatch(messages[i])
+      hasNewMessages = true
     }
 
-    return result
-  }, [messages, trigger])
+    if (hasNewMessages) {
+      cursor.current = messages.length - 1
+    }
+  }, [messages])     // ← runs every time WebSocket updates the array
+
+  return status
 }

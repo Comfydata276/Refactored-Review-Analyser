@@ -6,6 +6,7 @@ import queue
 import asyncio
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from app.core.config_manager import ConfigManager
 from app.core.steam_api import SteamAPI
@@ -48,6 +49,10 @@ def write_config(payload: dict):
     config_mgr.save_config()
     return {"status": "saved"}
 
+@app.on_event("shutdown")
+def _graceful_shutdown():
+    orchestrator.join(timeout=5)   # wait up to 5 s, then give up
+
 # ── Prompt Management Endpoints ────────────────────────────────────────────
 from pydantic import BaseModel
 from fastapi import UploadFile, File
@@ -59,6 +64,13 @@ class PromptRequest(BaseModel):
 
 class PromptSelectRequest(BaseModel):
     filename: str
+
+class ScrapeRequest(BaseModel):
+    complete: bool = False
+
+class AnalyseRequest(BaseModel):
+    complete: bool | None = None   # None  -> fall back to config
+    skip:     bool | None = None
 
 @app.get("/prompts")
 def list_prompts():
@@ -732,32 +744,19 @@ def refresh_ollama_models():
 
 # ── Orchestration Control Endpoints ────────────────────────────────────────
 @app.post("/scrape")
-def start_scraping(complete: bool = False):
-    """
-    Begin scraping-only mode.
-    Body JSON: { "complete": true|false }
-    """
-    import logging
-    logger = logging.getLogger(__name__)
-    logger.info(f"🔍 DEBUG: /scrape endpoint called with complete={complete} (type: {type(complete)})")
-    orchestrator.start_scraping_only(enable_complete_scraping=complete)
-    return {"status": "scraping_started", "complete": complete}
+def start_scraping(req: ScrapeRequest):
+    orchestrator.start_scraping_only(enable_complete_scraping=req.complete)
+    return {"status": "scraping_started", "complete": req.complete}
 
 @app.post("/analyse")
-def start_analysis(complete: bool = False, skip: bool = False):
-    """
-    Begin full analysis.
-    Body JSON: { "complete": true|false, "skip": true|false }
-    """
+def start_analysis(req: AnalyseRequest):
     orchestrator.start_analysis(
-        enable_complete_scraping=complete,
-        skip_scraping=skip
+        enable_complete_scraping=req.complete,
+        skip_scraping=req.skip
     )
-    return {
-        "status": "analysis_started",
-        "complete": complete,
-        "skip": skip
-    }
+    return {"status": "analysis_started",
+            "complete": req.complete, "skip": req.skip}
+
 
 @app.post("/stop")
 def stop_process():
@@ -784,3 +783,19 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         # Client disconnected; exit quietly
         return
+
+# ── Server Startup ─────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    import uvicorn
+    print("Starting Steam Review Analyser Backend Server...")
+    print("Server will be available at: http://localhost:8000")
+    print("WebSocket endpoint: ws://localhost:8000/ws")
+    print("API docs: http://localhost:8000/docs")
+    
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+        log_level="info",
+        access_log=True
+    )

@@ -50,7 +50,7 @@ export function useUnsavedChanges({
 
   // Warn user before closing/refreshing browser tab
   useBeforeUnload(
-    ({ formData }) => {
+    () => {
       if (hasUnsavedChanges && !isProcessingSave) {
         return 'You have unsaved changes. Are you sure you want to leave?'
       }

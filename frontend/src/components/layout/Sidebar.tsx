@@ -141,9 +141,9 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
                 {open && (
                   <>
                     <span className="flex-1">{item.title}</span>
-                    {item.badge && (
+                    {(item as any).badge && (
                       <Badge variant="secondary" className="text-xs px-2 py-0">
-                        {item.badge}
+                        {(item as any).badge}
                       </Badge>
                     )}
                   </>

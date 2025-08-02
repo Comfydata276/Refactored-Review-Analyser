@@ -20,7 +20,15 @@
       "Bash(mkdir:*)",
       "Bash(move:*)",
       "Bash(grep:*)",
-      "Bash(dir)"
+      "Bash(dir)",
+      "Bash(npx vite build:*)",
+      "Bash(npm run electron:*)",
+      "Bash(venvScripts:*)",
+      "Bash(venv\\Scripts\\pip.exe install -r requirements.txt)",
+      "Bash(.\\venv\\Scripts\\pip.exe install:*)",
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(taskkill:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }

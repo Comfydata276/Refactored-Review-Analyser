@@ -1,13 +1,30 @@
 llm_providers:
   ollama:
     available_models:
-    - display_name: gemma3:1b-it-fp16
-      api_name: gemma3:1b-it-fp16
+    - display_name: phi4:14b
+      api_name: phi4:14b
+      tags:
+      - General
+      enabled: true
+    - display_name: granite3.3:8b
+      api_name: granite3.3:8b
+      tags:
+      - General
+      enabled: true
+    - display_name: qwen3:14b-q4_K_M
+      api_name: qwen3:14b-q4_K_M
+      tags:
+      - General
+      enabled: true
+    - display_name: gemma3:12b-it-qat
+      api_name: gemma3:12b-it-qat
       tags:
       - General
       enabled: true
     enabled: false
-    enabled_models: []
+    enabled_models:
+    - phi4:14b
+    - granite3.3:8b
   openai:
     available_models:
     - display_name: o4-mini
@@ -30,7 +47,7 @@ llm_providers:
       enabled: true
     enabled: true
     enabled_models:
-    - o3
+    - gpt-4.1-nano-2025-04-14
   gemini:
     available_models:
     - display_name: Gemini 2.5 Pro
@@ -51,7 +68,8 @@ llm_providers:
     - display_name: Claude 3.5 Haiku
       api_name: claude-3-5-haiku-latest
       tags:
-      - General
+      - Lite
+      - Fast
       enabled: true
     - display_name: Claude 4 Sonnet
       api_name: claude-sonnet-4-0
@@ -63,15 +81,15 @@ llm_providers:
     - claude-3-5-haiku-latest
     - claude-sonnet-4-0
 analysis:
-  reviews_to_analyze: 20
+  reviews_to_analyze: 5
   api_retries: 3
   api_retry_delay: 1
   api_batch_size: 5
   enable_resume: true
-  skip_scraping: true
+  skip_scraping: false
   prompt_file: prompt.txt
 fetching:
-  reviews_per_app: 110
+  reviews_per_app: 330
   language: english
   scraping_timeout: 3600
   enable_complete_scraping: false
@@ -97,9 +115,9 @@ appearance:
   theme: System
   scaling: 100%
 app_ids:
-- 22370
+- 377160
 max_reviews: 1000
 debug_mode: false
 selected_apps:
-- appid: 22370
-  name: Fallout 3 - Game of the Year Edition
+- appid: 377160
+  name: Fallout 4

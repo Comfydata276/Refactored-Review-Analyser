@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import { Sidebar } from "./Sidebar"
 import { Header } from "./Header"
+import { ElectronStatusBar } from "../ElectronStatusBar"
 import { cn } from "@/lib/utils"
 
 export function AppLayout() {
@@ -28,7 +29,11 @@ export function AppLayout() {
         
         {/* Page Content */}
         <main className="p-6 pt-20 min-h-screen">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto space-y-6">
+            {/* Electron Status Bar */}
+            <ElectronStatusBar />
+            
+            {/* Main Content */}
             <Outlet />
           </div>
         </main>

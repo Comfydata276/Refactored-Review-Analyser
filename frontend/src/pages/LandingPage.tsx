@@ -3,19 +3,12 @@ import { useState } from 'react'
 import { 
   BarChart3, 
   Download, 
-  Wifi, 
-  WifiOff,
   Activity,
-  Settings,
-  Clock,
-  Users,
-  Database,
-  Square
+  Settings
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
 
@@ -29,8 +22,16 @@ import { toast } from 'sonner'
 import { useEffect } from 'react'
 
 export default function LandingPage() {
-  const { messages, connectionState, reconnect, send, clearMessages } = useWebSocket('/ws')
+  const { messages, connectionState, reconnect, _forceUpdate } = useWebSocket('/ws')
   const processStatus = useProcessStatus(messages)
+  
+  // Force a re-render when _forceUpdate changes to ensure UI stays in sync
+  const [, forceRender] = useState(0)
+  useEffect(() => {
+    if (_forceUpdate) {
+      forceRender(prev => prev + 1)
+    }
+  }, [_forceUpdate])
   const [completeMode, setCompleteMode] = useState(false)
   const [skipScraping, setSkipScraping] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -129,7 +130,7 @@ export default function LandingPage() {
         <DynamicStatusCard 
           messages={messages}
           processStatus={processStatus}
-          connectionState={connectionState}
+          connectionState={connectionState as "connecting" | "connected" | "disconnected"}
           onReconnect={reconnect}
         />
 
@@ -209,12 +210,7 @@ export default function LandingPage() {
                 size="lg"
               >
                 <Download className="h-5 w-5 mr-2" />
-                {processStatus.processType === 'scraping' && processStatus.isRunning 
-                  ? 'Scraping In Progress...'
-                  : processStatus.processType === 'scraping' && !processStatus.isRunning
-                  ? '✓ Scraping Complete'
-                  : 'Start Scraping Process'
-                }
+                {processStatus.isRunning ? 'Scraping In Progress…' : 'Start Scraping Process'}
               </Button>
 
               <Button
@@ -236,16 +232,7 @@ export default function LandingPage() {
                 size="lg"
               >
                 <BarChart3 className="h-5 w-5 mr-2" />
-                {(processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && processStatus.isRunning 
-                  ? processStatus.processType === 'batch_analysis' 
-                    ? 'Batch Analysis In Progress...'
-                    : 'Analysis In Progress...'
-                  : (processStatus.processType === 'analysis' || processStatus.processType === 'batch_analysis') && !processStatus.isRunning
-                  ? processStatus.processType === 'batch_analysis'
-                    ? '✓ Batch Analysis Complete'
-                    : '✓ Analysis Complete'
-                  : 'Start Analysis Process'
-                }
+                {processStatus.isRunning ? 'Analysis In Progress…' : 'Start Analysis Process'}
               </Button>
             </div>
           </div>
@@ -278,12 +265,12 @@ export default function LandingPage() {
                 <div className="mt-3 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>{processStatus.progress.current} of {processStatus.progress.total}</span>
-                    <span>{processStatus.progress.percentage.toFixed(1)}%</span>
+                    <span>{((processStatus.progress.percentage ?? 0)).toFixed(1)}%</span>
                   </div>
                   <div className="w-full bg-black/20 rounded-full h-2">
                     <div 
                       className="bg-current h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${processStatus.progress.percentage}%` }}
+                      style={{ width: `${processStatus.progress.percentage ?? 0}%` }}
                     />
                   </div>
                 </div>

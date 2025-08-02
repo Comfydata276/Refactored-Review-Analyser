@@ -1,0 +1,89 @@
+﻿recommendationid,language,review,timestamp_created,timestamp_updated,voted_up,votes_up,votes_funny,weighted_vote_score,comment_count,steam_purchase,received_for_free,written_during_early_access,primarily_steam_deck,author.steamid,author.num_games_owned,author.num_reviews,author.playtime_forever,author.playtime_last_two_weeks,author.playtime_at_review,author.last_played,author.deck_playtime_at_review,COMPETENCE SATISFACTION_TF,COMPETENCE SATISFACTION_QUOTE,COMPETENCE FRUSTRATION_TF,COMPETENCE FRUSTRATION_QUOTE,AUTONOMY SATISFACTION_TF,AUTONOMY SATISFACTION_QUOTE,AUTONOMY FRUSTRATION_TF,AUTONOMY FRUSTRATION_QUOTE,RELATEDNESS SATISFACTION_TF,RELATEDNESS SATISFACTION_QUOTE,RELATEDNESS FRUSTRATION_TF,RELATEDNESS FRUSTRATION_QUOTE,raw_llm_output
+201258437,english,"Didn't start this game one PC. I LOVE IT! I'd play at my friend's house when I was younger. Playing it on my own PC brings back unimaginable nostalgia. Love, love, love. One of the best games created.",1754107576,1754107576,True,0,0,0.5,0,True,False,False,False,76561198889513144,105,27,2445,0,2445,1724897490,,False,,False,,False,,False,,True,I LOVE IT! I'd play at my friend's house when I was younger. Playing it on my own PC brings back unimaginable nostalgia.,False,,"COMPETENCE SATISFACTION: FALSE  
+COMPETENCE SATISFACTION QUOTE:  
+
+COMPETENCE FRUSTRATION: FALSE  
+COMPETENCE FRUSTRATION QUOTE:  
+
+AUTONOMY SATISFACTION: FALSE  
+AUTONOMY SATISFACTION QUOTE:  
+
+AUTONOMY FRUSTRATION: FALSE  
+AUTONOMY FRUSTRATION QUOTE:  
+
+RELATEDNESS SATISFACTION: TRUE  
+RELATEDNESS SATISFACTION QUOTE: ""I LOVE IT! I'd play at my friend's house when I was younger. Playing it on my own PC brings back unimaginable nostalgia.""  
+
+RELATEDNESS FRUSTRATION: FALSE  
+RELATEDNESS FRUSTRATION QUOTE:"
+201256999,english,"I don't get why fallout fans don't like this one. I can understand many of the complaints, mainly the mediocre story and loss of many classic rpg mechanics. However, the improved gameplay and graphics make up for that, imo. With the more modern combat mechanics, this game is plenty fun and holds its own as a solid fallout game.",1754105663,1754105663,True,0,0,0.5,0,True,False,False,False,76561198311840460,564,40,6494,0,6494,1715301681,,False,,False,,False,,False,,False,,False,,"COMPETENCE SATISFACTION: FALSE  
+COMPETENCE SATISFACTION QUOTE:  
+
+COMPETENCE FRUSTRATION: FALSE  
+COMPETENCE FRUSTRATION QUOTE:  
+
+AUTONOMY SATISFACTION: FALSE  
+AUTONOMY SATISFACTION QUOTE:  
+
+AUTONOMY FRUSTRATION: FALSE  
+AUTONOMY FRUSTRATION QUOTE:  
+
+RELATEDNESS SATISFACTION: FALSE  
+RELATEDNESS SATISFACTION QUOTE:  
+
+RELATEDNESS FRUSTRATION: FALSE  
+RELATEDNESS FRUSTRATION QUOTE:"
+201254768,english,"so its been 10years and i really had my fun in fallout 4 back then the release on xbox one!!!
+
+i played this over 1000+ hrs on xbox and on 350hrs not bad still funny game and i got all achievements so yea its goood 
+",1754102593,1754102593,True,0,0,0.5,0,True,False,False,False,76561199390011813,255,20,20970,1,20970,1754008007,,True,I played this over 1000+ hrs on xbox and on 350hrs not bad still funny game and i got all achievements so yea its goood,False,,False,,False,,False,,False,,"COMPETENCE SATISFACTION: TRUE  
+COMPETENCE SATISFACTION QUOTE: ""I played this over 1000+ hrs on xbox and on 350hrs not bad still funny game and i got all achievements so yea its goood""  
+
+COMPETENCE FRUSTRATION: FALSE  
+COMPETENCE FRUSTRATION QUOTE:  
+
+AUTONOMY SATISFACTION: FALSE  
+AUTONOMY SATISFACTION QUOTE:  
+
+AUTONOMY FRUSTRATION: FALSE  
+AUTONOMY FRUSTRATION QUOTE:  
+
+RELATEDNESS SATISFACTION: FALSE  
+RELATEDNESS SATISFACTION QUOTE:  
+
+RELATEDNESS FRUSTRATION: FALSE  
+RELATEDNESS FRUSTRATION QUOTE:"
+201246898,english,Pretty nice game where you'll never get bored. Although it could use some writing like in New Vegas.,1754092110,1754092110,True,0,0,0.5,0,True,False,False,False,76561199114719591,89,51,3927,1758,3927,1754091935,,False,,False,,False,,False,,False,,False,,"COMPETENCE SATISFACTION: FALSE  
+COMPETENCE SATISFACTION QUOTE:  
+
+COMPETENCE FRUSTRATION: FALSE  
+COMPETENCE FRUSTRATION QUOTE:  
+
+AUTONOMY SATISFACTION: FALSE  
+AUTONOMY SATISFACTION QUOTE:  
+
+AUTONOMY FRUSTRATION: FALSE  
+AUTONOMY FRUSTRATION QUOTE:  
+
+RELATEDNESS SATISFACTION: FALSE  
+RELATEDNESS SATISFACTION QUOTE:  
+
+RELATEDNESS FRUSTRATION: FALSE  
+RELATEDNESS FRUSTRATION QUOTE:"
+201245963,english,"Some mods just don't work anymore with the next-gen update, which, okay whatever. Fun while it lasted. But there's a bunch of new content to check out while we're waiting for Fallout 5.",1754090947,1754090947,True,0,0,0.5,0,True,False,False,False,76561199376197643,0,1,480,480,287,1754105364,,False,,False,,False,,False,,False,,True,,"COMPETENCE SATISFACTION: FALSE  
+COMPETENCE SATISFACTION QUOTE:  
+
+COMPETENCE FRUSTRATION: FALSE  
+COMPETENCE FRUSTRATION QUOTE:  
+
+AUTONOMY SATISFACTION: FALSE  
+AUTONOMY SATISFACTION QUOTE:  
+
+AUTONOMY FRUSTRATION: FALSE  
+AUTONOMY FRUSTRATION QUOTE:  
+
+RELATEDNESS SATISFACTION: FALSE  
+RELATEDNESS SATISFACTION QUOTE:  
+
+RELATEDNESS FRUSTRATION: TRUE  
+RELATEDNESS FRUSTRATION QUOTE: ""Some mods just don't work anymore with the next-gen update, which, okay whatever. Fun while it lasted."""

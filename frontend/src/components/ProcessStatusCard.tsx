@@ -126,10 +126,10 @@ export function ProcessStatusCard({ status, onStop, onPause, onResume }: Process
             <div className="space-y-2">
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>{status.progress.current} of {status.progress.total}</span>
-                <span>{status.progress.percentage.toFixed(1)}%</span>
+                <span>{(status.progress.percentage ?? 0).toFixed(1)}%</span>
               </div>
               <Progress 
-                value={status.progress.percentage} 
+                value={status.progress.percentage ?? 0} 
                 className="h-2 transition-all duration-300"
               />
             </div>
