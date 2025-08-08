@@ -1,6 +1,16 @@
 llm_providers:
   ollama:
     available_models:
+    - display_name: gpt-oss:120b
+      api_name: gpt-oss:120b
+      tags:
+      - General
+      enabled: true
+    - display_name: gpt-oss:20b
+      api_name: gpt-oss:20b
+      tags:
+      - General
+      enabled: true
     - display_name: phi4:14b
       api_name: phi4:14b
       tags:
@@ -21,7 +31,7 @@ llm_providers:
       tags:
       - General
       enabled: true
-    enabled: false
+    enabled: true
     enabled_models:
     - phi4:14b
     - granite3.3:8b

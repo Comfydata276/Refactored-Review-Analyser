@@ -564,6 +564,49 @@ export default function SettingsPage() {
                 </div>
               </AccordionContent>
             </AccordionItem>
+            {/* Storage & Paths */}
+            <AccordionItem value="storage" className="border rounded-lg px-6">
+              <AccordionTrigger className="py-6 hover:no-underline">
+                <div className="flex items-center gap-3 flex-1 pointer-events-none">
+                  <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                    <Database className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-semibold">Storage & Paths</h3>
+                    <p className="text-sm text-muted-foreground">Configure output folders used for saving results</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6 pb-6">
+                <div className="space-y-3">
+                  <Label htmlFor="raw_output_folder">Raw Output Folder</Label>
+                  <Input
+                    id="raw_output_folder"
+                    type="text"
+                    value={cfg.file_paths?.raw_output_folder ?? 'output/raw'}
+                    onChange={(e) => onFieldChange('file_paths.raw_output_folder', e.target.value)}
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label htmlFor="analysed_output_folder">Analysed Output Folder</Label>
+                  <Input
+                    id="analysed_output_folder"
+                    type="text"
+                    value={cfg.file_paths?.analysed_output_folder ?? 'output/analysed'}
+                    onChange={(e) => onFieldChange('file_paths.analysed_output_folder', e.target.value)}
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label htmlFor="summary_output_folder">Summary Output Folder</Label>
+                  <Input
+                    id="summary_output_folder"
+                    type="text"
+                    value={cfg.file_paths?.summary_output_folder ?? 'output/summary'}
+                    onChange={(e) => onFieldChange('file_paths.summary_output_folder', e.target.value)}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
           </Accordion>
         </div>

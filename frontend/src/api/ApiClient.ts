@@ -1,16 +1,43 @@
 // src/api/ApiClient.ts
 import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+// Default base URL (works for web and fallback)
+const defaultBaseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export const api = axios.create({
-  baseURL,
+  baseURL: defaultBaseURL,
   headers: { 'Content-Type': 'application/json' },
 })
 
+// If running in Electron, derive base URL from the backend status (host/port).
+// This avoids mismatches and supports custom ports.
+type ElectronBridge = {
+  electronAPI?: {
+    getBackendStatus: () => Promise<{ host: string; port: number; running?: boolean }>
+    openOutputFolder: () => Promise<boolean>
+  }
+}
+
+const w = (globalThis as unknown as { window?: unknown }).window as unknown as ElectronBridge | undefined
+if (w?.electronAPI?.getBackendStatus) {
+  (async () => {
+    try {
+      const status = await w.electronAPI!.getBackendStatus()
+      const proto = location.protocol === 'https:' ? 'https' : 'http'
+      const resolved = `${proto}://${status.host}:${status.port}`
+      api.defaults.baseURL = resolved
+      // Optional: visible console to aid debugging packaged builds
+      // eslint-disable-next-line no-console
+      console.log('API baseURL set from Electron backend status:', resolved)
+    } catch {
+      // Keep default base URL on failure
+    }
+  })()
+}
+
 // Configuration endpoints
 export const getConfig = () => api.get('/config')
-export const setConfig = (config: any) => api.post('/config', config)
+export const setConfig = (config: unknown) => api.post('/config', config as unknown)
 
 // App search endpoints  
 export const searchApps = (q: string, type='name', page=1, per_page=20) =>
@@ -41,7 +68,20 @@ export const stopProcess = () => api.post('/stop')
 export const getResultsFiles = () => api.get('/results/files')
 export const getResultsFileContent = (fileType: string, filename: string, limit: number = 100) =>
   api.get(`/results/file/${fileType}/${filename}`, { params: { limit } })
-export const openResultsFolder = () => api.post('/results/open-folder')
+
+// Prefer Electron IPC for opening folders when available; fallback to HTTP API
+export const openResultsFolder = async () => {
+  const w2 = (globalThis as unknown as { window?: unknown }).window as unknown as ElectronBridge | undefined
+  if (w2?.electronAPI?.openOutputFolder) {
+    try {
+      const ok = await w2.electronAPI.openOutputFolder()
+      return { data: { status: ok ? 'success' : 'failed', message: ok ? 'Opened output folder' : 'Failed to open output folder' } }
+    } catch {
+      // fall through to HTTP fallback
+    }
+  }
+  return api.post('/results/open-folder')
+}
 
 // API Key management endpoints
 export const getApiKeys = () => api.get('/api-keys')
@@ -54,12 +94,12 @@ export const getOllamaModels = () => api.get('/llm/ollama/models')
 export const refreshOllamaModels = () => api.post('/llm/ollama/refresh')
 
 // Legacy endpoints (kept for backward compatibility)
-export const getResults = (params?: any) => 
+export const getResults = (params?: Record<string, unknown>) =>
   api.get('/results', { params })
-export const getAvailableApps = () => 
+export const getAvailableApps = () =>
   api.get('/results/apps')
-export const exportResults = (format: 'csv' | 'json', filters?: any) =>
-  api.get('/results/export', { 
-    params: { format, ...filters },
+export const exportResults = (format: 'csv' | 'json', filters?: Record<string, unknown>) =>
+  api.get('/results/export', {
+    params: { format, ...(filters ?? {}) },
     responseType: 'blob'
   })

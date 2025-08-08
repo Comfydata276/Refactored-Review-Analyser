@@ -21,6 +21,7 @@ interface ActivityLogProps {
   messages: WSMessage[]
   isConnected: boolean
   maxHeight?: string
+  onClear?: () => void
 }
 
 const getMessageIcon = (msg: WSMessage) => {
@@ -88,7 +89,7 @@ const getMessageCategory = (msg: WSMessage): string => {
   return 'SYSTEM'
 }
 
-export function ActivityLog({ messages, isConnected, maxHeight = 'h-96' }: ActivityLogProps) {
+export function ActivityLog({ messages, isConnected, maxHeight = 'h-96', onClear }: ActivityLogProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const shouldAutoScroll = useRef(true)
 
@@ -116,8 +117,9 @@ export function ActivityLog({ messages, isConnected, maxHeight = 'h-96' }: Activ
   }
 
   const clearLog = () => {
-    // This would need to be implemented if you want to clear the log
-    console.log('Clear log requested')
+    if (typeof onClear === 'function') {
+      onClear()
+    }
   }
 
   return (

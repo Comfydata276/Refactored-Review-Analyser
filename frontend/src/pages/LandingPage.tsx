@@ -22,7 +22,7 @@ import { toast } from 'sonner'
 import { useEffect } from 'react'
 
 export default function LandingPage() {
-  const { messages, connectionState, reconnect, _forceUpdate } = useWebSocket('/ws')
+  const { messages, connectionState, reconnect, clearMessages, _forceUpdate } = useWebSocket('/ws')
   const processStatus = useProcessStatus(messages)
   
   // Force a re-render when _forceUpdate changes to ensure UI stays in sync
@@ -292,10 +292,11 @@ export default function LandingPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ActivityLog 
+          <ActivityLog
             messages={messages}
             isConnected={isConnected}
             maxHeight="h-96"
+            onClear={clearMessages}
           />
         </CardContent>
       </Card>

@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 
 # --- LLMAnalyser: The Main Interface for the Orchestrator ---
 
+
 class LLMAnalyser:
     """
     Manages the overall LLM analysis process. This class acts as the
@@ -65,7 +66,9 @@ class LLMAnalyser:
         # 3) If explicit path not set, use filename with prompts directory
         if not prompt_path:
             prompt_path = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "..", "..", "prompts", prompt_filename)
+                os.path.join(
+                    os.path.dirname(__file__), "..", "..", "prompts", prompt_filename
+                )
             )
 
         # 4) Attempt to read; on failure return minimal default
@@ -85,18 +88,28 @@ class LLMAnalyser:
         # Correctly fetch the nested config section. Pass path list to get_setting.
         providers_config = self.config_manager.get_setting(["llm_providers"], {})
         for provider_name, config in providers_config.items():
-            if config.get('enabled'):
-                enabled_models = config.get('enabled_models', [])
+            if config.get("enabled"):
+                enabled_models = config.get("enabled_models", [])
                 if enabled_models:
                     selected[provider_name] = enabled_models
         return selected
 
-    def analyse_reviews(self, reviews, app_name, app_id, model_display_name, provider_name, progress_callback, stop_event, complete_scraping=False):
+    def analyse_reviews(
+        self,
+        reviews,
+        app_name,
+        app_id,
+        model_display_name,
+        provider_name,
+        progress_callback,
+        stop_event,
+        complete_scraping=False,
+    ):
         """
         Analyses a list of reviews using the specified LLM provider.
         Supports batching via analysis.api_batch_size to reduce API calls,
         and can resume from partial progress if enabled.
-        
+
         Args:
             complete_scraping: If True, bypasses reviews_to_analyze limit and processes all reviews
         """
@@ -107,31 +120,39 @@ class LLMAnalyser:
 
         # ---- 1) Determine how many reviews to analyse and resume ----
         if complete_scraping:
-            reviews_limit = float('inf')  # No limit for complete scraping
-            logger.info(f"Complete scraping mode: analyzing ALL {len(reviews)} reviews for {app_name}")
+            reviews_limit = float("inf")  # No limit for complete scraping
+            logger.info(
+                f"Complete scraping mode: analyzing ALL {len(reviews)} reviews for {app_name}"
+            )
         else:
-            reviews_limit = int(self.config_manager.get_setting(
-                ['analysis', 'reviews_to_analyze'], 100))
-            logger.info(f"Limited analysis mode: analyzing up to {reviews_limit} reviews for {app_name}")
-        
+            reviews_limit = int(
+                self.config_manager.get_setting(["analysis", "reviews_to_analyze"], 100)
+            )
+            logger.info(
+                f"Limited analysis mode: analyzing up to {reviews_limit} reviews for {app_name}"
+            )
+
         enable_resume = self.config_manager.get_setting(
-            ['analysis', 'enable_resume'], True)
+            ["analysis", "enable_resume"], True
+        )
 
         if enable_resume:
             existing, is_progress = data_processor.check_existing_analysis(
                 app_name, app_id, model_display_name
             )
-            
+
             # For complete scraping, don't consider analysis "complete" based on limit
             if existing and not complete_scraping and len(existing) >= reviews_limit:
-                progress_callback({
-                    "type": "log",
-                    "message": (
-                        f"Already complete for {app_name}@{model_display_name}: "
-                        f"{len(existing)}/{int(reviews_limit)}"
-                    ),
-                    "level": "info"
-                })
+                progress_callback(
+                    {
+                        "type": "log",
+                        "message": (
+                            f"Already complete for {app_name}@{model_display_name}: "
+                            f"{len(existing)}/{int(reviews_limit)}"
+                        ),
+                        "level": "info",
+                    }
+                )
                 return existing
 
             if existing:
@@ -151,27 +172,29 @@ class LLMAnalyser:
                     )
                     reviews_to_analyze = all_to_do[:remaining]
                     remaining_str = f"{remaining} to go"
-                
-                progress_callback({
-                    "type": "log",
-                    "message": (
-                        f"Resuming {app_name}@{model_display_name}: "
-                        f"{done} done, {remaining_str}"
-                    ),
-                    "level": "info"
-                })
+
+                progress_callback(
+                    {
+                        "type": "log",
+                        "message": (
+                            f"Resuming {app_name}@{model_display_name}: "
+                            f"{done} done, {remaining_str}"
+                        ),
+                        "level": "info",
+                    }
+                )
                 analysed_results = existing.copy()
             else:
                 if complete_scraping:
                     reviews_to_analyze = reviews  # Analyze all reviews
                 else:
-                    reviews_to_analyze = reviews[:int(reviews_limit)]
+                    reviews_to_analyze = reviews[: int(reviews_limit)]
                 analysed_results = []
         else:
             if complete_scraping:
                 reviews_to_analyze = reviews  # Analyze all reviews
             else:
-                reviews_to_analyze = reviews[:int(reviews_limit)]
+                reviews_to_analyze = reviews[: int(reviews_limit)]
             analysed_results = []
 
         # ---- 2) Initialise progress ----
@@ -180,203 +203,248 @@ class LLMAnalyser:
         else:
             total_target = int(reviews_limit)
         progress_callback({"type": "progress_reviews_total", "value": total_target})
-        progress_callback({
-            "type": "log",
-            "message": f"Target: {total_target} reviews, beginning analysis…",
-            "level": "info"
-        })
+        progress_callback(
+            {
+                "type": "log",
+                "message": f"Target: {total_target} reviews, beginning analysis…",
+                "level": "info",
+            }
+        )
 
-        periodic_interval = int(self.config_manager.get_setting(
-            ['analysis', 'periodic_save_interval'], 10))
+        periodic_interval = int(
+            self.config_manager.get_setting(["analysis", "periodic_save_interval"], 10)
+        )
 
         # ---- 3) Batch size (unified) ----
-        batch_size = int(self.config_manager.get_setting(
-            ['analysis', 'api_batch_size'], 1))
+        batch_size = int(
+            self.config_manager.get_setting(["analysis", "api_batch_size"], 1)
+        )
 
         # ---- 4) Initialise provider ----
         api_model = self._get_api_model_name(provider_name, model_display_name)
-        progress_callback({
-            "type": "log",
-            "message": (
-                f"Model resolution: '{model_display_name}' -> '{api_model}' "
-                f"for provider '{provider_name}'"
-            ),
-            "level": "info"
-        })
-        if not api_model:
-            progress_callback({
+        progress_callback(
+            {
                 "type": "log",
                 "message": (
-                    f"Could not find API name for '{model_display_name}' "
-                    f"on provider '{provider_name}'."
+                    f"Model resolution: '{model_display_name}' -> '{api_model}' "
+                    f"for provider '{provider_name}'"
                 ),
-                "level": "error"
-            })
+                "level": "info",
+            }
+        )
+        if not api_model:
+            progress_callback(
+                {
+                    "type": "log",
+                    "message": (
+                        f"Could not find API name for '{model_display_name}' "
+                        f"on provider '{provider_name}'."
+                    ),
+                    "level": "error",
+                }
+            )
             return analysed_results
 
         model_config = self._get_model_config(provider_name, model_display_name)
         provider = get_llm_provider(
-            provider_name, api_model, self.config_manager, progress_callback, model_config
+            provider_name,
+            api_model,
+            self.config_manager,
+            progress_callback,
+            model_config,
         )
         if not provider:
-            progress_callback({
-                "type": "log",
-                "message": f"Failed to initialise provider '{provider_name}' with model '{api_model}'.",
-                "level": "error"
-            })
+            progress_callback(
+                {
+                    "type": "log",
+                    "message": f"Failed to initialise provider '{provider_name}' with model '{api_model}'.",
+                    "level": "error",
+                }
+            )
             return analysed_results
 
         # Pre‐compile our splitter for batched responses
         import re
+
         splitter = re.compile(r"Review\s*\d+\s*Analysis\s*:")
 
         # ---- 5) Batched path if supported ----
-        can_batch = batch_size > 1 and hasattr(provider, 'analyze_batch')
-        progress_callback({
-            "type": "log",
-            "message": (
-                f"Batch check: batch_size={batch_size}, "
-                f"has_analyze_batch={hasattr(provider, 'analyze_batch')}, "
-                f"can_batch={can_batch}"
-            ),
-            "level": "info"
-        })
-        if can_batch:
-            total_batches = (len(reviews_to_analyze) + batch_size - 1) // batch_size
-            
-            # Signal transition to batch analysis mode
-            progress_callback({
-                "type": "process_type_change",
-                "process_type": "batch_analysis",
-                "message": f"Switching to batch analysis mode: {total_batches} batches of up to {batch_size} reviews each",
-                "provider": provider_name,
-                "model": model_display_name
-            })
-            
-            progress_callback({
+        can_batch = batch_size > 1 and hasattr(provider, "analyze_batch")
+        progress_callback(
+            {
                 "type": "log",
                 "message": (
-                    f"Using batch processing: {total_batches} batches of "
-                    f"up to {batch_size} reviews each"
+                    f"Batch check: batch_size={batch_size}, "
+                    f"has_analyze_batch={hasattr(provider, 'analyze_batch')}, "
+                    f"can_batch={can_batch}"
                 ),
                 "level": "info",
-                "provider": provider_name,
-                "model": model_display_name
-            })
-            
-            for batch_idx, start in enumerate(range(0, len(reviews_to_analyze), batch_size), 1):
-                if stop_event.is_set():
-                    progress_callback({
-                        "type": "log",
-                        "message": "Analysis stopped by user.",
-                        "level": "info"
-                    })
-                    break
+            }
+        )
+        if can_batch:
+            total_batches = (len(reviews_to_analyze) + batch_size - 1) // batch_size
 
-                chunk = reviews_to_analyze[start:start + batch_size]
-                texts = [r.get('review', '') for r in chunk]
-
-                progress_callback({
-                    "type": "log",
+            # Signal transition to batch analysis mode
+            progress_callback(
+                {
+                    "type": "process_type_change",
                     "process_type": "batch_analysis",
+                    "message": f"Switching to batch analysis mode: {total_batches} batches of up to {batch_size} reviews each",
+                    "provider": provider_name,
+                    "model": model_display_name,
+                }
+            )
+
+            progress_callback(
+                {
+                    "type": "log",
                     "message": (
-                        f"Processing batch {batch_idx}/{total_batches} "
-                        f"({len(chunk)} reviews)..."
+                        f"Using batch processing: {total_batches} batches of "
+                        f"up to {batch_size} reviews each"
                     ),
                     "level": "info",
                     "provider": provider_name,
-                    "model": model_display_name
-                })
+                    "model": model_display_name,
+                }
+            )
+
+            for batch_idx, start in enumerate(
+                range(0, len(reviews_to_analyze), batch_size), 1
+            ):
+                if stop_event.is_set():
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": "Analysis stopped by user.",
+                            "level": "info",
+                        }
+                    )
+                    break
+
+                chunk = reviews_to_analyze[start : start + batch_size]
+                texts = [r.get("review", "") for r in chunk]
+
+                progress_callback(
+                    {
+                        "type": "log",
+                        "process_type": "batch_analysis",
+                        "message": (
+                            f"Processing batch {batch_idx}/{total_batches} "
+                            f"({len(chunk)} reviews)..."
+                        ),
+                        "level": "info",
+                        "provider": provider_name,
+                        "model": model_display_name,
+                    }
+                )
 
                 raw_multi = provider.analyze_batch(texts, self.prompt)
                 if not raw_multi:
-                    progress_callback({
-                        "type": "log",
-                        "message": f"Batch {batch_idx} returned no results, skipping",
-                        "level": "warning"
-                    })
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": f"Batch {batch_idx} returned no results, skipping",
+                            "level": "warning",
+                        }
+                    )
                     continue
 
                 parts = splitter.split(raw_multi)
                 # parts[0] is header; parts[1:] map to chunk entries
                 batch_processed = 0
-                progress_callback({
-                    "type": "log",
-                    "message": f"Batch response split into {len(parts)} parts",
-                    "level": "info"
-                })
-                
+                progress_callback(
+                    {
+                        "type": "log",
+                        "message": f"Batch response split into {len(parts)} parts",
+                        "level": "info",
+                    }
+                )
+
                 for idx, block in enumerate(parts[1:], start=1):
                     snippet = block.strip()
                     if not snippet:
-                        progress_callback({
-                            "type": "log",
-                            "message": f"Empty response block {idx}, skipping",
-                            "level": "warning"
-                        })
+                        progress_callback(
+                            {
+                                "type": "log",
+                                "message": f"Empty response block {idx}, skipping",
+                                "level": "warning",
+                            }
+                        )
                         continue
-                    
+
                     if idx <= len(chunk):
                         record = chunk[idx - 1]
                         parsed = parse_llm_output(snippet)
                         analysed_results.append({**record, **parsed})
                         batch_processed += 1
-                        progress_callback({
-                            "type": "progress_reviews_current",
-                            "process_type": "batch_analysis",
-                            "value": len(analysed_results),
-                            "provider": provider_name,
-                            "model": model_display_name
-                        })
+                        progress_callback(
+                            {
+                                "type": "progress_reviews_current",
+                                "process_type": "batch_analysis",
+                                "value": len(analysed_results),
+                                "provider": provider_name,
+                                "model": model_display_name,
+                            }
+                        )
                     else:
-                        progress_callback({
-                            "type": "log",
-                            "message": f"More response blocks than input reviews: {idx} > {len(chunk)}",
-                            "level": "warning"
-                        })
+                        progress_callback(
+                            {
+                                "type": "log",
+                                "message": f"More response blocks than input reviews: {idx} > {len(chunk)}",
+                                "level": "warning",
+                            }
+                        )
 
-                progress_callback({
-                    "type": "log",
-                    "process_type": "batch_analysis",
-                    "message": (
-                        f"Completed batch {batch_idx}/{total_batches} "
-                        f"({batch_processed}/{len(chunk)} reviews processed)"
-                    ),
-                    "level": "info"
-                })
+                progress_callback(
+                    {
+                        "type": "log",
+                        "process_type": "batch_analysis",
+                        "message": (
+                            f"Completed batch {batch_idx}/{total_batches} "
+                            f"({batch_processed}/{len(chunk)} reviews processed)"
+                        ),
+                        "level": "info",
+                    }
+                )
 
                 # Periodic save
                 if len(analysed_results) % periodic_interval == 0:
                     data_processor.save_analyzed_data_periodic(
                         analysed_results, app_name, app_id, model_display_name
                     )
-                    progress_callback({
-                        "type": "log",
-                        "message": (
-                            f"Periodic save: {len(analysed_results)}/"
-                            f"{total_target} reviews completed"
-                        ),
-                        "level": "info"
-                    })
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": (
+                                f"Periodic save: {len(analysed_results)}/"
+                                f"{total_target} reviews completed"
+                            ),
+                            "level": "info",
+                        }
+                    )
 
         # ---- 6) Fallback to single‐review loop ----
         else:
             for review in reviews_to_analyze:
                 if stop_event.is_set():
-                    progress_callback({
-                        "type": "log",
-                        "message": "Analysis stopped by user.",
-                        "level": "info"
-                    })
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": "Analysis stopped by user.",
+                            "level": "info",
+                        }
+                    )
                     break
 
-                progress_callback({
-                    "type": "progress_reviews_current",
-                    "value": len(analysed_results),
-                    "provider": provider_name,
-                    "model": model_display_name
-                })
-                text = (review.get('review') or '').strip()
+                progress_callback(
+                    {
+                        "type": "progress_reviews_current",
+                        "value": len(analysed_results),
+                        "provider": provider_name,
+                        "model": model_display_name,
+                    }
+                )
+                text = (review.get("review") or "").strip()
                 if not text:
                     continue
 
@@ -385,43 +453,46 @@ class LLMAnalyser:
                     parsed = parse_llm_output(raw)
                     analysed_results.append({**review, **parsed})
                 except Exception as e:
-                    progress_callback({
-                        "type": "log",
-                        "message": f"Error analysing review: {e}",
-                        "level": "error"
-                    })
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": f"Error analysing review: {e}",
+                            "level": "error",
+                        }
+                    )
                     continue
 
                 if len(analysed_results) % periodic_interval == 0:
                     data_processor.save_analyzed_data_periodic(
                         analysed_results, app_name, app_id, model_display_name
                     )
-                    progress_callback({
-                        "type": "log",
-                        "message": (
-                            f"Periodic save: {len(analysed_results)}/"
-                            f"{total_target}"
-                        ),
-                        "level": "info"
-                    })
+                    progress_callback(
+                        {
+                            "type": "log",
+                            "message": (
+                                f"Periodic save: {len(analysed_results)}/{total_target}"
+                            ),
+                            "level": "info",
+                        }
+                    )
 
         # ---- 7) Finalise and return ----
-        progress_callback({
-            "type": "progress_reviews_current",
-            "value": len(analysed_results)
-        })
+        progress_callback(
+            {"type": "progress_reviews_current", "value": len(analysed_results)}
+        )
         if analysed_results:
             data_processor.save_analyzed_data_periodic(
                 analysed_results, app_name, app_id, model_display_name
             )
-        progress_callback({
-            "type": "log",
-            "message": (
-                f"Analysis complete: {len(analysed_results)}/"
-                f"{total_target}"
-            ),
-            "level": "info"
-        })
+        progress_callback(
+            {
+                "type": "log",
+                "message": (
+                    f"Analysis complete: {len(analysed_results)}/{total_target}"
+                ),
+                "level": "info",
+            }
+        )
 
         return analysed_results
 
@@ -430,26 +501,35 @@ class LLMAnalyser:
         Finds the correct API model name based on the provider and model identifier.
         The model_identifier could be either a display_name or api_name from enabled_models.
         """
-        if provider_name == 'ollama':
+        if provider_name == "ollama":
             # For Ollama, the display name IS the API name.
             return model_identifier
 
         # For cloud providers, look up the api_name from the available_models list.
-        available_models = self.config_manager.get_setting(['llm_providers', provider_name, 'available_models'], [])
-        
+        available_models = self.config_manager.get_setting(
+            ["llm_providers", provider_name, "available_models"], []
+        )
+
         # First try to match by display_name
         for model_info in available_models:
-            if isinstance(model_info, dict) and model_info.get('display_name') == model_identifier:
-                return model_info.get('api_name')
-        
+            if (
+                isinstance(model_info, dict)
+                and model_info.get("display_name") == model_identifier
+            ):
+                return model_info.get("api_name")
+
         # If no display_name match, try to match by api_name (direct match)
         for model_info in available_models:
-            if isinstance(model_info, dict) and model_info.get('api_name') == model_identifier:
-                return model_info.get('api_name')
+            if (
+                isinstance(model_info, dict)
+                and model_info.get("api_name") == model_identifier
+            ):
+                return model_info.get("api_name")
 
         # If still no match, return the identifier as-is (it might be a valid API name)
         logger.warning(
-            f"Could not find matching model info for '{model_identifier}' under provider '{provider_name}'. Using as-is.")
+            f"Could not find matching model info for '{model_identifier}' under provider '{provider_name}'. Using as-is."
+        )
         return model_identifier
 
     def _get_model_config(self, provider_name, model_identifier):
@@ -457,42 +537,54 @@ class LLMAnalyser:
         Gets the full model configuration for reasoning effort handling.
         The model_identifier could be either a display_name or api_name from enabled_models.
         """
-        if provider_name == 'ollama':
+        if provider_name == "ollama":
             return None
 
-        available_models = self.config_manager.get_setting(['llm_providers', provider_name, 'available_models'], [])
-        
+        available_models = self.config_manager.get_setting(
+            ["llm_providers", provider_name, "available_models"], []
+        )
+
         # First try to match by display_name
         for model_info in available_models:
-            if isinstance(model_info, dict) and model_info.get('display_name') == model_identifier:
+            if (
+                isinstance(model_info, dict)
+                and model_info.get("display_name") == model_identifier
+            ):
                 return model_info
-        
+
         # If no display_name match, try to match by api_name
         for model_info in available_models:
-            if isinstance(model_info, dict) and model_info.get('api_name') == model_identifier:
+            if (
+                isinstance(model_info, dict)
+                and model_info.get("api_name") == model_identifier
+            ):
                 return model_info
-                
+
         return None
 
 
 # --- Abstract Base Class for Individual Providers ---
 class LLMProvider(ABC):
-    def __init__(self, model_name, config_manager, progress_callback=None, model_config=None):
+    def __init__(
+        self, model_name, config_manager, progress_callback=None, model_config=None
+    ):
         self.model_name = model_name
         self.config = config_manager
         self.progress_callback = progress_callback
         self.model_config = model_config or {}
-        self.retries = self.config.get_setting(['analysis', 'api_retries'], 2)
-        self.retry_delay = self.config.get_setting(['analysis', 'api_retry_delay'], 5)
-        
+        self.retries = self.config.get_setting(["analysis", "api_retries"], 2)
+        self.retry_delay = self.config.get_setting(["analysis", "api_retry_delay"], 5)
+
         # Handle reasoning effort if the model is tagged as 'Reasoning'
         self.reasoning_effort = None
-        if self.model_config.get('tags') and 'Reasoning' in self.model_config.get('tags', []):
-            self.reasoning_effort = self.model_config.get('reasoning_level', 'medium')
+        if self.model_config.get("tags") and "Reasoning" in self.model_config.get(
+            "tags", []
+        ):
+            self.reasoning_effort = self.model_config.get("reasoning_level", "medium")
 
     def _send_log_to_gui(self, level, message):
         if self.progress_callback:
-            self.progress_callback({'type': 'log', 'level': level, 'message': message})
+            self.progress_callback({"type": "log", "level": level, "message": message})
         else:
             print(f"[{level.upper()}] {message}")
 
@@ -501,21 +593,25 @@ class LLMProvider(ABC):
         pass
 
     def _construct_full_prompt(self, review_text, prompt):
-        return f"Review Text:\n\"\"\"\n{review_text}\n\"\"\"\n\n---\n\n{prompt}"
+        return f'Review Text:\n"""\n{review_text}\n"""\n\n---\n\n{prompt}'
 
     def _retry_wrapper(self, analysis_function):
         for attempt in range(self.retries + 1):
             try:
                 return analysis_function()
             except Exception as e:
-                error_msg = f"Error with {self.__class__.__name__} (Attempt {attempt + 1}): {e}"
+                error_msg = (
+                    f"Error with {self.__class__.__name__} (Attempt {attempt + 1}): {e}"
+                )
                 logger.warning(error_msg)
-                self._send_log_to_gui('warning', error_msg)
+                self._send_log_to_gui("warning", error_msg)
                 if attempt < self.retries:
                     time.sleep(self.retry_delay)
                 else:
-                    self._send_log_to_gui('error',
-                                          f"Max retries reached for {self.__class__.__name__}. Aborting this review.")
+                    self._send_log_to_gui(
+                        "error",
+                        f"Max retries reached for {self.__class__.__name__}. Aborting this review.",
+                    )
                     return None
 
     # Optional – subclasses override if they support batching
@@ -567,7 +663,14 @@ class OllamaProvider(LLMProvider):
 
 
 class OpenAIProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+    def __init__(
+        self,
+        model_name,
+        api_key,
+        config_manager,
+        progress_callback=None,
+        model_config=None,
+    ):
         super().__init__(model_name, config_manager, progress_callback, model_config)
         assert openai is not None, "openai library not available at runtime"
         openai_any = cast(Any, openai)
@@ -581,21 +684,21 @@ class OpenAIProvider(LLMProvider):
                     "content": self._construct_full_prompt(review_text, prompt),
                 }
             ]
-            
+
             # Add reasoning effort for o models if configured
             extra_params = {}
-            if self.reasoning_effort and (self.model_name.startswith('o1') or self.model_name.startswith('o4')):
-                if self.reasoning_effort == 'low':
-                    extra_params['reasoning_effort'] = 'low'
-                elif self.reasoning_effort == 'medium':
-                    extra_params['reasoning_effort'] = 'medium'
-                elif self.reasoning_effort == 'high':
-                    extra_params['reasoning_effort'] = 'high'
-            
+            if self.reasoning_effort and (
+                self.model_name.startswith("o1") or self.model_name.startswith("o4")
+            ):
+                if self.reasoning_effort == "low":
+                    extra_params["reasoning_effort"] = "low"
+                elif self.reasoning_effort == "medium":
+                    extra_params["reasoning_effort"] = "medium"
+                elif self.reasoning_effort == "high":
+                    extra_params["reasoning_effort"] = "high"
+
             response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=messages,
-                **extra_params
+                model=self.model_name, messages=messages, **extra_params
             )
             return str(response.choices[0].message.content).strip()
 
@@ -607,6 +710,7 @@ class OpenAIProvider(LLMProvider):
         sub‐analysis with "Review {i} Analysis:" so we can split them later.
         Returns the raw multi‐review output string.
         """
+
         def do_analysis():
             batch_instructions = (
                 "You will analyze each review separately using the same exact "
@@ -615,27 +719,27 @@ class OpenAIProvider(LLMProvider):
             )
             payload = batch_instructions
             for idx, text in enumerate(review_texts, 1):
-                payload += f"Review {idx}:\n\"\"\"\n{text}\n\"\"\"\n\n"
+                payload += f'Review {idx}:\n"""\n{text}\n"""\n\n'
 
             messages = [
                 {"role": "system", "content": prompt},
-                {"role": "user",   "content": payload}
+                {"role": "user", "content": payload},
             ]
 
             # Add reasoning effort for o models if configured
             extra_params = {}
-            if self.reasoning_effort and (self.model_name.startswith('o1') or self.model_name.startswith('o4')):
-                if self.reasoning_effort == 'low':
-                    extra_params['reasoning_effort'] = 'low'
-                elif self.reasoning_effort == 'medium':
-                    extra_params['reasoning_effort'] = 'medium'
-                elif self.reasoning_effort == 'high':
-                    extra_params['reasoning_effort'] = 'high'
+            if self.reasoning_effort and (
+                self.model_name.startswith("o1") or self.model_name.startswith("o4")
+            ):
+                if self.reasoning_effort == "low":
+                    extra_params["reasoning_effort"] = "low"
+                elif self.reasoning_effort == "medium":
+                    extra_params["reasoning_effort"] = "medium"
+                elif self.reasoning_effort == "high":
+                    extra_params["reasoning_effort"] = "high"
 
             response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=messages,
-                **extra_params
+                model=self.model_name, messages=messages, **extra_params
             )
             return str(response.choices[0].message.content).strip()
 
@@ -643,7 +747,14 @@ class OpenAIProvider(LLMProvider):
 
 
 class GeminiProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+    def __init__(
+        self,
+        model_name,
+        api_key,
+        config_manager,
+        progress_callback=None,
+        model_config=None,
+    ):
         super().__init__(model_name, config_manager, progress_callback, model_config)
         assert genai is not None, "google-generativeai library not available"
         genai_any = cast(Any, genai)
@@ -652,7 +763,9 @@ class GeminiProvider(LLMProvider):
 
     def analyze(self, review_text, prompt):
         def do_analysis():
-            response = self.model.generate_content(self._construct_full_prompt(review_text, prompt))
+            response = self.model.generate_content(
+                self._construct_full_prompt(review_text, prompt)
+            )
             return str(response.text).strip()
 
         return self._retry_wrapper(do_analysis)
@@ -661,6 +774,7 @@ class GeminiProvider(LLMProvider):
         """
         Batch-analyze reviews via Gemini in one call.
         """
+
         def do_analysis():
             batch_header = (
                 "For each review below, produce an analysis using the same output schema.\n"
@@ -668,7 +782,7 @@ class GeminiProvider(LLMProvider):
             )
             payload = batch_header
             for idx, text in enumerate(review_texts, 1):
-                payload += f"Review {idx}:\n\"\"\"\n{text}\n\"\"\"\n\n"
+                payload += f'Review {idx}:\n"""\n{text}\n"""\n\n'
 
             # genai.GenerativeModel.generate_content takes a single string
             response = self.model.generate_content(payload)
@@ -678,15 +792,30 @@ class GeminiProvider(LLMProvider):
 
 
 class ClaudeProvider(LLMProvider):
-    def __init__(self, model_name, api_key, config_manager, progress_callback=None, model_config=None):
+    def __init__(
+        self,
+        model_name,
+        api_key,
+        config_manager,
+        progress_callback=None,
+        model_config=None,
+    ):
         super().__init__(model_name, config_manager, progress_callback, model_config)
         assert anthropic is not None, "anthropic library not available"
         self.client = cast(Any, anthropic).Anthropic(api_key=api_key)
 
     def analyze(self, review_text, prompt):
         def do_analysis():
-            message = self.client.messages.create(model=self.model_name, max_tokens=4096, messages=[
-                {"role": "user", "content": self._construct_full_prompt(review_text, prompt)}])
+            message = self.client.messages.create(
+                model=self.model_name,
+                max_tokens=4096,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": self._construct_full_prompt(review_text, prompt),
+                    }
+                ],
+            )
             return str(message.content[0].text).strip()
 
         return self._retry_wrapper(do_analysis)
@@ -695,6 +824,7 @@ class ClaudeProvider(LLMProvider):
         """
         Batch-analyze reviews via Claude in one call.
         """
+
         def do_analysis():
             batch_header = (
                 "For each review below, produce an analysis using the same output schema.\n"
@@ -702,12 +832,12 @@ class ClaudeProvider(LLMProvider):
             )
             payload = batch_header
             for idx, text in enumerate(review_texts, 1):
-                payload += f"Review {idx}:\n\"\"\"\n{text}\n\"\"\"\n\n"
+                payload += f'Review {idx}:\n"""\n{text}\n"""\n\n'
 
             message = self.client.messages.create(
                 model=self.model_name,
                 max_tokens=4096,
-                messages=[{"role": "user", "content": payload}]
+                messages=[{"role": "user", "content": payload}],
             )
             # Claude response may be in message.content or message.content[0]
             if hasattr(message, "content"):
@@ -719,50 +849,60 @@ class ClaudeProvider(LLMProvider):
 
 
 # --- Factory Function and Parser ---
-def get_llm_provider(provider_name, model_name, config_manager, progress_callback=None, model_config=None):
+def get_llm_provider(
+    provider_name, model_name, config_manager, progress_callback=None, model_config=None
+):
     provider_name = provider_name.lower()
 
     def log_error(message):
         if progress_callback:
-            progress_callback({'type': 'log', 'level': 'error', 'message': message})
+            progress_callback({"type": "log", "level": "error", "message": message})
         else:
             print(f"[ERROR] {message}")
 
-    if provider_name == 'ollama':
+    if provider_name == "ollama":
         if not ollama:
             log_error("'ollama' library not installed.")
             return None
         return OllamaProvider(model_name, config_manager, progress_callback)
 
-    api_key = config_manager.get_setting(['api_keys', provider_name])
-    if not api_key or 'YOUR_' in api_key or '_KEY_HERE' in api_key:
-        log_error(f"API key for '{provider_name.capitalize()}' is missing or a placeholder. Skipping.")
+    api_key = config_manager.get_setting(["api_keys", provider_name])
+    if not api_key or "YOUR_" in api_key or "_KEY_HERE" in api_key:
+        log_error(
+            f"API key for '{provider_name.capitalize()}' is missing or a placeholder. Skipping."
+        )
         return None
 
-    if provider_name == 'openai':
+    if provider_name == "openai":
         if not openai:
             log_error("'openai' library not installed.")
             return None
         try:
-            return OpenAIProvider(model_name, api_key, config_manager, progress_callback, model_config)
+            return OpenAIProvider(
+                model_name, api_key, config_manager, progress_callback, model_config
+            )
         except Exception as e:
             log_error(f"Failed to initialize OpenAI provider: {e}")
             return None
-    elif provider_name == 'gemini':
+    elif provider_name == "gemini":
         if not genai:
             log_error("'google-generativeai' library not installed.")
             return None
         try:
-            return GeminiProvider(model_name, api_key, config_manager, progress_callback, model_config)
+            return GeminiProvider(
+                model_name, api_key, config_manager, progress_callback, model_config
+            )
         except Exception as e:
             log_error(f"Failed to initialize Gemini provider: {e}")
             return None
-    elif provider_name == 'claude':
+    elif provider_name == "claude":
         if not anthropic:
             log_error("'anthropic' library not installed.")
             return None
         try:
-            return ClaudeProvider(model_name, api_key, config_manager, progress_callback, model_config)
+            return ClaudeProvider(
+                model_name, api_key, config_manager, progress_callback, model_config
+            )
         except Exception as e:
             log_error(f"Failed to initialize Claude provider: {e}")
             return None
@@ -772,20 +912,176 @@ def get_llm_provider(provider_name, model_name, config_manager, progress_callbac
 
 
 def parse_llm_output(output):
-    construct_keys = ["COMPETENCE SATISFACTION", "COMPETENCE FRUSTRATION", "AUTONOMY SATISFACTION",
-                      "AUTONOMY FRUSTRATION", "RELATEDNESS SATISFACTION", "RELATEDNESS FRUSTRATION"]
+    """
+    Parse model output into the standard flattened schema:
+      - For each of the 6 constructs, produce *_TF (bool|None) and *_QUOTE (str)
+      - Always include 'raw_llm_output' with the original text
+
+    The parser is tolerant and supports:
+      1) Structured JSON outputs (preferred)
+         a) Nested schema:
+             {
+               "competence": {"satisfaction": {"tf": true, "quote": "..."}, "frustration": {...}},
+               "autonomy":   {"satisfaction": {...}, "frustration": {...}},
+               "relatedness":{...}
+             }
+         b) Flat schema:
+             {
+               "COMPETENCE_SATISFACTION_TF": true, "COMPETENCE_SATISFACTION_QUOTE": "...", ...
+             }
+      2) Legacy plain-text format with headings used previously.
+    """
+    construct_keys = [
+        "COMPETENCE SATISFACTION",
+        "COMPETENCE FRUSTRATION",
+        "AUTONOMY SATISFACTION",
+        "AUTONOMY FRUSTRATION",
+        "RELATEDNESS SATISFACTION",
+        "RELATEDNESS FRUSTRATION",
+    ]
     result = {}
+
+    # Helper to normalise truthy values from JSON (bool/str)
+    def _to_bool_or_none(v):
+        if isinstance(v, bool):
+            return v
+        if isinstance(v, str):
+            s = v.strip().lower()
+            if s in ("true", "yes", "y", "1"):
+                return True
+            if s in ("false", "no", "n", "0"):
+                return False
+        return None
+
+    # 1) Attempt to parse as JSON (preferred)
+    if output:
+        try:
+            import json
+
+            parsed = json.loads(output)
+
+            # a) Nested schema
+            if isinstance(parsed, dict) and any(
+                k in parsed for k in ("competence", "autonomy", "relatedness")
+            ):
+
+                def grab(block, first, second):
+                    v = None
+                    q = ""
+                    if isinstance(block, dict):
+                        d1 = (
+                            block.get(first, {})
+                            if isinstance(block.get(first, {}), dict)
+                            else {}
+                        )
+                        d2 = (
+                            d1
+                            if second is None
+                            else (
+                                d1.get(second, {})
+                                if isinstance(d1.get(second, {}), dict)
+                                else {}
+                            )
+                        )
+                        # second-level fields
+                        tf = d2.get("tf") if isinstance(d2, dict) else None
+                        quote = d2.get("quote") if isinstance(d2, dict) else ""
+                        v = _to_bool_or_none(tf)
+                        q = (quote or "").strip()
+                    return v, q
+
+                comp_sat_tf, comp_sat_q = grab(
+                    parsed.get("competence", {}), "satisfaction", None
+                )
+                comp_fru_tf, comp_fru_q = grab(
+                    parsed.get("competence", {}), "frustration", None
+                )
+                aut_sat_tf, aut_sat_q = grab(
+                    parsed.get("autonomy", {}), "satisfaction", None
+                )
+                aut_fru_tf, aut_fru_q = grab(
+                    parsed.get("autonomy", {}), "frustration", None
+                )
+                rel_sat_tf, rel_sat_q = grab(
+                    parsed.get("relatedness", {}), "satisfaction", None
+                )
+                rel_fru_tf, rel_fru_q = grab(
+                    parsed.get("relatedness", {}), "frustration", None
+                )
+
+                mapping = {
+                    "COMPETENCE SATISFACTION": (comp_sat_tf, comp_sat_q),
+                    "COMPETENCE FRUSTRATION": (comp_fru_tf, comp_fru_q),
+                    "AUTONOMY SATISFACTION": (aut_sat_tf, aut_sat_q),
+                    "AUTONOMY FRUSTRATION": (aut_fru_tf, aut_fru_q),
+                    "RELATEDNESS SATISFACTION": (rel_sat_tf, rel_sat_q),
+                    "RELATEDNESS FRUSTRATION": (rel_fru_tf, rel_fru_q),
+                }
+
+                for key, (tf, quote) in mapping.items():
+                    result[f"{key}_TF"] = tf
+                    result[f"{key}_QUOTE"] = (quote or "").strip() if tf else ""
+
+                result["raw_llm_output"] = output
+                return result
+
+            # b) Flat schema
+            if isinstance(parsed, dict):
+                # Normalise keys (upper and underscores -> spaces)
+                def norm(k: str) -> str:
+                    return k.strip().upper().replace("_", " ")
+
+                all_keys = {norm(k): v for k, v in parsed.items()}
+                had_any = False
+                for key in construct_keys:
+                    tf_key = f"{key} TF"
+                    quote_key = f"{key} QUOTE"
+                    tf = _to_bool_or_none(all_keys.get(tf_key))
+                    quote = all_keys.get(quote_key)
+                    if tf is not None or quote is not None:
+                        had_any = True
+                    result[f"{key}_TF"] = tf
+                    result[f"{key}_QUOTE"] = (
+                        (
+                            str(quote).strip()
+                            if isinstance(quote, (str, int, float))
+                            else ""
+                        )
+                        if tf
+                        else ""
+                    )
+                if had_any:
+                    result["raw_llm_output"] = output
+                    return result
+        except Exception:
+            # fall back to legacy parsing
+            pass
+
+    # 2) Legacy plain-text fallback (current behaviour, slightly hardened)
     if not output:
-        for key in construct_keys: result[f"{key}_TF"], result[f"{key}_QUOTE"] = None, ""
+        for key in construct_keys:
+            result[f"{key}_TF"], result[f"{key}_QUOTE"] = None, ""
+        result["raw_llm_output"] = output
         return result
+
     for key in construct_keys:
-        tf_match = re.search(rf"^\s*{re.escape(key)}:\s*\[?\s*(TRUE|FALSE)\s*\]?", output, re.MULTILINE | re.IGNORECASE)
-        is_true = tf_match.group(1).upper() == 'TRUE' if tf_match else None
+        tf_match = re.search(
+            rf"^\s*{re.escape(key)}:\s*\[?\s*(TRUE|FALSE)\s*\]?",
+            output,
+            re.MULTILINE | re.IGNORECASE,
+        )
+        is_true = tf_match.group(1).upper() == "TRUE" if tf_match else None
         result[f"{key}_TF"] = is_true
+
         quote_match = re.search(
-            rf"^\s*{re.escape(key)} QUOTE:\s*(.*?)(?=\r?\n\s*(?:[A-Z\s]+ SATISFACTION:|COMPETENCE FRUSTRATION:|AUTONOMY FRUSTRATION:|RELATEDNESS FRUSTRATION:|[A-Z\s]+ QUOTE:|$))",
-            output, re.MULTILINE | re.DOTALL | re.IGNORECASE)
-        quote_text = quote_match.group(1).strip().replace('"', '') if quote_match else ""
+            rf"^\s*{re.escape(key)}\s+QUOTE:\s*(.*?)(?=\r?\n\s*(?:[A-Z\s]+ SATISFACTION:|COMPETENCE FRUSTRATION:|AUTONOMY FRUSTRATION:|RELATEDNESS FRUSTRATION:|[A-Z\s]+ QUOTE:|$))",
+            output,
+            re.MULTILINE | re.DOTALL | re.IGNORECASE,
+        )
+        quote_text = (
+            quote_match.group(1).strip().replace('"', "") if quote_match else ""
+        )
         result[f"{key}_QUOTE"] = quote_text if is_true and quote_text else ""
-    result['raw_llm_output'] = output
+
+    result["raw_llm_output"] = output
     return result

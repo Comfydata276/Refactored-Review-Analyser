@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Electron build artifacts — do not commit packaged apps or installers
+dist-electron/
+# Bundled backend artifacts copied for packaging
+backend-dist/

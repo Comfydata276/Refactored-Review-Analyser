@@ -1,44 +1,515 @@
 ﻿recommendationid,language,review,timestamp_created,timestamp_updated,voted_up,votes_up,votes_funny,weighted_vote_score,comment_count,steam_purchase,received_for_free,written_during_early_access,primarily_steam_deck,author.steamid,author.num_games_owned,author.num_reviews,author.playtime_forever,author.playtime_last_two_weeks,author.playtime_at_review,author.last_played,author.deck_playtime_at_review
+201644998,english,It's alright,1754583116,1754583116,True,0,0,0.5,0,True,False,False,False,76561198834194606,0,11,151451,6009,151451,1754167447,
+201640033,english,"Its not without its problems, but this is easily my favorite game ever",1754578048,1754578048,True,0,0,0.5,0,True,False,False,False,76561198260132084,0,2,58854,16,58838,1754578415,
+201633093,english,276 hours and counting.,1754570478,1754570478,True,0,0,0.5,0,True,False,False,False,76561198011714319,0,6,16604,2,16604,1754570461,
+201632844,english,"The intro was pretty good, but I needed to install 50+ mods to enjoy the actual game",1754570172,1754570172,True,0,0,0.5,0,True,False,False,False,76561199121217964,0,18,1522,1,1522,1754597822,
+201631617,english,One of the greatest game i have ever played. I played this on my steam deck and it is great you can do what you can.,1754568733,1754568733,True,0,0,0.5,0,True,False,False,True,76561199585356478,42,3,402,402,402,1754581954,402.0
+201630727,english,"inatla brotherhood'a katılmayıp, railroad'la herkesin içinden geçtiğim bir 44 saatlik serüven. daha ne kadar verimli olunabilir ki..",1754567572,1754567587,True,0,0,0.5,0,True,False,False,False,76561198275490380,140,19,2660,988,2660,1754567146,
+201629783,english,"Game is 10 years of age.  Should be considered/marketed as a classic, not as the newest latest greatest junk.",1754566391,1754566391,False,3,0,0.515427529811859131,0,True,False,False,False,76561199529373526,0,7,5727,168,5727,1754558028,
+201625571,english,Great game,1754560444,1754560444,True,0,0,0.5,0,True,False,False,False,76561198453518541,393,172,17438,0,17438,1717237390,
+201623777,english,"This game is a fantastic RPG that balances intense combat, deep customization, and rich storytelling. While it has some flaws, its vast world, replayability, and mod support make it a timeless adventure. 9/10 – Highly Recommended!
+
+""War never changes… but Fallout 4 makes it incredibly fun."" 🚀💀",1754557762,1754557762,True,0,0,0.5,0,True,False,False,False,76561198186775867,0,1,6571,1241,6571,1754550994,
+201623035,english,Working well on GNU/Linux,1754556625,1754556625,True,0,0,0.5,0,True,False,False,False,76561198025568339,0,1,2005,2005,1160,1754610106,
+201619007,english,works great,1754549643,1754549643,True,0,0,0.5,0,True,False,False,True,76561199383344292,0,2,1281,339,1263,1754552039,1263.0
+201617646,english,Yo i shot up a whole settlement,1754547145,1754547145,True,0,0,0.5,0,True,False,False,False,76561199794527121,0,5,344,344,222,1754596575,
+201616567,english,"""It's all over, but the crying... and nobody's crying, but me.""
+Despite the story not being the greatest, It's still a fun time to build settlements and go on quest to further progress the story of your survivor.",1754545149,1754545149,True,0,0,0.5,0,True,False,False,False,76561199213509924,0,4,8714,0,8714,1743574114,
+201615415,english,BRST FUCKING GAME EVER MADE,1754543071,1754543071,True,0,0,0.5,0,True,False,False,False,76561199814650937,0,1,112,112,112,1754542517,
+201614739,english,litttttyyy aaaasssss aaaaa ttitttttyyy,1754541949,1754541949,True,0,0,0.5,0,True,False,False,False,76561198376880024,0,11,422,63,359,1754549084,
+201614491,english,"I'm convinced you can literally play this game for YEARS on end and not get bored. 10/10, even without mods, this game is just excellent. The main highlight for me is VATS and how your choices actually have a major role in effecting the world around.",1754541496,1754541496,True,0,0,0.5,0,True,False,False,True,76561197970693780,0,4,1999,1428,1840,1754551233,1627.0
+201614314,english,best fallout game,1754541187,1754541187,True,0,0,0.5,0,True,False,False,False,76561199111612604,112,4,6151,0,6151,1739941520,
+201613707,english,Good game.,1754540164,1754540164,True,0,0,0.5,0,True,False,False,False,76561198260734416,0,8,18750,0,18750,1745032501,
+201612748,english,"Probably the most dang glitchy freakin game I've played in a bit, but had a lot of fun at the same time.",1754538616,1754538616,True,0,0,0.5,0,True,False,False,False,76561198831411487,0,3,6333,1489,6317,1754539592,
+201612595,english,Power armor,1754538389,1754538389,True,0,0,0.5,0,True,False,False,False,76561199200980123,0,1,13056,8810,12892,1754548243,
+201611222,english,My feelings on this game have had more character development than The Railroad,1754536226,1754536226,True,1,0,0.509293675422668457,0,True,False,False,False,76561197976934476,201,88,1206,1206,22,1754608635,
+201609782,english,this game is a legend,1754533967,1754533967,True,0,0,0.5,0,True,False,False,False,76561198161051515,0,4,7245,361,7241,1754535727,
+201608846,english,The best Fallout.,1754532530,1754532530,True,0,0,0.5,0,True,False,False,False,76561198329608119,0,1,1358,1358,1358,1754532381,
+201606844,english,"Over 2,500 hours between Xbox and PS5. Going to put another 2,500 hours on PC.",1754529371,1754529371,True,0,0,0.5,0,True,False,False,False,76561198357382019,0,1,1267,638,1185,1754534271,
+201606003,english,one of the best open world games i have played,1754528072,1754528072,True,1,1,0.523809552192687988,0,True,False,False,False,76561198206686208,0,1,114168,2480,113722,1754595341,
+201604392,english,"You don't play this for the game.
+
+You buy this and the expansions so that you can then spend the next week trying to get that one kink mod you stumbled across to work, and have the greatest gaming fap possible.
+
+That or, you try to acquire 200 ish mods to make the story and gameplay half decent, you freak.",1754525560,1754525560,True,0,0,0.5,0,True,False,False,False,76561198082250655,245,44,20433,0,20433,1749536489,
+201600779,english,vary good,1754520959,1754520959,True,0,0,0.5,0,True,False,False,False,76561199455230391,12,5,1298,1298,791,1754602458,
+201598807,english,i think its fun,1754518372,1754518372,True,0,0,0.5,0,True,False,False,False,76561199516270453,10,4,781,782,664,1754525467,
+201595578,english,"I had a lot of good memories with this game until a patch obliterated mod support. The underlying problem isn't Bethesda's decision to make their code proprietary, it's that the way they went about it was an intential middle finger to all the fans who loved their game so much they created passion projects to enhance the Commonwealth experience. It's a pretty good game when you play vanilla but, as is often the case, mods make it shine a lot more. That combined with the clearly fake upvotes from Bethesda numbering in the tens of thousands ruined the overall experience for me. I won't go so far as to say I'll never buy a Bethesda game again but I certainly won't preorder or go in blind ever again. Pre-game-breaking patch, 7.5/10. Currently, 1/10 and that's me being generous.",1754514487,1754514487,False,0,0,0.5,0,True,False,False,False,76561198084232115,666,5,18120,68,18120,1754085930,
+201591518,english,It just works,1754509860,1754509860,True,0,0,0.5,0,True,False,False,False,76561198154586696,90,12,22236,52,22184,1754517971,
+201590485,english,"I haven’t gotten very far in this game, but even still I can very confidently say that this game is great. The graphics are amazing, the combat feels nice, the story is pretty good, I don’t really have anything bad to say about it. 
+
+Argueably, I would say Fallout 4 is better than New Vegas, some people may not agree with me on this though.",1754508833,1754508833,True,0,0,0.5,0,True,False,False,False,76561199127134211,62,1,169,169,169,1754504528,
+201588087,english,"Classic Fallout-questionable NPCs, armpit-deep lore, an entertaining main storyline and endless sidequests you can use to kill time. Already owned it for PS5 but the moment i learned it supports crowd control i downloaded it on PC too. Let me tell you-best mistake i have ever made. In spite of Bethesda's reputation for bugs, glitches, and crashes, this game handles 800 enemy spawns and 300 melons exploding from your pockets (god, i hope it's from my pockets, actually) suspiciously well. But please don't let that scare you away! If you love the notorious fails, your character and every other character you interact with periodically freezes in hilarious poses and moves like a haunted chess piece across the map for absolutely no reason, so the tech failure you know and love is still very much present. 10/10, would crash again.",1754506402,1754506402,True,0,0,0.5,0,True,False,False,False,76561199836925366,0,3,518,1,518,1754244511,
+201583989,english,Great addition to the fallout series and worth playing. Only complaint is the story being possible to sideline and not able to properly progress through after leaving the vault. It's been so long since its come out and it still has its fun and quirkiness. Lot of frame drops here and there though especially around Boston.,1754502067,1754502067,True,0,0,0.5,0,True,False,False,False,76561198842080212,0,7,958,413,958,1754166317,
+201580334,english,shitty writing,1754498254,1754498254,True,0,0,0.5,0,True,False,False,False,76561198301295313,86,46,3114,0,3114,1744538791,
+201580088,english,Good fallout game but it lacks the special weapons from fnv and replaces them with rng shit,1754497980,1754497980,True,0,0,0.5,0,True,False,False,False,76561199245977294,0,12,10323,0,10323,1750387690,
+201578639,english,So much content and then theres the mods love them,1754496490,1754496490,True,0,0,0.5,0,True,False,False,False,76561198079581674,0,1,24124,7026,23041,1754598198,
+201577590,english,Good,1754495431,1754495431,True,0,0,0.5,0,True,False,False,False,76561198159412964,162,3,2936,176,2760,1754589576,
+201577075,english,i love gooning to mama murphy,1754494892,1754494892,True,0,0,0.5,0,True,False,False,False,76561199085986912,33,26,250,250,208,1754550269,
+201576130,english,prepair for august 8,1754493909,1754493909,True,0,0,0.5,0,True,False,False,False,76561199181357504,0,18,420,420,207,1754581688,
+201575948,english,A legend. One of the greatest games ever made.,1754493725,1754493725,True,0,0,0.5,0,True,False,False,False,76561198033564585,0,122,355,185,169,1754590953,
+201572029,english,"classic. no relly a fallout but fun
+",1754489746,1754489746,True,0,0,0.5,0,True,False,False,False,76561198384715514,56,1,9677,1933,9109,1754609871,
+201571134,english,"mald over your dead son and kill 1000 raiders while traversing through the dog shit story
+help the minutemen by going to that settlement marked on your map
+play anything else published by bethesda",1754488759,1754488759,True,0,0,0.5,0,True,False,False,False,76561199753579588,0,22,3312,0,3312,1752902895,
+201569399,english,If you're gonna play this game do it with mods.,1754486955,1754487196,True,0,0,0.5,0,True,False,False,False,76561199521763294,0,7,12131,1494,11906,1754553588,
+201568826,english,"With mods, I can now choke slam a child, thank you Bethesda.",1754486299,1754486299,True,0,0,0.5,0,True,False,False,False,76561199157446069,31,11,2748,2748,2526,1754575274,
+201566205,english,"Easy to lose yourself and roleplay this game, also tons of funny moments.",1754483158,1754483158,True,0,0,0.5,0,True,False,False,False,76561198081343247,0,3,456078,265,456078,1754230421,
+201563392,english,trash,1754479600,1754479600,False,2,1,0.528985500335693359,3,True,False,False,False,76561198158146574,0,12,6922,1949,6922,1754479577,
+201563111,english,Play with mods,1754479230,1754479230,True,0,0,0.5,0,True,False,False,False,76561198354084111,19,14,4573,8,4565,1754479727,
+201555419,english,"class game, keeps you busy for hours",1754467307,1754467307,True,0,0,0.5,0,True,False,False,False,76561199007218413,0,3,76069,9498,74584,1754609560,
+201552981,english,I got this game on ps5 and now I have it on pc for mods but all the mods are rule 34 mods so now I gotta beat the game like I did on ps5 but just on mnk with medium graphics still peak though and I will buy all the dlc's again just to see cate in the nuka girl outfit,1754462824,1754462824,True,0,0,0.5,0,True,False,False,False,76561199867802970,0,1,369,369,181,1754608093,
+201546867,english,"i like games like this that allow you to bring out your creative side
+",1754452089,1754452089,True,0,0,0.5,0,True,False,False,False,76561198024562333,41,2,356,356,205,1754609836,
+201544953,english,hell ye,1754449033,1754449033,True,1,0,0.509803950786590576,0,True,False,False,False,76561198324983924,0,11,1399,1399,555,1754608985,
+201541489,english,"Story is weak, good game play, with mods tune the game to your taste",1754444063,1754444063,True,0,0,0.5,0,True,False,False,False,76561199210512729,0,1,17489,29,17459,1754451465,
+201541133,english,fallout :),1754443555,1754443555,True,0,0,0.5,0,True,False,False,False,76561199008530486,29,10,883,883,502,1754600297,
+201540769,english,Hellllllllllllll yeahhhhh dood,1754443066,1754443066,True,0,0,0.5,0,True,False,False,False,76561199860365753,0,7,741,741,601,1754535660,
+201540708,english,i got jumpscared by a legendary deathclaw and got absolutely destroyed. i love this game,1754442991,1754442991,True,0,0,0.5,0,True,False,False,False,76561198447388569,0,4,3122,987,2550,1754596228,
+201540582,english,fall foor,1754442786,1754442786,True,0,0,0.5,0,True,False,False,False,76561199195777512,0,14,492,136,356,1754499796,
+201539192,english,The game keeps crashing. I have more than enough power to run the game. I'm going to see if I can get a refund.,1754440694,1754440694,False,0,0,0.5,0,True,False,False,False,76561198053724054,41,13,166,166,166,1754440607,
+201538142,english,"Been playing for more than 50 hours now and am not near the end one bit. Although it can be a repetitive quest game from time to time, it is also a wonderful title that is easy to get lost inside. I heavily recommend buying the deluxe edition because the DLCs look fire, and on sale they can go for pretty cheap. Overall this game is a heavy yes for me and I love getting into all the lore of this nuclear wasteland.",1754439171,1754439171,True,0,0,0.5,0,True,False,False,False,76561199403561129,0,2,3667,1027,3491,1754526352,
+201537905,english,"bad game unless you download 100+ mods, then its just okay",1754438865,1754438865,True,0,0,0.5,0,True,False,False,False,76561198952585263,0,10,89229,495,89229,1754183452,
+201537557,english,fireeeeeeee,1754438344,1754438344,True,0,0,0.5,0,True,False,False,False,76561199879206711,0,2,1465,571,1402,1754442105,
+201536198,english,....,1754436479,1754436479,True,0,0,0.5,0,True,False,False,False,76561198981243977,0,3,34645,1651,34465,1754550952,
+201533562,english,"Game's 10 years old and everything you already know about it is true. Its buggy, its full of plot holes, it lacks RPG elements that some look for, and its still fun.",1754433028,1754433028,True,0,0,0.5,0,True,False,False,False,76561198068102280,181,3,11855,2518,11471,1754536340,
+201532759,english,that's peak,1754432329,1754432329,True,0,0,0.5,0,True,False,False,False,76561199666566113,0,2,14335,361,14335,1754405708,
+201527837,english,very good,1754426586,1754426586,True,0,0,0.5,0,True,False,False,False,76561199643538560,0,4,1236,404,1020,1754605121,
+201526647,english,:3,1754425359,1754425359,True,0,0,0.5,0,True,False,False,False,76561199845062477,16,2,2258,168,2154,1754560792,
+201524339,english,. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.,1754423034,1754423034,True,0,0,0.5,0,True,False,False,False,76561198803778360,0,7,27990,0,27990,1725416612,
+201523972,english,"69 hours, nice",1754422651,1754422651,True,0,0,0.5,0,True,False,False,False,76561199107528104,0,14,4453,774,4170,1754593622,
+201521980,english,"So far the smoother game on the franchise. Captivating plot, low lags, immersive milieu.",1754420534,1754420534,True,0,0,0.5,0,True,False,False,False,76561199792678285,0,2,3797,3797,1985,1754609771,
+201520641,english,"Honestly, feels like a step-down from Skyrim graphics and gameplay-wise. The story is interesting but that's always the strongest point about any Fallout game. Modding scene is big - but not comparable to Skyrim. The (player) models are also somehow worse than Skyrim... load times are also insanely long - Skyrim with 150+ mods loads faster than vanilla FO4 (same drive - honestly not sure what FO4 is taking so long to render...) 
+
+I wish it were a better New Vegas or a Skyrim with guns - but it fails to be either: the world isn't as intriguing as New Vegas and the gameplay is nowhere near as smooth/accurate as Skyrim (which had its own issues, but it still feels better). 
+
+Gun play is okay - same as New Vegas, maybe a bit better. But there are still some UI glitches in Fullscreen mode that can lead to shooting where your crosshair isn't pointing. 
+
+It's decent, if you're into Fallout it's better than 76. But New Vegas remains unmatched in terms of atmosphere, story, and world. 
+
+Get the GOTY on sale and try it out for yourself.",1754419132,1754419132,False,0,0,0.477941185235977173,0,True,False,False,False,76561198342142571,0,10,609,609,609,1754247015,
+201519735,english,It's Fallout,1754418221,1754418221,True,0,0,0.5,0,True,False,False,False,76561197964981895,0,28,27473,39,27473,1754340010,
+201516409,english,"9/10, good game",1754414766,1754414766,True,0,0,0.5,0,True,False,False,False,76561199802537156,0,3,2786,1137,2578,1754514784,
+201512698,english,"Honestly, this is a pretty good game, i've wanted to play it for soo long and i was finally able to buy it, and i don't regret buying it at all, its a lot of fun and i love the vibes it has with the environment and such, i definitely recommend it that people should try it at least once, if they want to",1754411162,1754411162,True,0,0,0.5,0,True,False,False,False,76561199260077547,0,2,920,931,243,1754600416,
+201512199,english,Enjoyed Fallout 4 when it came out.  Getting this many years later with all the dlc it was like a new game.  Just beware all the data makes load times a bit a pain.,1754410653,1754410653,True,0,0,0.5,0,True,False,False,False,76561198009189849,0,2,11782,5002,9821,1754609843,
+201510135,english,VERY GOOD,1754408613,1754408613,True,0,0,0.5,0,True,False,False,False,76561198405222641,0,5,4089,2270,3675,1754594079,
+201509382,english,"i know i know, bethesda is crap. the main story quest is....questionable at best. but where this game really shines is having some of the highest quality mods of any bethsoft game, even skyrim. download wabbajack and try a FO4 mod pack there, it installs everything for you, takes all the trial and error and guess work of getting a mod list to work. you'll have fun, trust me. I have like 400 hours on record in this game and I've played through the main quest exactly once ( ͡° ͜ʖ ͡°)",1754407876,1754407876,True,0,0,0.5,0,True,False,False,False,76561198043656123,246,10,24798,2956,23615,1754609229,
+201508033,english," Having played dozens of characters in Fallout 4 . The older version and the new. I can say it is a good game. But if you want to have REAL FUN a great game. You have to play the game with Power Armor and Sword. Power armor  T51 is best, easy to repair and upgrade.  General Chaos sword at Trudys, use tire iron untill you buy the sword. Pistol any for those turrents on roofs. Molotovs for flying bugs. And Yao Guai Roast for massive damage. Next ignore the rest of the game. Main quest, minutemen, Railroad and Brotherhood of steel they are a waste of time. As for the DLCs. Trash can all of them they are a waste of time are worse. Use Power Armor and Sword and have a really Great game.",1754406584,1754406584,True,0,0,0.5,0,True,False,False,False,76561199877873221,0,1,5326,3273,4741,1754600029,
+201507415,english,It is a really great game and it is fun to play.,1754405980,1754405980,True,0,0,0.5,0,True,False,False,False,76561199075587451,105,50,1346,1346,361,1754588352,
+201498611,english,"It is very good. I love the open world type stuff, and hopefully I will get some mods for this game, and then I will have some fun with new weapons and other stuff that improves or changes the world and some encounters.",1754396410,1754396410,True,0,0,0.5,0,True,False,False,False,76561198867008512,66,40,311,311,219,1754581625,
+201497862,english,Actually fun when some whiny baby isn't telling you it sucks,1754395510,1754395510,True,0,0,0.5,0,True,False,False,False,76561198432649261,115,30,4639,0,4639,1715958072,
+201496621,english,its aight ig...,1754394032,1754394032,True,0,0,0.5,0,True,False,False,False,76561199234010481,92,10,17249,0,17249,1747687175,
+201492720,english,What more could you ask for in a fallout game,1754388652,1754388652,True,0,0,0.5,0,True,False,False,False,76561199678754249,87,6,2363,924,2192,1754552521,
+201492340,english,Changing the course of the Fallout IP to bog-standard gameplay and story. Plus its optimised like shit. Fuck you.,1754388128,1754388128,False,0,1,0.5,0,True,False,False,False,76561198097815189,0,17,1119,0,1119,1751504160,
+201492160,english,"Play this game on console. It's buggy as hell, the fucking NPC travel mates don't even keep up with you and the gun play is also ass. Borderlands 2 is a much better shooter. Also, the V.A.T.S system is kinda bad as well since the fucking character doesn't even hit half the time. But hey, it's not a bug, it's a feature. Don't play fallout on PC. It's trash and I wouldn't recommend.",1754387846,1754387846,False,0,0,0.5,0,True,False,False,False,76561199238175380,48,5,365,348,365,1754387678,
+201491500,english,you're usually supposed to take what you learned working on previous games and apply that knowledge and effort to improve upon your future games,1754387136,1754387136,False,0,0,0.5,0,True,False,False,False,76561198204729073,127,8,253,0,253,1715478793,
+201487047,english,,1754380467,1754380467,True,0,0,0.5,0,True,False,False,False,76561199366280573,34,1,1875,1875,1875,1754376713,
+201486417,english,good quality easy to learn,1754379420,1754379420,True,0,0,0.5,0,True,False,False,False,76561199877980152,0,1,263,263,263,1754379370,
+201484703,english,"I MEAN THIS GAME IS GOOD TO PAST THROUGH TIME THO......
+",1754376455,1754376455,True,0,0,0.5,0,True,False,False,False,76561199786088227,0,1,2598,2593,1395,1754551704,
+201483438,english,good very nice. power armor = very good. a bunch of different power armor types = VERY VERY GOOD :D,1754374300,1754374300,True,0,0,0.5,0,True,False,False,False,76561199562732414,0,5,1855,337,1855,1754374089,
+201482338,english,"I would say I've had fun with this game, story was a little weak here or there but generally the gameplay was pretty good (except minutemen faction's gameplay). Also the game is VERY modable (nexus mods is where to get all the good stuff).
+
+The base game story had interesting aspects to it but sometimes suffered from poor writing (example being the institute wanting to help the commonwealth yet released super mutants into the commonwealth and father stepping outside for the first time and just saying the the commonwealth is beyond saving). 
+
+Nuka World: Weak gameplay (mostly go to attraction plant raider gang flag), theme was cool I just wish gameplay was better.
+
+Fah Habah (Far Harbor): Generally really good, reminded me of point lookout in fallout 3. Spooky atmosphere, with a very morally challenging choice for the main quest. I honestly thought this DLC was really good.
+
+The others: The other DLC's prioritized settlement building over actual story which kinda sucks in my opinion.
+
+Automatron: Short little side quest, allowed for the creation of silly robots like my creation ""Princess"" and ""Clanka""
+
+Vault-tec workshop: You get to build a vault and do ethically questionable experiments (wow....)
+
+The other ones: IDK probably just settlement building stuff
+
+Creation club: Cool except for the fact they are essentially paid-for mods, some are free like Enclave Remnants which is okay in my opinion.
+
+I'd say generally the gameplay is good, and the mods that you can get make this game worth getting and playing I just wish the story was a bit more refined and DLCs more story oriented (building is fun, but story is more important in a fallout game, look at the DLCs for New Vegas or even Fallout 3 compared to the ones in this game, I'd say the older ones were more interesting). I don't hate building but I find the story of Fallout games to be more interesting. Again you can get this game (G.O.T.Y edition) for cheap in 2025, and it is very fun (but definitely get mods to enhance the experience, and remember when installing mods be careful and don't be afraid to watch guides / mod reviews to help install them. 
+
+Note: I have no acheivements as of writing this because it was modded.",1754372401,1754372614,True,0,0,0.5,0,True,False,False,False,76561199215586571,0,20,5009,5009,5009,1754371026,
+201481711,english,This is the best fallout game. New vegas being second. So much to do and a lot of endings! GET THE FAR HARBOR DLC you won't regret!!!,1754371288,1754371288,True,0,0,0.5,0,True,False,False,False,76561198070740136,49,28,13878,233,13878,1754371227,
+201481083,english,"Not currently playable after recent updates. At least on my PC. Thought it was a mod issue crashing the game every 2 minutes. Flat fresh reinstalled, no mods; nope - it is just the game being unplayable. L bethesda as usual.
+
+9950x3d
+RTX 5080",1754370196,1754385608,False,0,0,0.5,0,True,False,False,False,76561197997457310,0,29,16759,31,16759,1754370038,
+201480877,english,"10 years later.
+Launch Fallout 4....
+Set it to fullscreen.
+It opens in a window.
+I try every fix on the internet.
+INI tweaks, launch options, compatibility mode, dark rituals.
+Nothing works.
+Still windowed.
+Some games age like wine.
+Fallout 4 aged like milk in a nuclear fridge.
+""It just works.""",1754369864,1754369864,False,0,0,0.5,0,True,False,False,False,76561198231388748,0,32,13,0,13,1723373611,
+201479561,english,"I absolutely love this game. I think it's the game of the century! (even though it is a Bethesda game). I must have 1500+ hours on this game. I have achieved the Platinum trophy on Playstation 4 for this game twice, and now that I have just bought my first gaming PC, I am working towards achieving 100% completion on PC for the first time. If you played Fallout 76 and weren't impressed, don't let that put you off Fallout 4, it is definitely worth your time and money. It's the Platinum standard of games!",1754367591,1754367591,True,0,0,0.5,0,True,False,False,False,76561199820346764,0,1,1776,1776,1085,1754564350,
+201472239,english,"Good game, alright story with good mechanics and decent visuals. Some game mechanics like settlement managing is not fun, but aside from occasional crashes, 4.5/5",1754356771,1754356771,True,0,0,0.5,0,True,False,False,False,76561198967226418,0,12,2598,2362,1273,1754606014,
+201470361,english,Good game. I think I had fun.,1754354017,1754354017,True,0,0,0.5,0,True,False,False,False,76561198405037510,0,3,177793,3417,177223,1754496286,
+201468729,english,This game is great for when you want to run around and shoot things. It's a great comfort game.,1754351827,1754351827,True,0,0,0.5,0,True,False,False,False,76561198348201399,0,31,641,0,641,1744259329,
+201466246,english,I tried messing with my gpu settings and having the vertical sync to half frame rate and it helped a little but if you have a modern gpu this game will run way too fast. It is unplayable for me at this point. I remeber this was a decent game but it need a update.,1754348476,1754348476,False,0,0,0.5,0,True,False,False,False,76561198083054156,0,6,3906,9,3906,1754348249,
+201465491,english,it is good,1754347490,1754347490,True,0,0,0.5,0,True,False,False,False,76561199805439468,0,3,799,210,692,1754523980,
+201463768,english,"Survival makes me angry 
+10/10",1754345339,1754345339,True,0,0,0.5,0,True,False,False,False,76561199508202341,0,14,1121,448,1087,1754437602,
+201463559,english,I completed this game on console about 4 times. Now i am back to complete it once again :),1754345091,1754345091,True,0,0,0.5,0,True,False,False,False,76561199403766319,65,10,4086,2672,2610,1754599744,
+201462145,english,"How this this even a 2015 game?
+-crashes RELIABLY 
+-worst combat I've ever seen in a videogame (enemies just go side to side sometimes rush into your face with extreme inconsistency)
+-The story, starts promising, then 20minutes being in the wastelands its just like...what am I doing? Why would I care about any of these people?
+-The bugs...enemies shooting you through magic gaps in concrete...Enter a door and suddenly your game runs in 2x speed...
+-The LOADING SCREENS, you wait almost a minute in black screen loading screens just to enter a 2by2 meter sized room LOL",1754343438,1754343438,False,0,0,0.5,0,True,False,False,False,76561198260806516,46,22,513,513,355,1754572271,
+201461025,english,Good game,1754342180,1754342180,True,1,0,0.523809552192687988,0,True,False,False,False,76561198062126079,0,29,26590,2167,26519,1754446681,
+201456998,english,fun,1754337915,1754337915,True,0,0,0.5,0,True,False,False,False,76561199016219866,119,11,8519,885,7634,1754609259,
+201454012,english,huygg,1754334868,1754334868,True,0,0,0.490196079015731812,0,True,False,False,False,76561199766661291,0,2,867,660,683,1754609122,
+201452678,english,"rtdujbngh
+",1754333444,1754333444,True,0,0,0.490196079015731812,0,True,False,False,False,76561199177793120,0,7,793,793,323,1754609484,
+201452630,english,"да, пожалуйста",1754333405,1754333405,True,0,0,0.490196079015731812,0,True,False,False,False,76561199184994017,0,11,5667,18,5667,1754260464,
+201451570,english,"Eh, its alright",1754332318,1754332318,True,0,0,0.490196079015731812,0,True,False,False,False,76561198253235091,0,2,14558,666,13892,1754609794,
+201450850,english,very fun game,1754331582,1754331582,True,0,0,0.490196079015731812,0,True,False,False,False,76561199580575467,0,3,1609,1609,473,1754574520,
+201450309,english,i love this game,1754331051,1754331051,True,0,0,0.490196079015731812,0,True,False,False,False,76561198442116678,0,13,859,470,389,1754610156,
+201445812,english,"Fun, and the mods make for almost infinite variety
+",1754326529,1754326529,True,1,0,0.509803950786590576,0,True,False,False,False,76561199018025142,24,3,131580,672,130907,1754609448,
+201445636,english,"Very fun game, I enjoy it. The modds are cool",1754326365,1754326365,True,0,0,0.490196079015731812,0,True,False,False,True,76561198388379440,32,12,1479,60,1419,1754531216,1253.0
+201445007,english,"its just fun. dialouge choices are great, good perks and bonuses for combat and interatcions
+",1754325696,1754325696,True,1,0,0.509803950786590576,0,True,False,False,False,76561199877365980,0,1,1650,1650,612,1754535462,
+201442824,english,Ad Victoriam!,1754323551,1754323551,True,0,0,0.5,0,True,False,False,False,76561199066930685,103,16,6127,3717,5652,1754579664,
+201441713,english,"[h1]Final Verdict: [b]84/100[/b][/h1]
+
+[b]Average: 75-84 (75-84%)[/b]
+Performance or gameplay meets the passing mark but remains average.
+There are areas that could be improved to enhance the gaming experience.
+Cautiously Recommended -
+
+[h2]Player Opinion Steam Review[/h2]
+
+[b]Gameplay Experience (21/25)[/b]
+
+[i]Intuitive Controls - Easy to use.[/i]
+☐ Very Difficult (+1)
+☐ Difficult (+2)
+☐ Moderate (+3)
+☑ Easy (+4)
+☐ Very Easy (+5)
+
+
+[i]Balanced Gameplay - Fair and equal.[/i]
+☐ Poorly Balanced (+1)
+☐ Somewhat Balanced (+2)
+☐ Moderately Balanced (+3)
+☑ Well Balanced (+4)
+☐ Perfectly Balanced (+5)
+
+
+[i]Player Engagement - Involving and captivating.[/i]
+☐ Not at all (+1)
+☐ Slightly (+2)
+☐ Moderately (+3)
+☐ Very (+4)
+☑ Extremely (+5)
+
+
+[i]Decision Relevance - Meaningful choices.[/i]
+☐ Meaningless (+1)
+☐ Not Meaningful (+2)
+☐ Somewhat Meaningful (+3)
+☑ Quite Meaningful (+4)
+☐ Highly Meaningful (+5)
+
+
+[i]Rewarding Progression - Satisfying advancement.[/i]
+☐ Very Unsatisfying (+1)
+☐ Unsatisfying (+2)
+☐ Neutral (+3)
+☑ Satisfying (+4)
+☐ Very Satisfying (+5)
+
+
+[b]Presentation & Immersion (20/25)[/b]
+
+[i]Compelling Storyline - Engaging narrative.[/i]
+☐ Not Interesting (+1)
+☐ Slightly Interesting (+2)
+☐ Moderately Interesting (+3)
+☑ Very Interesting (+4)
+☐ Extremely Interesting (+5)
+
+
+[i]Immersive Atmosphere - Captivating environment.[/i]
+☐ Not Immersive (+1)
+☐ Slightly Immersive(+2)
+☐ Moderately Immersive (+3)
+☑ Very Immersive (+4)
+☐ Completely Immersive (+5)
+
+
+[i]Visual Aesthetics - Stunning graphics.[/i]
+☐ Not Appealing (+1)
+☐ Slightly Appealing (+2)
+☐ Moderately Appealing (+3)
+☑ Very Appealing (+4)
+☐ Extremely Appealing (+5)
+
+
+[i]Audio Quality - High-quality sound.[/i]
+☐ Not Engaging (+1)
+☐ Slightly Engaging (+2)
+☐ Moderately Engaging (+3)
+☑ Very Engaging (+4)
+☐ Extremely Engaging (+5)
+
+
+[i]Polished HUD - Clean and functional interface.[/i]
+☐ Very Unfriendly (+1)
+☐ Unfriendly (+2)
+☐ Neutral (+3)
+☑ Friendly (+4)
+☐ Very Friendly (+5)
+
+
+[b]Design & Technical Aspects (20/25)[/b]
+
+[i]Game Design - Well-crafted mechanics.[/i]
+☐ Poorly Designed (+1)
+☐ Somewhat Designed (+2)
+☐ Moderately Designed (+3)
+☑ Well Designed (+4)
+☐ Excellently Designed (+5)
+
+
+[i]Content Quality - Rich and diverse.[/i]
+☐ Poor Content (+1)
+☐ Limited Content (+2)
+☐ Moderate Content (+3)
+☐ Extensive Content (+4)
+☑ Abundant Content (+5)
+
+
+[i]AI Behavior - Intelligent and realistic.[/i]
+☐ Very Poor (+1)
+☐ Poor (+2)
+☐ Average (+3)
+☑ Good (+4)
+☐ Excellent (+5)
+
+
+[i]Settings - Flexible and customizable.[/i]
+☐ Very Limited (+1)
+☐ Limited (+2)
+☐ Moderate (+3)
+☑ Flexible (+4)
+☐ Highly Flexible (+5)
+
+
+[i]Technical Issues - Minimal or no problems.[/i]
+☐ Numerous (+1)
+☐ Moderate (+2)
+☑ Limited (+3)
+☐ Minor (+4)
+☐ None (+5)
+
+
+[b]Final Considerations (23/25)[/b]
+
+[i]Overall Satisfaction - General enjoyment level.[/i]
+☐ Very Dissatisfied (+1)
+☐ Dissatisfied (+2)
+☐ Neutral (+3)
+☐ Satisfied (+4)
+☑ Very Satisfied (+5)
+
+
+[i]Microtransactions - In-game purchases.[/i]
+☐ Extensive (+1)
+☐ Substantial (+2)
+☑ Moderate (+3)
+☐ Minimal (+4)
+☐ None (+5)
+
+
+[i]Replay Value - Longevity and replayability.[/i]
+☐ Very Low (+1)
+☐ Low (+2)
+☐ Moderate (+3)
+☐ High (+4)
+☑ Very High (+5)
+
+
+[i]Cost-to-Play Ratio - Money spent vs hours played.[/i]
+☐ Overpriced (+1)
+☐ Poor Value (+2)
+☐ Fair Value (+3)
+☐ Good Value (+4)
+☑ Excellent Value (+5)
+
+
+[i]Recommendation.[/i]
+☐ No (+0)
+☑ Yes (+5)
+
+
+[h2]Generate your review at https://playeropinion.com[/h2]",1754322501,1754322501,True,0,0,0.476190477609634399,0,True,False,False,False,76561199046273176,100,9,182,0,182,1713891952,
+201438280,english,"Amazing. 
+Although they do give too much freedom, which can make you forget what the main storyline is, but I kind of like that",1754319128,1754319128,True,0,0,0.5,0,True,False,False,False,76561199283349140,0,5,7392,3470,6342,1754574224,
+201437591,english,"Buggy mess, 80% of the time there was a companion stuck somewhere or an elevator infinite loading..... Also loading times, Just stay away from this.",1754318479,1754318479,False,1,0,0.5,0,True,False,False,False,76561198036041370,104,14,588,588,588,1754318324,
+201437103,english,"i love this game and every title made by Bethesda, Open world is my favorite and fantasy and massive amount of quests that'll keep you entertained for hours",1754318012,1754318012,True,0,0,0.5,0,True,False,False,False,76561198269198930,0,1,5011,0,5011,1732510191,
+201433772,english,My favourite game,1754314632,1754314632,True,0,0,0.5,0,True,True,False,False,76561198410631216,0,2,113566,2559,113388,1754487890,
+201432025,english,Big bomb go KABOOM,1754312765,1754312765,True,0,0,0.5,0,True,False,False,False,76561199757237671,0,3,916,916,407,1754610147,
+201428372,english,I've played way more hours on Playstation one of my favorite games of all time.,1754308497,1754308497,True,1,0,0.5,0,True,False,False,False,76561199808259930,0,2,497,497,321,1754399368,
+201419216,english,good,1754295680,1754295680,True,0,0,0.5,0,True,False,False,False,76561198824593960,0,19,528,528,528,1754220145,
+201418817,english,"+ Very fun to shoot things
+- Devs thought you wouldn't want to do anything else (maybe play wasteland minecraft)",1754295072,1754295109,True,0,0,0.5,1,True,False,False,False,76561198337744431,208,109,4223,2370,4223,1754224637,
+201417851,english,Hey Todd Howard another settlement needs your help I'll mark it on your map,1754293379,1754302870,True,0,0,0.5,0,True,False,False,False,76561198154768083,529,103,2062,2059,2062,1754293349,
+201415903,english,"played too much, its wasted my life im worthless love it",1754289904,1754289904,True,0,0,0.5,0,True,False,False,False,76561199678265068,0,2,314,314,188,1754540925,
+201414093,english,its great i think people hate on it too much but play it,1754286939,1754286939,True,1,0,0.5,0,True,False,False,False,76561199740617068,0,4,5359,4780,3332,1754525722,
+201413695,english,Decided to download after watching my fiance play. Had zero idea what I was getting into. Never played a Fallout game before. 10/10 would recommend.,1754286210,1754286210,True,0,0,0.5,0,True,False,False,False,76561199474929238,0,1,1965,309,1802,1754295725,
+201411298,english,"yes... very nice game, good modding, good graphics, runs well, would recommend.",1754281897,1754281897,True,0,0,0.5,0,True,False,False,False,76561198143727371,60,1,10086,417,9957,1754376492,
+201410593,english,yea,1754280740,1754280740,True,0,0,0.5,0,True,False,False,False,76561198928537204,0,32,4502,1892,4486,1754289304,
+201410149,english,Amazing game!! Loved it!,1754280036,1754280036,True,0,0,0.5,0,True,False,False,False,76561199877799058,0,2,510,494,248,1754545769,
+201408391,english,"This game could nearly be one of my top games of all time if it weren't for a few shortcomings. While I'm enjoying it and definitely recommend it, I wish it didn't have the tedious settlement building. It's totally boring and just a distraction. Also, this game has been out forever and it still glitches too often. When exiting a building into the common wealth, the game freezes sometimes and the more I play it the more it happens. I have to close out Steam and restart the game. Also, the dialogue trees are pointless and annoying. Those are my negatives. Other than those shortcomings the game is incredible. I just wanted to point those things out because, like I say, were it not for those issues, this could've been one of my top games of all time. If Bethesda fixes those things for Fallout 5, it'll be a masterpiece.",1754277263,1754277263,True,0,0,0.5,0,True,False,False,False,76561197998118591,0,2,3855,1984,3276,1754608701,
+201407560,english,Meet dog-> meet man->mech suit-> Giant lizard,1754276045,1754276045,True,0,0,0.5,0,True,False,False,False,76561199834336957,0,1,1989,603,1559,1754541690,
+201406892,english,i lik gud game,1754275066,1754275066,True,0,0,0.5,0,True,False,False,False,76561198251113656,0,1,2455,2,2453,1754275133,
+201399854,english,Absolute peak game to play with Mods.,1754265390,1754265390,True,0,0,0.5,0,True,False,False,False,76561199219500628,31,5,5906,498,5714,1754516208,
+201399243,english,"I keep coming back to this game. Every couple of years I do a clean reinstall, re-mod it, and sink another  hundred hours or so into it.
+Its issues are many and well known. Lackluster main plot, classic Bethesda jank, questionable modelling.
+But I don't care (much). This is the game that made me a Fallout fan. I simply couldn't get into FO3 or NV, not for lack of trying. Something about this one hit that sweet spot. I love the settlement building system. I love being able to use the junk you pick up, the detritus of the ruined past, to modify your weapons and armor, build turrets and electrical grids. This was a stroke of genius. I really get a sense of accomplishment having top-of-the-line gear and settlements that could rival Diamond City just by breaking down and using the stuff I grab in unrestrained looting.
+Also the music. I love the music. I like the oldies playing on the radio, of course, but I love the game soundtrack itself. It's so haunting, like a lament for what was lost, but also with a little twinge of optimism for the future. Maybe you can make a difference. Maybe the tide can be turned.
+I hope that Fallout 5, should I live long enough to see it, will maintain the things they got right in this game, and improve what they got wrong. Bethesda took a lot of chances with this game, and despite all the grumblings, I think they had more hits than misses.",1754264501,1754264501,True,0,0,0.5,0,True,False,False,False,76561198036029304,0,1,30396,3477,29699,1754542345,
+201398849,english,no,1754263953,1754263953,False,1,0,0.482023805379867554,0,True,False,False,False,76561198137183107,226,6,130,130,130,1754263889,
+201398686,english,"This game is great. While fallout 3 and Fallout NV are masterpieces. Fallout 4 brings a new spin the Fallout Series. Are there bugs? Yes but all Bethesda games are like it giving them their own spin. Its great game with lots of fun waiting plus the creation club stuff adds to the fun. I say if you don't play this game it is a great loss of fun,",1754263708,1754263708,True,0,0,0.5,0,True,False,False,False,76561198801193219,0,7,38442,70,38439,1754264174,
+201390332,english,fire ass game,1754254337,1754254337,True,1,0,0.514435708522796631,0,True,False,False,False,76561198883625806,27,1,2702,771,2243,1754540153,
+201389542,english,"Good game but for some reason the loading times take forever, at least compared to xbox.",1754253556,1754253556,True,1,0,0.514435708522796631,0,True,False,False,False,76561199100798318,0,3,1580,1392,1313,1754366735,
+201388265,english,"Shallow, no real replayability, predictable story, decent gunplay.",1754252313,1754252313,False,0,0,0.47826087474822998,1,True,False,False,False,76561198002920999,0,2,775,219,771,1754289468,
+201387491,english,I'm just a big fan of all Bethesda games I like the freedom I like the mod ability I like to be able to just immerse myself in a world and live there.,1754251595,1754251595,True,0,0,0.5,0,True,False,False,False,76561198092204683,0,4,215205,3559,211646,1754610098,
+201387396,english,"It is nice, I think",1754251499,1754251499,True,0,0,0.5,0,True,False,False,False,76561198973835320,112,115,89,0,89,1713462936,
+201387331,english,It just works,1754251431,1754251431,True,0,0,0.5,0,True,True,False,False,76561198095199848,349,68,1542,882,1288,1754594772,
+201386456,english,"It took me a long time to chill on this game. The main plotline is trash. The faction plotlines are trash. The dialog in this game is 100% skippable and you may as well be mute despite having a voiced main character.
+
+That being said, it's a really fun single-player sandbox game with really poorly tested perks.  You can become mechanized Goku and teleport around boxing people with your powered up metal fists.  You can completely ignore VATS and play this as a FPS. You can treat this like its The Sims (with fewer micro-transactions) and just build homes across the map.
+
+I will say there are some good side quests that connect to absolutely nothing.  It's like they had really good staff and a terrible dev lead who railroaded everyone to his vision of mediocrity, but then they got fed up and snuck in good content in the crevices he didn't check.",1754250640,1754250640,True,0,0,0.5,0,True,False,False,False,76561198026955843,313,42,19192,881,18310,1754555059,
+201385290,english,haha dog go bark bark,1754249520,1754249520,True,0,0,0.5,0,True,False,False,False,76561199177886836,33,22,5746,5746,2832,1754608711,
+201382200,english,Great game,1754246629,1754246629,True,0,0,0.5,0,True,False,False,False,76561198873178273,0,1,21157,1039,20117,1754607884,
+201374226,english,"if you ever wanted to let your imagination run wild then this is the game for you and if you knnow how to mod then the possibility are endless, have fun ^_^
+",1754239213,1754239213,True,0,0,0.5,1,True,False,False,False,76561199550655729,0,13,63823,10495,61162,1754609735,
+201372419,english,Game,1754237627,1754237627,True,0,0,0.5,0,True,False,False,False,76561198847780653,0,6,2362,1887,2008,1754515738,
+201370616,english,"easily my favourite Fallout game. better gunplay, an interesting map to explore, meaningful power armour. i love it.",1754236157,1754236157,True,0,0,0.5,0,True,False,False,False,76561198025566029,868,71,77366,3588,73868,1754608865,
+201369861,english,Immersive open world RPG action packed game!! A must play!,1754235529,1754235529,True,0,0,0.47826087474822998,0,True,False,False,False,76561198059659645,45,5,34207,842,33365,1754411220,
+201366500,english,this game is amazing but modding caused the game to crash hard.,1754232531,1754232531,True,0,0,0.5,0,True,False,False,False,76561199589560978,0,1,38310,877,38295,1754437357,
+201365245,english,A truly outstanding game!,1754231496,1754231496,True,0,0,0.5,0,True,False,False,False,76561198392847926,0,2,32833,108,32725,1754254800,
+201358568,english,"**Edit ~ Oh, the game is rated 18+, and even though I'm twenty-something I tend to prefer games anyone can play. No wonder I'm not enjoying it!! 
+
+If you like the genre, you'll probably enjoy it. I'm not very into apocalyptic games, so I don't really. 
+But, it's a good game, so would recommend. The plot is intriguing, and the game seems well built. I've only gotten through the intro, but it looks like it could be fun. I'm just not into it.",1754225254,1754341015,True,0,0,0.5,0,True,False,False,False,76561199488890543,23,16,509,509,509,1754336868,
+201357577,english,"Fallout 4 is one of my all-time favorite games. No matter how many times I’ve played it, I always find myself coming back whenever I just want to relax, chill in a singleplayer RPG. There’s something about wandering the Wasteland, doing quests at my own pace, and getting immersed in the world that just hits the spot.
+
+That said, the game by itself is just okay. It definitely shows its age, and without mods, the experience can feel clunky or limited. The bugs—can also be frustrating, but if you’re playing vanilla, you just kind of have to accept them. Thankfully, the modding community is incredible.
+
+If you're someone who loves open-world games and doesn’t mind tweaking things to get the best experience, Fallout 4 is absolutely worth it. It may not be perfect, but it has that special kind of charm that makes it easy to come back to again and again.",1754224333,1754224333,True,0,0,0.5,0,True,False,False,False,76561199836266417,72,6,2618,1524,1569,1754594991,
+201355679,english,GOOD GAME,1754222345,1754222345,True,0,0,0.5,0,True,False,False,False,76561199864575561,0,1,905,905,250,1754486198,
+201351190,english,I created a goth mommy and did it with piper 10/10,1754217134,1754217134,True,1,0,0.513574659824371338,0,True,False,False,False,76561199672034782,9,1,749,639,197,1754550956,
+201350342,english,I recommend FONV,1754216180,1754216180,False,0,0,0.476190477609634399,0,True,False,False,False,76561198141725641,0,1,22552,1126,22287,1754576897,
+201349744,english,"the best game ever
+",1754215469,1754215469,True,0,0,0.5,0,True,False,False,False,76561199201084069,0,1,120,120,65,1754225936,
+201349694,english,"Looks like an old game, lags like an old computer trying to run a new game. Utter shit.",1754215401,1754215401,False,0,1,0.476190477609634399,0,True,False,False,False,76561198002258984,0,3,146,20,146,1754215237,
+201343861,english,great,1754208010,1754208010,True,0,0,0.5,0,True,False,False,False,76561198855951835,0,1,1539,1539,478,1754580186,
+201342174,english,"If you haven't played it by now, it's probably not going to interest you. There are a thousand modern clones by now, and the bugs in these games is worse than crawling under your house",1754205609,1754205609,False,0,1,0.476190477609634399,0,True,False,False,False,76561198041507638,188,9,4332,14,4332,1754205534,
+201340936,english,"bethesda as a company should rot. ""hey lets make an amazing story and universe but make the game itself as unplayable as possible!""",1754203956,1754203956,False,1,0,0.507873713970184326,0,True,False,False,False,76561198079342520,141,38,17576,2328,15733,1754610165,
+201336594,english,"Probably the most fun Bethesda game (haven't played starfield) even if the main story is kinda mid compared to New Vegas & Morrowind, the exploration, the settlement building and side content more than makes up for it and you really FEEL like you are a part of the Massachusetts wasteland. 
+
+8/10 would help out another settlement again",1754197764,1754197764,True,0,0,0.5,0,True,False,False,False,76561198881236448,273,21,5808,2751,5217,1754535798,
+201335852,english,I Love This Game,1754196688,1754196688,True,0,0,0.5,0,True,False,False,False,76561199251143769,0,3,1323,1323,246,1754607898,
+201335453,english,story aint crazy or anything but the modding potential is great(dont mind my hours i played through it on xbox),1754196147,1754196147,True,0,0,0.5,0,True,False,False,False,76561199092750552,32,13,110,110,28,1754297301,
+201333747,english,Well this wasn't really too much of A Kick to the head but it Lit a flame in my heart,1754193878,1754193878,True,0,0,0.5,0,True,False,False,False,76561199503559799,0,2,269,269,147,1754584446,
+201328186,english,perty gud,1754186307,1754186307,True,0,0,0.5,0,True,False,False,False,76561198887472770,0,2,62507,1484,61023,1754606436,
+201327883,english,Good game,1754185959,1754185959,True,0,0,0.5,0,True,False,False,True,76561198264269465,113,9,2114,1840,1363,1754608982,1363.0
+201327753,english,[strike]GRABTHESHOVELJOSEPH[/strike],1754185801,1754185801,True,0,0,0.5,0,True,False,False,False,76561197989039640,618,1,21853,648,21682,1754456919,
+201323711,english,"If you are interested in Civil Engineering, this could be fun.",1754180201,1754180201,True,0,0,0.5,0,True,False,False,False,76561198952012478,0,2,137143,5226,136359,1754443487,
+201323505,english,classic,1754179914,1754179914,True,0,0,0.5,0,True,False,False,False,76561199081413323,0,1,1878,798,1525,1754516760,
+201322004,english,"Game looks great WITH MODS i guess but that's about it. The modding is the only good part it actually makes the game bearable, still the writing and story is horrendous and brain deficient. Even though the mods are the ONLY thing that made this game good 9/10 times your going to break it and not be able to fix it without fully restarting. this game is garbage slop made for brain dead 12 year olds and i truly cant believe Bethesda released this garbage after new vegas. Or the fact people like this game so much. i hate it but im still gonna play it cuz what else am i gonna do they haven't released a new fallout in over a decade,  (76 dont even count another garbage online service game is not what we needed) and i have played nv to death even with all the mods they got which are a million times better and less buggy than this game please for the love of god go play that instead and if you enjoy it you probably have an inner monologue and are an actual thinking living breathing real person. thanks for reading and i hope we all find a better way to spend our lives then on fallout 4 waiting another 10 years for fallout 5 or even a remaster christ even as bad as fallout 3 was id buy it in a heartbeat.",1754177978,1754177978,False,0,0,0.5,0,True,False,False,False,76561199013536102,61,8,9428,2251,8834,1754608374,
+201317957,english,Not for me,1754172975,1754172975,False,0,1,0.5,0,True,False,False,False,76561198982547296,100,38,852,0,852,1750656977,
+201317208,english,"Great open world, third person shooter, the quest are good and the enemies are challenging especially a building full of super mutants!",1754172151,1754172151,True,0,0,0.5,0,True,False,False,False,76561199839948600,0,1,2326,1236,2007,1754447001,
+201314951,english,its good,1754169720,1754169720,True,0,1,0.5,0,True,False,False,False,76561198190044881,0,5,521,527,405,1754289707,
+201314271,english,RUFF RUFF I BUILD SHIT,1754169016,1754169016,True,0,0,0.476190477609634399,0,True,False,False,False,76561199051961157,118,21,13593,0,13593,1750791913,
+201314176,english,"A hollow shell with vapid writing. There's a better game somewhere in here, but this isn't it. Still, it's a Bethesda sandbox, so there's plenty to do.",1754168927,1754168927,False,5,1,0.520999729633331299,0,True,False,False,False,76561198001003149,274,25,13834,1758,13295,1754609476,
+201312851,english,"It's a classic BETHESDA Game set in the Fallout Universe. It may not be perfect straight out of the box, but the modding community has seen fit to smooth out the roughest parts and put a coat of polish on the game.",1754167544,1754167544,True,0,0,0.5,0,True,False,False,False,76561198052429208,1150,5,26256,573,25875,1754299377,
+201312048,english,best,1754166739,1754166739,True,0,1,0.5,0,True,False,False,False,76561198211486615,0,2,7565,397,7565,1754163655,
+201310916,english,Totally Awesome!!,1754165627,1754165627,True,0,1,0.5,0,True,False,False,False,76561199832490408,0,2,2592,1684,2365,1754350852,
+201309639,english,I've only beaten the game 4 times.,1754164330,1754164330,True,0,1,0.5,0,True,False,False,False,76561198069039484,0,8,81566,0,81566,1751058123,
+201309433,english, it was fun with mods :),1754164125,1754164125,True,0,0,0.5,0,True,False,False,False,76561198256284633,0,7,7625,1095,7603,1754165715,
+201308106,english,But can one play it on their Rocket 69?,1754162823,1754162823,True,0,0,0.5,0,True,False,False,False,76561199046157772,0,3,3568,0,3568,1750014406,
+201305579,english,good,1754160287,1754160287,True,0,0,0.5,0,True,False,False,False,76561199753081693,0,3,976,976,274,1754291045,
+201303234,english,"It's a huge world, lots of make-your-own-way opportunities, plenty left to discover even after multiple play-throughs.",1754157958,1754157958,True,0,0,0.5,0,True,False,False,False,76561197997348980,0,2,16549,1666,14882,1754435054,
+201300624,english,boring game with very little story and bad,1754155507,1754155507,False,0,0,0.47826087474822998,0,True,False,False,False,76561199349118597,0,3,50,0,50,1751522235,
+201297950,english,"You know, for a while I believed all of the people who told me this game was bad, because it wasn't ""as good as 3 or New Vegas."" Forget all that. This game is great. I had a lot of fun with it, and I even made a couple of levels in it using Creation Kit. If you're a Fallout fan on the fence, use this review to tip the scales in favor of buying this game. Especially if it's on sale.",1754153065,1754153065,True,0,0,0.5,0,True,False,False,False,76561198055104164,0,10,6269,54,6269,1754088111,
+201297880,english,fire game,1754153006,1754153006,True,0,0,0.5,0,True,False,False,False,76561199813916741,0,4,308,308,279,1754333031,
+201296701,english,"The latest version tho seems liked 'filtered', like its more 'friendly' to the audience. My character isn't that sarcastic esp when skipping dialogues.",1754151912,1754151912,True,0,0,0.5,0,True,False,False,False,76561198133014427,0,4,316,316,198,1754493938,
+201293293,english,X-02 power armor is really cool. I like power armor.,1754148870,1754148870,True,0,0,0.5,0,True,False,False,False,76561199552011503,9,2,958,342,727,1754452200,
+201293025,english,yes,1754148639,1754148639,True,0,0,0.5,0,True,False,False,False,76561198060787821,0,6,13551,177,13520,1754222999,
+201291888,english,falllout4,1754147623,1754147623,True,0,0,0.5,0,True,False,False,False,76561199553866328,31,19,941,941,816,1754572695,
+201291836,english,"i don't think this game deserves anything when i can't even set a fullscreen.
+honestly, i tried everything, every guide on the internet, every youtube video, nothing helped.
+it was launching on a small window and nothing could've fixed the problem.
+it was a thing in 2021, it is a thing right now.
+even if i'll fix it, even if i'll spend another 100 hours in this game i wont remove this negative review because i don't think developers who can make an entire game but can't make it run fullscreen deserve to have a positive one.",1754147569,1754147569,False,0,0,0.5,0,True,False,False,False,76561199526402038,0,8,10,10,9,1754147711,
+201289221,english,"I used to play fallout when i was a kid. There was always this filling that i had at  that age when i played this game a filling of peace freedom and much more that i felt when i was small. Now that Im much older 17 life is good but its hard for me. But when i play this game i fill like that kid again when i did't have to worry about anything . when i only had to worry about my mom and what time she will be getting home. Sometime she got home late like 3-5 minutes  late. I would freak out because i though she got killed in a car crash fr. But to anyone that thinks this game doesn't look good or don't looks interesting its amazing. again It's never bad to try somthing new your never know inless you try >
+",1754145255,1754145255,True,0,0,0.5,0,True,False,False,False,76561199023030799,95,3,3714,1,3714,1754163662,
+201288905,english,I made Jan rich in this game more than +9 years ago.,1754144941,1754144941,True,0,0,0.5,0,True,False,False,False,76561199547132799,0,5,202,1,202,1754144434,
+201288024,english,This was the first game that I have played on Linux using Proton. It plays really well. The game itself is awesome.,1754144107,1754144107,True,0,0,0.5,0,True,False,False,False,76561197998355156,0,24,3002,1656,1896,1754596231,
+201285313,english,Peak. Absolute cinema. Have almost 300 hours.,1754141504,1754141527,True,0,0,0.5,0,True,False,False,False,76561199838935074,0,1,15929,1,15929,1754011069,
+201277230,english,"The Ikea furniture of games, had to mod in my enjoyment",1754132999,1754132999,False,0,0,0.5,0,True,False,False,False,76561198969832759,139,15,12574,0,12574,1745292377,
+201276184,english,"Fun game with an O.K. story. DLC’s are a nice addition. Far Harbour is what carried this game in my oppinion.
+
+100%’ed this game, but man some achievements are not worth it.",1754131741,1754131741,True,0,1,0.5,0,True,False,False,True,76561198092508096,43,10,5240,509,5240,1754130611,5236.0
+201275411,english,"上头（）真正的经典神作
+
+不过值得注意的是上古时期的读写优化极差，从副本回到大地图加载能超过半分钟（我最好的西数黑盘也救不回来）
+配合上STEAM幽默的卡云同步问题，显得更加幽默了
+P.S. 在steam-设置-下载- 关掉最下方的 预加载着色器缓存，能极大幅度提升启动速度，估摸着这byd是个没修的bug （也不是域名污染的问题，挂梯子并不会解决这一步的卡顿）",1754130759,1754386280,True,0,0,0.5,0,True,False,False,False,76561198303521373,0,40,3465,3369,2504,1754585466,
+201271795,english,Going back to see where the 300hrs came from because I don't remember beating it. 10/10,1754126286,1754126286,True,0,0,0.5,0,True,False,False,False,76561198223863348,442,16,18163,9,18154,1754127768,
+201263771,english,The BEST Fallout Game,1754115249,1754115249,True,0,0,0.5,0,True,False,False,False,76561199031299690,0,11,26597,17,26597,1753666187,
 201261642,english,"best game ever made
-",1754112037,1754112037,True,0,0,0.5,0,True,False,False,False,76561198181753958,121,13,5275,6,5269,1754113709,
-201258612,english,sucks,1754107828,1754107828,False,0,0,0.5,0,True,False,False,False,76561198907191577,0,5,14889,1,14889,1754101442,
-201258437,english,"Didn't start this game one PC. I LOVE IT! I'd play at my friend's house when I was younger. Playing it on my own PC brings back unimaginable nostalgia. Love, love, love. One of the best games created.",1754107576,1754107576,True,0,0,0.5,0,True,False,False,False,76561198889513144,105,27,2445,0,2445,1724897490,
+",1754112037,1754112037,True,0,0,0.5,0,True,False,False,False,76561198181753958,121,13,5283,14,5269,1754115134,
+201258612,english,sucks,1754107828,1754107828,False,0,2,0.5,0,True,False,False,False,76561198907191577,0,5,14889,1,14889,1754101442,
+201258437,english,"Didn't start this game one PC. I LOVE IT! I'd play at my friend's house when I was younger. Playing it on my own PC brings back unimaginable nostalgia. Love, love, love. One of the best games created.",1754107576,1754107576,True,0,0,0.5,0,True,False,False,False,76561198889513144,116,49,2445,0,2445,1724897490,
 201257293,english,Ver Good,1754106052,1754106052,True,0,0,0.5,0,True,False,False,False,76561198348746973,0,9,12108,75,12036,1754110344,
-201256999,english,"I don't get why fallout fans don't like this one. I can understand many of the complaints, mainly the mediocre story and loss of many classic rpg mechanics. However, the improved gameplay and graphics make up for that, imo. With the more modern combat mechanics, this game is plenty fun and holds its own as a solid fallout game.",1754105663,1754105663,True,0,0,0.5,0,True,False,False,False,76561198311840460,564,40,6494,0,6494,1715301681,
-201256445,english,the best game in the franchise,1754104909,1754104909,True,0,1,0.5,0,True,False,False,False,76561198048868726,0,5,458,458,376,1754112709,
-201256272,english,One of the best games ever.,1754104653,1754104653,True,0,0,0.5,0,True,False,False,False,76561198243064122,0,5,1595,1518,1586,1754105245,
-201255296,english," Great story , fun game play, good value",1754103296,1754103296,True,0,0,0.5,0,True,False,False,False,76561198281121588,0,1,4702,2094,4550,1754113646,
+201256999,english,"I don't get why fallout fans don't like this one. I can understand many of the complaints, mainly the mediocre story and loss of many classic rpg mechanics. However, the improved gameplay and graphics make up for that, imo. With the more modern combat mechanics, this game is plenty fun and holds its own as a solid fallout game.",1754105663,1754105663,True,0,0,0.476190477609634399,0,True,False,False,False,76561198311840460,564,40,6494,0,6494,1715301681,
+201256445,english,the best game in the franchise,1754104909,1754104909,True,0,1,0.476190477609634399,0,True,False,False,False,76561198048868726,0,5,1805,1805,376,1754592338,
+201256272,english,One of the best games ever.,1754104653,1754104653,True,0,0,0.5,0,True,False,False,False,76561198243064122,0,5,2612,2199,1586,1754608563,
+201255296,english," Great story , fun game play, good value",1754103296,1754103296,True,0,0,0.5,0,True,False,False,False,76561198281121588,0,1,6129,2809,4550,1754569456,
 201254768,english,"so its been 10years and i really had my fun in fallout 4 back then the release on xbox one!!!
 
 i played this over 1000+ hrs on xbox and on 350hrs not bad still funny game and i got all achievements so yea its goood 
-",1754102593,1754102593,True,0,0,0.5,0,True,False,False,False,76561199390011813,255,20,20970,1,20970,1754008007,
-201246898,english,Pretty nice game where you'll never get bored. Although it could use some writing like in New Vegas.,1754092110,1754092110,True,0,0,0.5,0,True,False,False,False,76561199114719591,89,51,3927,1758,3927,1754091935,
-201245963,english,"Some mods just don't work anymore with the next-gen update, which, okay whatever. Fun while it lasted. But there's a bunch of new content to check out while we're waiting for Fallout 5.",1754090947,1754090947,True,0,0,0.5,0,True,False,False,False,76561199376197643,0,1,480,480,287,1754105364,
-201241786,english,good morning sir,1754085997,1754085997,True,0,0,0.5,0,True,False,False,False,76561199622845380,2,1,62,62,36,1754095371,
-201239862,english,playing on ally x,1754083881,1754083881,True,0,0,0.5,0,True,False,False,False,76561199811656970,0,1,430,430,189,1754109959,
-201237943,english,fun game loading screen just takes long,1754081879,1754081879,True,0,0,0.5,0,True,False,False,False,76561199863798013,0,4,411,411,235,1754112919,
-201234990,english,I love ts,1754078832,1754078832,True,0,0,0.5,0,True,False,False,False,76561198110041226,23,2,5545,190,5355,1754096435,
-201234932,english,"The exploration is a masterclass and the gunplay combined with VATS is fun, but the story... it is just terrible. Honestly, it is hard to believe how bad it is. I love Fallout, it is my favourite gaming franchise (literally), and still I cannot stand the story. It takes me out of the experience constantly. And it also happens to be the Fallout game where it is more difficult to avoid the story. Far Harbor is good, but getting there is a chore. I wish they had the option to start a new playthrough for only Far Harbor, like CD Projekt did with the expansions in The Witcher 3",1754078769,1754078769,False,0,0,0.5,0,True,False,False,False,76561198071018895,27,3,6098,0,6098,1745192484,
+",1754102593,1754102593,True,0,0,0.5,0,True,False,False,False,76561199390011813,257,22,20970,1,20970,1754008007,
+201246898,english,Pretty nice game where you'll never get bored. Although it could use some writing like in New Vegas.,1754092110,1754092110,True,0,0,0.5,0,True,False,False,False,76561199114719591,89,51,7881,5713,3927,1754607589,
+201245963,english,"Some mods just don't work anymore with the next-gen update, which, okay whatever. Fun while it lasted. But there's a bunch of new content to check out while we're waiting for Fallout 5.",1754090947,1754090947,True,1,0,0.523809552192687988,0,True,False,False,False,76561199376197643,0,1,847,847,287,1754249278,
+201241786,english,good morning sir,1754085997,1754085997,True,0,0,0.5,0,True,False,False,False,76561199622845380,5,1,62,62,36,1754095371,
+201239862,english,playing on ally x,1754083881,1754083881,True,0,0,0.5,0,True,False,False,False,76561199811656970,0,1,513,513,189,1754444863,
+201237943,english,fun game loading screen just takes long,1754081879,1754081879,True,0,0,0.5,0,True,False,False,False,76561199863798013,0,4,1280,1280,235,1754516552,
+201234990,english,I love ts,1754078832,1754078832,True,0,0,0.5,0,True,False,False,False,76561198110041226,23,2,5973,618,5355,1754209407,
+201234932,english,"The exploration is a masterclass and the gunplay combined with VATS is fun, but the story... it is just terrible. Honestly, it is hard to believe how bad it is. I love Fallout, it is my favourite gaming franchise (literally), and still I cannot stand the story. It takes me out of the experience constantly. And it also happens to be the Fallout game where it is more difficult to avoid the story. Far Harbor is good, but getting there is a chore. I wish they had the option to start a new playthrough for only Far Harbor, like CD Projekt did with the expansions in The Witcher 3",1754078769,1754078769,False,0,0,0.5,0,True,False,False,False,76561198071018895,27,3,6578,480,6098,1754609979,
 201234457,english,"can mod game to have boobs, pretty cool i guess
-",1754078220,1754078220,True,0,0,0.5,0,True,False,False,False,76561198295832176,0,5,9759,12,9759,1754070717,
-201232660,english,"Very detailed, immersive.",1754076321,1754076321,True,0,0,0.5,0,True,False,False,False,76561198139930566,71,14,2459,957,2384,1754083922,
+",1754078220,1754078220,True,0,0,0.5,0,True,False,False,False,76561198295832176,0,5,9924,177,9759,1754309404,
+201232660,english,"Very detailed, immersive.",1754076321,1754076321,True,0,0,0.5,0,True,False,False,False,76561198139930566,71,14,2836,878,2384,1754515426,
 201227617,english,"The weakest of the “Big 3” but still incredibly fun. The companion system, and pretty much every system has been upgraded and updated. The new settlement system is a welcome respite to the Wasteland and quickly becomes extremely rewarding as you progress. Expect to spend HOURS and HOURS and HOURS in these locations, or just download them via a settlement blueprint on nexus :) 
 
 Nuka-World is one of my favourite DLC’s ever. The rest of them are absolute let downs. I mean, Far Harbour was ok but Automaton and the Vault one was a doozy.   
 
 8/10 
-",1754071119,1754071119,True,0,0,0.5,0,True,False,False,True,76561199803981988,260,40,2435,1921,2435,1753306569,2435.0
-201224756,english,Mods take this from being a good game to a great game.,1754068224,1754068224,True,0,0,0.5,0,True,False,False,False,76561198052392984,0,1,21375,3522,21052,1754110889,
-201224216,english,this game is a lot of fun if you dont cheat,1754067625,1754067625,True,0,0,0.5,0,True,False,False,False,76561198201998023,0,5,71462,154,71398,1754079336,
+",1754071119,1754071119,True,0,0,0.5,0,True,False,False,True,76561199803981988,264,41,2435,0,2435,1753306569,2435.0
+201224756,english,Mods take this from being a good game to a great game.,1754068224,1754068224,True,0,0,0.5,0,True,False,False,False,76561198052392984,0,1,23497,4464,21052,1754609708,
+201224216,english,this game is a lot of fun if you dont cheat,1754067625,1754067625,True,0,0,0.5,0,True,False,False,False,76561198201998023,0,5,71961,653,71398,1754195923,
 201223142,english,"Probably the worst Fallout.
 Still has its moments
-",1754066577,1754066577,True,0,0,0.476190477609634399,0,True,False,False,False,76561197988655302,1390,54,9668,2967,9434,1754088180,2733.0
+",1754066577,1754066577,True,0,0,0.476190477609634399,0,True,False,False,False,76561197988655302,1390,54,12088,5387,9434,1754598760,2733.0
 201222738,english,"Entirely devoid of any soul or charm that made 3 and NV great. Barely an RPG anymore, dogwater voice-acting and writing. Vibes are off.",1754066204,1754066204,False,0,0,0.5,0,True,False,False,False,76561198033880063,0,14,100,100,100,1754063770,
-201222177,english,"grest gsme would reco,emt",1754065609,1754065609,True,0,0,0.5,0,True,False,False,False,76561198313545898,0,1,4651,544,4611,1754080955,
+201222177,english,"grest gsme would reco,emt",1754065609,1754065609,True,0,0,0.5,0,True,False,False,False,76561198313545898,0,1,4651,80,4611,1754080955,
 201220539,english,DOG MEAT!~,1754064077,1754064077,True,0,0,0.5,0,True,False,False,False,76561198300965111,0,13,3299,0,3299,1717571907,
-201213186,english,blowing shit up is fun,1754057023,1754057023,True,0,0,0.5,0,True,False,False,True,76561199682767855,0,5,5982,5436,5588,1754080612,4208.0
-201213047,english,"Ah yes, splendid",1754056897,1754056897,True,0,0,0.5,0,True,False,False,False,76561199847820302,0,3,1103,1103,479,1754094341,
-201212688,english,"Pretty fun. A little buggy but honestly can be overlooked. And also, to the people saying ""black screen when i start it up"" Run it on your desktop. You may need a few mods, but this game is fun. 9.4/10",1754056550,1754056550,True,1,0,0.523809552192687988,0,True,False,False,False,76561199227689314,39,17,399,399,352,1754097898,
+201213186,english,blowing shit up is fun,1754057023,1754057023,True,0,0,0.5,0,True,False,False,True,76561199682767855,0,6,5989,3493,5588,1754524482,4208.0
+201213047,english,"Ah yes, splendid",1754056897,1754056897,True,0,0,0.5,0,True,False,False,False,76561199847820302,0,3,2532,2532,479,1754608500,
+201212688,english,"Pretty fun. A little buggy but honestly can be overlooked. And also, to the people saying ""black screen when i start it up"" Run it on your desktop. You may need a few mods, but this game is fun. 9.4/10",1754056550,1754056550,True,1,0,0.523809552192687988,0,True,False,False,False,76561199227689314,39,17,533,533,352,1754326440,
 201206245,english,"I would not recommend this to anyone who likes RPG's, story driven games or even the fallout universe. I would recommend it to someone who likes fps shooters and looter shooter survival/ base building games and are willing to button smash over incredibly stupid dialogue that is used as an excuse to go somewhere, kill a bunch of things and bring something back, press a button etc.
 
 So the upsides in context of previous fallout games: The engine is much better and smoother than the one in previous 3D fallout games.  That's pretty much it.
@@ -46,10 +517,10 @@ So the upsides in context of previous fallout games: The engine is much better a
 Negatives: The world makes no sense and is considerably dumber than in previous fallout games, even compared to FO3. There is zero role play, you get to choose some stats but at the end of day, you'll just go from a to b to shoot stuff. The plot is incredibly boring, linear and poorly written. There is no fun dialogue options and everything is read out in a generic bland voice that is about as interesting as jar of pickles. 
 
 It's not a bad game by any means, it's just a really horrible fallout game.",1754049837,1754049837,False,0,0,0.476190477609634399,0,True,False,False,False,76561197988554562,0,1,84,0,84,1752518617,
-201205724,english,how can you not recommend fallout tho,1754049225,1754049225,True,0,0,0.5,0,True,False,False,False,76561198034459654,121,14,475,475,404,1754075798,
+201205724,english,how can you not recommend fallout tho,1754049225,1754049225,True,0,0,0.5,0,True,False,False,False,76561198034459654,121,14,513,513,404,1754139996,
 201205408,english,"great
-",1754048835,1754048835,True,0,0,0.5,0,True,False,False,False,76561199003620096,0,11,3394,517,2877,1754113378,
-201202823,english,have you ever wanted to punch someones head off? this is the game for you,1754045555,1754045555,True,1,0,0.523809552192687988,1,True,False,False,False,76561199229502380,0,7,8210,1097,7925,1754079629,
+",1754048835,1754048835,True,0,0,0.5,0,True,False,False,False,76561199003620096,0,11,3572,695,2877,1754555317,
+201202823,english,have you ever wanted to punch someones head off? this is the game for you,1754045555,1754045555,True,1,0,0.523809552192687988,1,True,False,False,False,76561199229502380,0,7,9846,2733,7925,1754601306,
 201201956,english,"Ive played 3 hours of this game and its going good so far!
 
 Graphics are good, medium actually works good (I use a Quadro) on low-end pcs
@@ -61,7 +532,7 @@ Map is useful
 Special perks are cool
 Steamdeck support
 
-It's a good game overall",1754044331,1754044331,True,0,0,0.5,0,True,False,False,False,76561199547415737,0,19,205,205,205,1754043390,
+It's a good game overall",1754044331,1754044331,True,0,0,0.5,0,True,False,False,False,76561199547415737,0,19,1471,1471,205,1754580925,
 201195403,english,"Terrible game, nothing works anymore.
 All DLC's except High Resolution Texture Pack will softlock your game if you do any of them before finishing story mode or side quests.
 If they do not softlock your game which happened in all of my 3 playthroughs they will make your main game story quests or side quests collide with DLC quests making them overlap and disable certain choices you can make in that DLC or kill characters you can save. *This isn't supposed to happen by disable I mean glitch out
@@ -83,12 +554,12 @@ Terrible combat gameplay experience if you have no previous experience playing t
 The swimming physics and animations look like they were exported from a free unity project.
 
 There is just so many more wrong things about this game that I don't remember since I haven't played it over 2 years.
-Buy at your own risk.",1754035037,1754035037,False,0,0,0.466666668653488159,0,True,False,False,False,76561198825679633,17,8,1843,11,1843,1752947632,
-201193669,english,One of the best wasteland games I ever played but it is a bit buggy and the building system is the weakest part of the game and some of the weapons are ugly when you look more closely except or the assault rifle that thing is a nightmare,1754032143,1754032143,True,0,0,0.5,0,True,False,False,False,76561198304154161,0,14,315,315,315,1754031942,
+Buy at your own risk.",1754035037,1754035037,False,0,0,0.466666668653488159,0,True,False,False,False,76561198825679633,17,8,1843,0,1843,1752947632,
+201193669,english,One of the best wasteland games I ever played but it is a bit buggy and the building system is the weakest part of the game and some of the weapons are ugly when you look more closely except or the assault rifle that thing is a nightmare,1754032143,1754032143,True,0,0,0.5,0,True,False,False,False,76561198304154161,0,14,499,499,315,1754205526,
 201191025,english,Best game ever! Captivating story and good combat system.,1754027787,1754027787,True,0,0,0.5,0,True,False,False,False,76561197978158643,67,1,425,425,346,1754038496,
-201186566,english,The game is very engaging  i like the modding aspect and the wide range of mods available,1754020964,1754020964,True,0,0,0.5,0,True,False,False,False,76561198429802139,0,3,398,398,398,1754019665,
-201184007,english,fall on my out till i 4,1754017251,1754017251,True,1,0,0.523809552192687988,0,True,False,False,False,76561199526508042,53,23,2881,29,2852,1754088435,
-201182948,english,war never changes,1754015792,1754015792,True,0,0,0.5,0,True,False,False,False,76561198080040392,0,1,7530,1368,7029,1754112247,
+201186566,english,The game is very engaging  i like the modding aspect and the wide range of mods available,1754020964,1754020964,True,0,0,0.5,0,True,False,False,False,76561198429802139,0,3,1329,1329,398,1754599419,
+201184007,english,fall on my out till i 4,1754017251,1754017251,True,1,0,0.523809552192687988,0,True,False,False,False,76561199526508042,53,25,2912,60,2852,1754604784,
+201182948,english,war never changes,1754015792,1754015792,True,0,0,0.5,0,True,False,False,False,76561198080040392,0,1,10498,4336,7029,1754608416,
 201181126,english,"I haven't played this game since it came out, and after roughly 10 years, my feelings are mixed, with most of my nostalgia being quickly squashed. While there is much good to this game, there is also a lot that just didn't seem to age well, and other parts of it that were reminders of things I disliked 10 years ago. 
 
 After re-playing FO3 recently, this game feels absurdly easy. Caps in every single nook and cranny of the wastela-Commonwealth, med supplies everywhere, and every single object being expendable for supplies ironically takes the fun out of exploring. There's never really a feeling of satisfaction when you go through a building or a long quest, because you inevitably come out 10x richer and heavier than when you went in. 
@@ -96,57 +567,55 @@ After re-playing FO3 recently, this game feels absurdly easy. Caps in every sing
 Every time I was blown away by the graphics, I would look in another direction at a cartoon-y npc or have to engage in a weirdly cinematic & grandiose conversation. I guess my expectations were a lot higher coming back to this game, and though I will continue to replay it, the motivation is quickly diminishing. 
 
 You could say I'm biased towards FO3/NV, and you would be correct. I miss the entire solar system freezing to engage in conversation, and finding 4 caps and a pack of mentats in a random locker that had an expert-rated lock on it. FO4 is still a fun game, but certainly feels standalone this time around.",1754013304,1754013304,True,0,0,0.5,0,True,False,False,False,76561198309224838,0,2,225,225,225,1754012366,
-201176169,english,"as someone who's put 6 years worth of time on the playstation and 45 hours on pc, fallout 4 is pretty cool. DLCs are worth it, healthy modding community, and still fun 10 years after release. 8/10, sometimes launch is buggy",1754006155,1754006155,True,0,0,0.5,0,True,False,False,False,76561199090797519,42,5,2984,2718,2722,1754111590,
-201175086,english,i spent 12 hours modding,1754004581,1754004581,True,0,0,0.5,0,True,False,False,False,76561198376350529,28,7,1691,1689,991,1754106010,
-201174652,english,"this is one of the best games I have ever played. I knew I would like it when I first bought it, and I was definitely right",1754004018,1754004018,True,0,0,0.5,0,True,False,False,False,76561199797477785,7,1,18591,241,18591,1754005232,1467.0
-201173658,english,I've been playing Fallout since 3 and of course this game has endless amounts of content (especially if you include the extensive modding community). If you have hours of your life to sink into something make it this.,1754002634,1754002634,True,0,0,0.5,0,True,False,False,False,76561198165987506,0,12,70293,5349,69309,1754113638,
-201172621,english,Trash time to play more,1754001321,1754001321,False,0,0,0.476190477609634399,0,True,False,False,False,76561199582199983,0,2,5788,3695,5702,1754006757,
+201176169,english,"as someone who's put 6 years worth of time on the playstation and 45 hours on pc, fallout 4 is pretty cool. DLCs are worth it, healthy modding community, and still fun 10 years after release. 8/10, sometimes launch is buggy",1754006155,1754006155,True,0,0,0.5,0,True,False,False,False,76561199090797519,42,5,3742,2276,2722,1754607799,
+201175086,english,i spent 12 hours modding,1754004581,1754004581,True,0,0,0.5,0,True,False,False,False,76561198376350529,28,7,3750,3747,991,1754602064,
+201174652,english,"this is one of the best games I have ever played. I knew I would like it when I first bought it, and I was definitely right",1754004018,1754004018,True,0,0,0.5,0,True,False,False,False,76561199797477785,7,1,18609,259,18591,1754237550,1467.0
+201173658,english,I've been playing Fallout since 3 and of course this game has endless amounts of content (especially if you include the extensive modding community). If you have hours of your life to sink into something make it this.,1754002634,1754002634,True,0,0,0.5,0,True,False,False,False,76561198165987506,0,12,73548,4726,69309,1754608235,
+201172621,english,Trash time to play more,1754001321,1754001321,False,0,0,0.476190477609634399,0,True,False,False,False,76561199582199983,0,2,5788,2137,5702,1754006757,
 201170616,english,"Fallout is a charming, fun franchise. 
 
 It is unfortunately owned by one of the most incompetent game developers ever to grace this earth. The technical aspects of every single one of Bethesda's titles are so abysmally terrible that nothing else matters. I will never ever purchase or support a single one of Todd Howard's games unless some miracle happens (spoiler alert, it won't).",1753998926,1753998926,False,0,0,0.5,0,True,False,False,False,76561198114524690,143,13,16301,0,16301,1732980320,
 201167312,english,Downloaded and got black screen on start up,1753995217,1753995223,False,0,0,0.476190477609634399,0,True,False,False,False,76561198138346014,0,1,15,2,13,1754006510,
-201166172,english,"Overall Yeah its pretty good. Not as good as 3, Vegas, 1, or 2. After a while the game breaks though...",1753994039,1753994039,True,0,0,0.5,0,True,False,False,False,76561199076678748,104,11,22362,1356,21024,1754112152,
-201162588,english,"Fallout 4 is the game I find myself playing the most out of all the Fallout games. The story is not as compelling or well-written as previous Fallout games, but as of now I have the most hours in this game compared to all the others. That is strictly because of how much fun I find the settlement/building system and exploring the setting. The modding potential in this game only makes it better.",1753990199,1753990199,True,0,0,0.5,0,True,False,False,False,76561198079968725,565,8,34296,0,34296,1731383736,
-201162254,english,All these clankers in the common wealth finna pmo,1753989796,1753989796,True,0,0,0.5,0,True,False,False,False,76561199013972067,106,26,4638,2454,4208,1754104782,
-201159402,english,"Its just ok. Power armor is awesome, settlement building is cool if you wanna put the time into it. The factions are interesting but nowhere near as interesting as fallout 3 or new vegas' factions. The rpg elements are definitely weaker than the previous titles. Dialogue options are way too simplified. DLC is aight. Weapons and perk system feel bland. Overall just not enough cool stuff to find imo. 
-
-Definitely recommend modding the game. GIANT modding community so you can mod the game to your liking. Overall, if you want a decent game to put some hours into, its a good choice, but for me i got bored alot. 6/10 its just ok.",1753986937,1754010306,True,0,0,0.5,0,True,False,False,False,76561199427942100,0,24,5246,2542,5246,1753986024,
-201157375,english,Peak.,1753984839,1753984839,True,0,0,0.5,0,True,False,False,False,76561198410487006,0,6,3459,3188,1887,1754109849,
-201155373,english,"I've played 81 hours and it's still a snooze fest, can't even be fixed with over 200 mods. If you like copy paste dungeon interiors and an empty open world where all of the locations are filled with nameless raiders devoid of any ideology or dialogue, this game is for you!",1753982822,1753987383,False,0,0,0.476190477609634399,0,True,False,False,False,76561198427974775,175,8,4941,3931,4894,1754062359,
+201166172,english,"Overall Yeah its pretty good. Not as good as 3, Vegas, 1, or 2. After a while the game breaks though...",1753994039,1753994039,True,0,0,0.5,0,True,False,False,False,76561199076678748,105,11,23223,2217,21024,1754450307,
+201162588,english,"Fallout 4 is the game I find myself playing the most out of all the Fallout games. The story is not as compelling or well-written as previous Fallout games, but as of now I have the most hours in this game compared to all the others. That is strictly because of how much fun I find the settlement/building system and exploring the setting. The modding potential in this game only makes it better.",1753990199,1753990199,True,0,0,0.5,0,True,False,False,False,76561198079968725,565,8,34941,644,34296,1754603555,
+201162254,english,All these clankers in the common wealth finna pmo,1753989796,1753989796,True,0,0,0.5,0,True,False,False,False,76561199013972067,106,26,5740,3481,4208,1754443280,
+201159402,english,"Its good. Not as good as Fallout 3 or New Vegas imo, but still fun to play on the side. Settlement building and power armor are sick, and the modding community is sweet. 7/10 buy the base game and all dlc on sale. ",1753986937,1754151866,True,0,0,0.5,0,True,False,False,False,76561199427942100,0,24,5246,1880,5246,1753986024,
+201157375,english,Peak.,1753984839,1753984839,True,0,0,0.5,0,True,False,False,False,76561198410487006,0,6,3959,3687,1887,1754436736,
+201155373,english,"I've played 81 hours and it's still a snooze fest, can't even be fixed with over 200 mods. If you like copy paste dungeon interiors and an empty open world where all of the locations are filled with nameless raiders devoid of any ideology or dialogue, this game is for you!",1753982822,1753987383,False,0,0,0.476190477609634399,0,True,False,False,False,76561198427974775,175,8,5052,1246,4894,1754500806,
 201141240,english,Modding this game is a nightmare.  Constant errors from F4SE (necessary for all mods) and the dreaded XDI.DLL error message will ruin your game no matter how far in the game you are.  If you're not modding enjoy the last decent Bethesda developed game ever.  Doubt there will be another.,1753969224,1753969224,False,1,0,0.489795923233032227,0,True,False,False,False,76561199118898011,0,32,2369,2153,2369,1753968350,
 201139740,english,Love this game. Always come back to it,1753967598,1753967598,True,0,0,0.5,0,True,False,False,False,76561198115916895,103,10,36603,0,36603,1747923166,
-201139553,english,IT'S FALLOUT,1753967389,1753967389,True,1,0,0.523809552192687988,0,True,False,False,False,76561199286082236,0,2,10699,13,10699,1752960207,
+201139553,english,IT'S FALLOUT,1753967389,1753967389,True,1,0,0.523809552192687988,0,True,False,False,False,76561199286082236,0,2,10708,8,10699,1754131834,
 201137487,english,"literally the best game to ever exist. There is a reason it won GOTY. and no, I've played the game for more than 6 hours, just on my Playstation that's where I put in the grind.",1753965246,1753965246,True,1,0,0.522058844566345215,0,True,False,False,False,76561199878050690,0,1,425,425,374,1754005036,
 201135738,english,"I gazed into the  depths of human deprivation thanks to this game. If even half of the effort by the ""talented"" and ""dedicated"" mod creators was spent on research, we would've have cured cancer by now.",1753963230,1753963230,True,1,0,0.522058844566345215,0,True,False,False,False,76561199485567602,23,8,14743,0,14743,1733159435,
 201134682,english,best fallout so far,1753961956,1753961956,True,0,0,0.476190477609634399,0,True,False,False,False,76561198799888483,0,22,11519,0,11519,1745904551,
-201128884,english,"The hours should answer how much i'm into F4 and all the others. Please if you have not, play on survival. It adds a whole new scope to the game. Also my lady bought me a new pc that i can play F4 on Ultra everything. Totally awesome.",1753954621,1753954621,True,0,0,0.5,0,True,False,False,False,76561198410641188,0,2,87578,469,87261,1754082032,
+201128884,english,"The hours should answer how much i'm into F4 and all the others. Please if you have not, play on survival. It adds a whole new scope to the game. Also my lady bought me a new pc that i can play F4 on Ultra everything. Totally awesome.",1753954621,1753954621,True,0,0,0.5,0,True,False,False,False,76561198410641188,0,2,90031,2853,87261,1754610071,
 201120704,english,"If you enjoy good gunplay in games, you should definitely play this. Go play New Vegas if you enjoy story",1753942229,1753942229,True,0,0,0.5,0,True,False,False,False,76561199652769837,0,1,41079,1983,41079,1753837590,
 201120367,english,good game but changing fov is a pain in the ass,1753941598,1753941598,True,0,0,0.5,0,True,False,False,False,76561199132958058,78,25,1123,59,1123,1753941559,
-201118957,english,"having a ssd does not help with the loading, your'e better off adding mods to fix bugthesda problems",1753939375,1753939375,True,0,0,0.5,0,True,False,False,False,76561197977819695,0,5,896,654,896,1753585400,
-201114831,english,i loved it for long time try it out if you like it,1753933083,1753933083,True,0,0,0.5,0,True,False,False,False,76561199727368635,12,1,692,523,478,1754033104,
+201118957,english,"having a ssd does not help with the loading, your'e better off adding mods to fix bugthesda problems",1753939375,1753939375,True,0,0,0.5,0,True,False,False,False,76561197977819695,0,5,896,329,896,1753585400,
+201114831,english,i loved it for long time try it out if you like it,1753933083,1753933083,True,0,0,0.5,0,True,False,False,False,76561199727368635,13,1,1149,975,478,1754594336,
 201114381,english,Cannot run on a modern system. So many crashes even after implementing fixes that users provide. Bethesda please fix your game!,1753932434,1753932434,False,1,0,0.5,0,True,False,False,False,76561198034421046,0,3,808,207,803,1753990569,
 201113551,english,the fallout games take choose your own story to a whole different level. You can do whatever you want. when ever you want.,1753931274,1753931274,True,0,0,0.5,0,True,False,False,False,76561199120301672,31,3,4627,167,4549,1753935844,
-201111673,english,Main story is terrible.  Far Harbor is good.  Core game play is decent.  Mods make the game worthwhile.,1753928675,1753928675,True,0,0,0.5,0,True,False,False,False,76561198030737104,0,11,26731,145,26589,1754112299,
-201111613,english,very good game tbh! many features and mods are cool + all the quests! i 100% recomend!,1753928598,1753928598,True,0,0,0.5,0,True,False,False,False,76561199654282739,0,2,5515,5515,4875,1754068914,
-201111160,english,Such a bad game Todd can be ashamed.,1753927976,1753927976,False,0,0,0.5,0,True,False,False,False,76561199404951135,0,17,6367,1108,5634,1754084789,
-201111097,english,i liek stealing,1753927874,1753927874,True,0,0,0.5,0,True,False,False,False,76561199807847596,0,7,4908,1316,4908,1754093875,
+201111673,english,Main story is terrible.  Far Harbor is good.  Core game play is decent.  Mods make the game worthwhile.,1753928675,1753928675,True,0,0,0.5,0,True,False,False,False,76561198030737104,0,11,27964,1379,26589,1754551281,
+201111613,english,very good game tbh! many features and mods are cool + all the quests! i 100% recomend!,1753928598,1753928598,True,0,0,0.5,0,True,False,False,False,76561199654282739,0,2,6085,3888,4875,1754342243,
+201111160,english,Such a bad game Todd can be ashamed.,1753927976,1753927976,False,0,0,0.5,0,True,False,False,False,76561199404951135,0,17,7858,2599,5634,1754609239,
+201111097,english,i liek stealing,1753927874,1753927874,True,0,0,0.5,0,True,False,False,False,76561199807847596,0,8,4908,460,4908,1754093875,
 201111054,english,good,1753927817,1753927817,True,0,0,0.5,0,True,False,False,False,76561198856612744,0,1,4147,268,4066,1753967669,
 201110996,english,i killed a thingy and it died,1753927751,1753927751,True,0,0,0.5,0,True,False,False,False,76561198449079028,0,6,12571,32,12538,1753999195,
-201109433,english,banger,1753925537,1753925537,True,0,0,0.5,0,True,False,False,False,76561198027514163,210,84,8426,4323,7421,1754087038,
+201109433,english,banger,1753925537,1753925537,True,0,0,0.5,0,True,False,False,False,76561198027514163,210,84,12021,7911,7421,1754609067,
 201106378,english,"older game but alot of fun.
-been playing on bazzite and nearly flawless",1753921321,1753921321,True,0,0,0.5,0,True,False,False,False,76561198007029798,0,5,2474,1489,2229,1754095491,
-201097378,english,ITS FUN,1753910321,1753910321,True,0,0,0.5,0,True,False,False,False,76561199875085460,0,1,3901,2337,2740,1754081464,
-201091569,english,"Fallout 4 has its good and bad aspects, but it's overall a good game. I think anyone can find something to like and enjoy about it. The strongest aspects of this game are the exploration and open world. My rating is a 7/10.",1753904245,1753907066,True,1,0,0.505882382392883301,0,True,False,False,False,76561197998542937,72,60,13126,0,13126,1752784967,
+been playing on bazzite and nearly flawless",1753921321,1753921321,True,0,0,0.5,0,True,False,False,False,76561198007029798,0,5,3010,1543,2229,1754526924,
+201097378,english,ITS FUN,1753910321,1753910321,True,0,0,0.5,0,True,False,False,False,76561199875085460,0,1,3936,2371,2740,1754167292,
+201091569,english,"Fallout 4 has its good and bad aspects, but it's overall a good game. I think anyone can find something to like and enjoy about it. The strongest aspects of this game are the exploration and open world. My rating is a 7/10.",1753904245,1753907066,True,1,0,0.505434811115264893,0,True,False,False,False,76561197998542937,72,61,13126,0,13126,1752784967,
 201090573,english,"very fun game
-",1753903305,1753903305,True,0,0,0.5,0,True,False,False,False,76561199368110527,0,2,7241,81,7160,1753994603,
-201089009,english,settlement building makes me want to wax my balls,1753901778,1753901861,True,1,1,0.523809552192687988,0,True,False,False,False,76561199401560318,44,5,2244,576,2061,1754077688,
-201080407,english,.,1753893545,1753893545,True,0,0,0.5,0,True,False,False,False,76561199880205427,0,1,976,976,248,1754073737,
+",1753903305,1753903305,True,0,0,0.5,0,True,False,False,False,76561199368110527,0,3,10165,3005,7160,1754588086,
+201089009,english,settlement building makes me want to wax my balls,1753901778,1753901861,True,1,1,0.523809552192687988,0,True,False,False,False,76561199401560318,44,5,2661,993,2061,1754587645,
+201080407,english,.,1753893545,1753893545,True,0,0,0.5,0,True,False,False,False,76561199880205427,0,1,1505,1505,248,1754229025,
 201078738,english,"Plus 234 rads
 
 (Potato chips)",1753892044,1753892044,True,0,0,0.5,0,True,False,False,False,76561199350658535,69,14,14065,0,14065,1747269865,
 201077937,english,"I enjoyed this for many many hours. It starts to feel like quantity over quality after a while. I enjoyed building up settlements, feeling like I was taming the wasteland a little bit. I enjoyed it less when I was far away in the DLC maps getting alerts about attacks on my settlements. Far Harbor is cool, Nuka-World is kinda cool but I don't like working with raiders (though it is a worthwhile addition to the game, if you like that kind of thing). 
 
-Better than Fallout 3 in most ways, but obviously can't hold a candle to New Vegas.",1753891353,1753891353,True,3,0,0.542608261108398438,0,True,False,False,False,76561198040573839,2286,301,8687,542,8687,1753848671,
+Better than Fallout 3 in most ways, but obviously can't hold a candle to New Vegas.",1753891353,1753891353,True,4,1,0.562263250350952148,0,True,False,False,False,76561198040573839,2286,301,8687,542,8687,1753848671,
 201067036,english,"I've played this game alot more on console.
 
 Yeah, the artstyle sucks in comparison to the older Fallout games, the weapon design is disgusting, the RPG mechanics are barebones, the story is lackluster, BUT it's still fun. 
@@ -155,24 +624,24 @@ And it becomes really fun when you get a couple mods that make the game darker, 
 
 Basically anything that makes the game more similiar to the older ones, especially artstyle wise. 
 
-Basically you need mods like any other Bethesda game.",1753881601,1753899014,True,0,0,0.5,0,True,False,False,False,76561198000182635,79,14,852,815,726,1754054792,
+Basically you need mods like any other Bethesda game.",1753881601,1753899014,True,0,0,0.5,0,True,False,False,False,76561198000182635,79,14,888,851,726,1754227383,
 201053196,english,"I was excited to play it but i forgot about it..
 ",1753865550,1753865550,True,0,0,0.5,0,True,False,False,False,76561199124831843,0,12,232,0,232,1738675012,
-201051389,english,Needs Raw Sex,1753863001,1753863001,True,0,0,0.5,0,True,False,False,False,76561198057683395,260,69,4558,0,4558,1734308109,
-201047489,english, i first played this game in 2023 on my ps and i platinum it i bought every dlc bought all the other games becasue its just so good keep making fallout games bethesda,1753857405,1753857405,True,0,0,0.5,0,True,False,False,False,76561199881664222,0,1,2625,2625,1547,1754112315,
-201042478,english,"They updated the game with nothing necessary or good, and broke all the mods. Now you have to figure out how to downgrade it to the previous version to make mods work again. Damn it Bethesda. I really wanted to go back and have a play-through again, but without mods it isn't as awesome. I am so sad :(",1753849968,1753849968,False,1,0,0.503722071647644043,0,True,False,False,False,76561197971324417,317,10,11923,243,11923,1753847376,
-201038472,english,Junk. Junk never changes. it fill's your pockets and keeps you searching for screws.,1753844689,1753844689,True,0,0,0.5,0,True,False,False,False,76561198298732701,0,15,55467,2478,55117,1754105055,
-201032158,english,I kinda just run around and shoot ppl but there are a bunch of 18+ mods on nexusmods if you're into that sort of stuff,1753836737,1753836737,True,0,0,0.5,0,True,False,False,False,76561199161103717,0,10,9553,124,9430,1754031328,
+201051389,english,Needs Raw Sex,1753863001,1753863001,True,0,0,0.5,0,True,False,False,False,76561198057683395,262,70,4558,0,4558,1734308109,
+201047489,english, i first played this game in 2023 on my ps and i platinum it i bought every dlc bought all the other games becasue its just so good keep making fallout games bethesda,1753857405,1753857405,True,0,0,0.5,0,True,False,False,False,76561199881664222,0,1,3288,3288,1547,1754526118,
+201042478,english,"They updated the game with nothing necessary or good, and broke all the mods. Now you have to figure out how to downgrade it to the previous version to make mods work again. Damn it Bethesda. I really wanted to go back and have a play-through again, but without mods it isn't as awesome. I am so sad :(",1753849968,1753849968,False,1,0,0.503722071647644043,0,True,False,False,False,76561197971324417,317,10,13884,2204,11923,1754603548,
+201038472,english,Junk. Junk never changes. it fill's your pockets and keeps you searching for screws.,1753844689,1753844689,True,0,0,0.5,0,True,False,False,False,76561198298732701,0,15,55536,1935,55117,1754191902,
+201032158,english,I kinda just run around and shoot ppl but there are a bunch of 18+ mods on nexusmods if you're into that sort of stuff,1753836737,1753836737,True,0,0,0.5,0,True,False,False,False,76561199161103717,0,11,9553,123,9430,1754031328,
 201029316,english,good gam,1753833431,1753833431,True,0,0,0.476190477609634399,0,True,False,False,False,76561198425542921,61,4,24986,60,24929,1753837139,
-201027266,english,had this on xbox was buggy and crashed all the time got it on pc and haven't had an issue. Wish i could refund the xbox version,1753830842,1753830842,True,0,0,0.5,0,True,False,False,False,76561198059413488,0,12,5042,5042,3320,1754113563,
-201025800,english,it's a fun game,1753829124,1753829124,True,0,0,0.5,0,True,False,False,False,76561198302334454,0,9,4565,241,4345,1754021650,
+201027266,english,had this on xbox was buggy and crashed all the time got it on pc and haven't had an issue. Wish i could refund the xbox version,1753830842,1753830842,True,0,0,0.5,0,True,False,False,False,76561198059413488,0,12,7626,7373,3320,1754557987,
+201025800,english,it's a fun game,1753829124,1753829124,True,0,0,0.5,0,True,False,False,False,76561198302334454,0,9,4704,366,4345,1754162627,
 201025191,english,This is a good game if you want to explore and build and shoot stuff. You can play this for such a long time if you want. It's pretty good.,1753828443,1753828443,True,0,0,0.5,0,True,False,False,False,76561197981555435,0,10,28157,0,28157,1542256267,
 201023543,english,"love the open world. game play is sweet
-",1753826568,1753826568,True,0,0,0.5,0,True,False,False,False,76561198838325770,0,2,20875,628,20712,1754089788,
-201020574,english,"If you like a one player game that lets you freely do stupid things, this is for you.",1753823582,1753823582,True,0,0,0.5,0,True,False,False,False,76561197960907584,0,2,40953,32,40953,1753559178,
-201010634,english,everyone loved that,1753814538,1753814538,True,0,0,0.5,0,True,False,False,False,76561199036053233,40,6,2144,631,1761,1753988466,
+",1753826568,1753826568,True,0,0,0.5,0,True,False,False,False,76561198838325770,0,2,21031,492,20712,1754609988,
+201020574,english,"If you like a one player game that lets you freely do stupid things, this is for you.",1753823582,1753823582,True,0,0,0.5,0,True,False,False,False,76561197960907584,0,2,40953,33,40953,1754183465,
+201010634,english,everyone loved that,1753814538,1753814538,True,0,0,0.5,0,True,False,False,False,76561199036053233,41,6,2144,631,1761,1753988466,
 201009341,english,i have finnished this game on ps4 and now starting again on PC. Its such a grait game. good storieline and not to complicated.,1753813410,1753813410,True,0,0,0.5,0,True,False,False,False,76561199664292604,0,10,284,284,284,1753812453,
-201005905,english,GoAT,1753810371,1753810371,True,0,0,0.5,0,True,False,False,False,76561198090307288,13,1,5844,5831,4478,1754108400,
+201005905,english,GoAT,1753810371,1753810371,True,0,0,0.5,0,True,False,False,False,76561198090307288,13,1,7860,5945,4478,1754608769,
 201004785,english,Mods,1753809386,1753809386,True,0,0,0.5,0,True,False,False,False,76561198271280327,0,47,6250,0,6250,1644680337,
 201002935,english,"Excellent Looter Shooter with RPG-Elements as well as base building in an atmospheric open world which is fun to explore. I'm a first time player... hence there are no nostalgic feelings involved. I definitely understand now why so many people love Bethesda games besides their bugs and occasional bad writing. 
 
@@ -180,7 +649,7 @@ In addition FO 4 is very easy to mod even for a beginner and you can basically m
 
 Even with my currently around 20 mods the game is very stable, so far I did not encounter any crashes or game-breaking bugs (not even minor bugs to be honest).
 
-All in all the game is a big recommendation for everyone who likes Loot, exploring and an atmopsheric post-apocalyptic open world in which there are many things to do but you are not forced to do any of them if you don't like (unlike the more story-driven RPGs like RDR2, KCD2 or CP77 for comparison). I myself prefer the FO4-style RPG much more.",1753807762,1753807762,True,0,0,0.5,0,True,False,False,False,76561198032682625,0,12,4341,2352,3575,1754079641,
+All in all the game is a big recommendation for everyone who likes Loot, exploring and an atmopsheric post-apocalyptic open world in which there are many things to do but you are not forced to do any of them if you don't like (unlike the more story-driven RPGs like RDR2, KCD2 or CP77 for comparison). I myself prefer the FO4-style RPG much more.",1753807762,1753807762,True,0,0,0.5,0,True,False,False,False,76561198032682625,0,12,5030,2290,3575,1754551051,
 201000213,english,I like the game. Its good and I like it.,1753805402,1753805402,True,0,0,0.5,0,True,False,False,False,76561198135474115,0,6,686,6,680,1753805725,253.0
 200993700,english,"GOOD
 ",1753799743,1753799743,True,0,0,0.5,0,True,False,False,False,76561199863759406,0,2,445,445,369,1753921104,
@@ -207,7 +676,7 @@ TLDR:
 
 - Fun to be had: Much.
 
-All in all, I do recommend Fallout 4",1753797384,1753797384,True,0,0,0.5,0,True,False,False,False,76561198089796214,0,3,37157,5216,35716,1754112463,
+All in all, I do recommend Fallout 4",1753797384,1753797384,True,0,0,0.5,0,True,False,False,False,76561198089796214,0,3,40457,7194,35716,1754356729,
 200990824,english,its unplayable in 25 and keeps getting worst bugs crashes overlaps 5 years back was a good game i rather play new vegas then that shit,1753797178,1753797178,False,0,0,0.5,0,True,False,False,False,76561198137432174,26,3,536,35,536,1753796857,
 200988979,english,"I enjoy the ability to explore outside of the main story line, and build your character the way you want.   I am visually impaired and the vats system helps me a great deal.",1753795408,1753795408,True,0,0,0.5,0,True,False,False,False,76561198190040154,0,1,236,12,223,1753795682,
 200986623,english,Game suck without mod,1753793031,1753793031,False,0,0,0.5,0,True,False,False,False,76561199209813272,0,2,7142,608,7088,1753877208,
@@ -219,10 +688,11 @@ One thing that I would like to address about the game is it tries to do so many 
 
 On my final word about the game is it doesn’t always work the way that it’s supposed to but the bugs & glitches sure do. Then why do I recommend it, all the criticisms that I give the game is because of how good the game can be if Bethesda actually tests these systems instead of spending their time in the creation club. While I don’t touch on the store too much in this review as this was one of the older game releases thus the creation club items are just mediocre cosmetics and two or three overpowered weapon packs from Doom & Skyrim, which are not needed to play the game unlike 76. A normal player that just plays the quests and dlc is not going to find the experience of Fallout 4 bad. I played over 200 hours exploring most if not all of the main story and dlc map locations marked or unmarked without doing any glitches and thus stumbled on all the places that the game falls short or tries to do a lot and end up achieving very little. If you are fine with an okayish Bethesda rpg set in a fallout setting you can give this game a try.",1753791061,1753791061,True,1,0,0.52173912525177002,0,True,False,False,False,76561198811172166,480,18,13555,0,13555,1740513779,
 200983331,english,its a bit lacking story-wise but the gameplay is AWESOME,1753789494,1753789494,True,0,0,0.5,0,True,False,False,False,76561199801557921,29,10,819,819,268,1753978064,
+200975065,english,We all gucci until there is a settlement that needs our help,1753779146,1753779146,True,0,0,0.5,0,True,False,False,False,76561199237319055,0,21,25129,0,25129,1747063026,
 200972270,english,Wtf war HAS changed a lot. I've never seen people in armor do that before,1753775152,1753775152,True,0,0,0.5,0,True,False,False,False,76561198357974418,0,92,4487,0,4487,1721412149,
-200967561,english,Games never the same make different choices you have different outcomes so never boring,1753768123,1753768123,True,0,0,0.5,0,True,False,False,False,76561199248016899,0,6,171605,9164,169695,1754113220,
-200967513,english,keren asik,1753768052,1753768052,True,0,0,0.5,0,True,False,False,False,76561198345467486,0,8,1557,0,1557,1748533255,
-200967426,english,its fun but played it so much times,1753767918,1753767918,True,0,0,0.5,0,True,False,False,False,76561199528468312,0,11,206,77,204,1753768102,
+200967561,english,Games never the same make different choices you have different outcomes so never boring,1753768123,1753768123,True,0,0,0.5,0,True,False,False,False,76561199248016899,0,6,174718,9068,169695,1754608934,
+200967513,english,keren asik,1753768052,1753768052,True,0,0,0.5,0,True,False,False,False,76561198345467486,0,8,1572,14,1557,1754372570,
+200967426,english,its fun but played it so much times,1753767918,1753767918,True,0,0,0.5,0,True,False,False,False,76561199528468312,0,12,206,2,204,1753768102,
 200966599,english,"Was going to point out my game play time, but them remember i've passed a great deal troubleshooting which should never be a consumer responsability (also afk time). I also dont want to say just ""history bad"" cause i think it just dont make it justice.
 
 - Gameplay can be good
@@ -240,463 +710,25 @@ Without spoiling much the game have a pretty bad and unsatisfying final act and 
 Unfortunately to a big extent the game needs mods to be truly n trough enjoyed. The mod comunity is very strong and filled with extremely talented ppl, the fan guns are awesome; also fixing a multi-bi company product for free must be tough.",1753766652,1753777589,True,0,0,0.5,0,True,False,False,False,76561198092513804,253,55,73348,0,73348,1695599327,
 200962991,english,"I am gamer from israel and this is my review
 
-i liek ehis game a lot!!!! much better than stpuiud new vegas!!!",1753761369,1753761369,True,0,0,0.5,0,True,False,False,False,76561199013339081,174,13,2898,0,2898,1749970882,
-200960508,english,good,1753757971,1753757971,True,0,0,0.5,0,True,False,False,False,76561198812277663,0,7,13958,3205,12607,1754102932,
-200959188,english,best game,1753756220,1753756220,True,0,0,0.5,0,True,False,False,False,76561198848692082,0,6,18806,351,18806,1753330892,
+i liek ehis game a lot!!!! much better than stpuiud new vegas!!!",1753761369,1753761369,True,0,0,0.5,0,True,False,False,False,76561199013339081,175,13,2898,0,2898,1749970882,
+200960508,english,good,1753757971,1753757971,True,0,0,0.5,0,True,False,False,False,76561198812277663,0,7,14267,2940,12607,1754491083,
+200959188,english,best game,1753756220,1753756220,True,0,0,0.5,0,True,False,False,False,76561198848692082,0,6,18806,0,18806,1753330892,
 200958762,english,"Step 1: Buy this game
 Step 2: Install Fallout: London
-Step 3: Engage in typical british activities like consuming beans and getting stabbed.",1753755724,1753755724,True,0,1,0.5,0,True,False,False,False,76561199620940809,0,4,4088,2040,3691,1754096482,
-200958594,english,"uno de los mejores juegos de mundo abierto, toda una excelente experiencia al jugarlo",1753755508,1753755508,True,0,0,0.5,0,True,False,False,False,76561199567053185,0,1,1208,504,1193,1754015356,
+Step 3: Engage in typical british activities like consuming beans and getting stabbed.",1753755724,1753755724,True,0,1,0.5,0,True,False,False,False,76561199620940809,0,4,5820,3256,3691,1754588117,
+200958594,english,"uno de los mejores juegos de mundo abierto, toda una excelente experiencia al jugarlo",1753755508,1753755508,True,0,0,0.5,0,True,False,False,False,76561199567053185,0,1,1320,195,1193,1754448002,
 200957970,english,best game ever changed my life,1753754679,1753754679,True,0,0,0.5,0,True,False,False,False,76561198816662032,0,9,11629,129,11519,1753909951,
-200957507,english,Definitely very fun.,1753754126,1753754126,True,0,0,0.5,0,True,False,False,False,76561198000314730,182,21,1050,1012,1050,1753682082,
+200957507,english,Definitely very fun.,1753754126,1753754126,True,0,0,0.5,0,True,False,False,False,76561198000314730,182,21,1650,902,1050,1754361718,
 200956638,english,play fallout shelter instead bro,1753753013,1753753013,False,0,0,0.491452991962432861,0,True,False,False,False,76561198448460808,93,25,489,0,489,1743454641,
 200953135,english,This game is fun but it does not compare to the older titles also it the story is good but not better then others still a solid title in series,1753748449,1753748449,True,0,0,0.5,0,True,False,False,False,76561199783223071,19,2,442,24,417,1753821200,
-200952651,english,i like this product,1753747777,1753747777,True,0,0,0.5,0,True,False,False,False,76561198175645733,8,1,291,52,238,1753927000,
+200952651,english,i like this product,1753747777,1753747777,True,0,0,0.5,0,True,False,False,False,76561198175645733,8,1,293,55,238,1754412046,
 200949408,english,"game is good. one of my favorite open world RPG's. the vibe is so good. listen to diamond city radio and explore the wasteland. 
 
 when you beat the game, play it again and side with a different faction. when you do that play some of the DLC's. when you do that play with mods.
 
-endless replay ability. countless hours of fun awaits.",1753743717,1753743717,True,0,0,0.5,0,True,False,False,False,76561198070234850,231,48,3729,0,3729,1713148418,
+endless replay ability. countless hours of fun awaits.",1753743717,1753743717,True,0,0,0.5,0,True,False,False,False,76561198070234850,232,48,3729,0,3729,1713148418,
 200948850,english,"Even compared to the shit of 76, this game simply does not hold up. It is buggy, it is ridden with inventory management over gameplay, and I never really know where to go. I would not recommend playing because it is insanely fun at first and gets you hooked and then drones on with repetitive missions while forcing you to manage your inventory after only 1-2 dungeons, detracting from gameplay, what little there is of it. Also, the sarcastic tone of a dystopian and bureaucratic world before the bombs dropped lands poorly as bethesda has become exactly what they make fun of.",1753743033,1753743033,False,0,0,0.5,0,True,False,False,False,76561198140970366,0,17,8198,432,8198,1753742275,
-200946804,english,emt,1753740620,1753740620,True,0,0,0.5,0,True,False,False,False,76561199204199287,0,2,6691,1371,6173,1754078913,
-200944089,english,"The game itself is a bit of a flawed master peace. But since I've gotten onto pc gaming, I've started modding the game. Which has increased my enjoyment 10x fold.",1753737971,1753737971,True,0,0,0.5,0,True,False,False,False,76561199238522084,0,3,22112,3796,21589,1753917672,
+200946804,english,emt,1753740620,1753740620,True,0,0,0.5,0,True,False,False,False,76561199204199287,0,2,7465,1844,6173,1754596019,
+200944089,english,"The game itself is a bit of a flawed master peace. But since I've gotten onto pc gaming, I've started modding the game. Which has increased my enjoyment 10x fold.",1753737971,1753737971,True,0,0,0.5,0,True,False,False,False,76561199238522084,0,3,22112,2567,21589,1753917672,
 200944006,english,"gg
-",1753737892,1753737892,True,0,0,0.5,0,True,False,False,False,76561198971962750,201,75,2173,522,1870,1753832720,822.0
-200943222,english,Mint.,1753737129,1753737129,True,0,0,0.5,0,True,False,False,False,76561199846097801,0,1,3602,2807,1993,1753982835,
-200941952,english,http://store.steampowered.com/app/22380/Fallout_New_Vegas/,1753735707,1753735707,False,1,0,0.5,0,True,False,False,False,76561199429319350,280,64,40,0,40,1706971663,
-200932293,english,this game is a fun story,1753725990,1753725990,True,0,0,0.5,0,True,False,False,False,76561199882438810,0,1,262,262,262,1753725958,
-200925738,english,yuh,1753719735,1753719735,True,0,0,0.5,0,True,False,False,False,76561198807017106,95,34,5205,1044,4160,1754095751,
-200925596,english,I Love This Game so Muchhhhhhhhhhhhhhhhhhhhhhh,1753719593,1753719593,True,0,0,0.5,0,True,True,False,False,76561199019156995,148,60,3645,3398,3574,1753723769,
-200909084,english,"Good gunplay, BAD story and the mass effect dialogue wheel, thats fo4 for you",1753703409,1753703409,True,0,0,0.5,0,True,False,False,False,76561199444083275,94,19,2511,0,2511,1751966515,
-200901377,english,just do it,1753693685,1753693685,True,0,0,0.5,0,True,False,False,False,76561198863653861,101,5,4232,4232,3723,1753967611,
-200898741,english,this shit gas,1753689828,1753689828,True,0,0,0.5,0,True,False,False,False,76561199588766483,0,1,2686,62,2624,1753779213,
-200892191,english,"Definitely in my top 10 games of all time. Made in a time when developers actually gave a shit about the single player experience. Therefore there is basically an endless amount of things to do and explore. If you have a lot of free time on your hands and are looking to lose yourself in a world that is truly your oyster, than this game is 100% for you. 
-
-Assuming you don't run into too many bugs. This is Bethesda after all, lol.",1753679697,1753679697,True,0,0,0.5,0,True,False,False,False,76561198862189037,0,4,9562,0,9562,1746386661,
-200891923,english,"Like most of Bethesda Softworks games, I am very pleased with this game. It provides all the staples of a bethesda game, with a fresh twist. You get to be a walking tank. Literally.",1753679278,1753679278,True,0,0,0.5,0,True,False,False,False,76561198086898707,274,80,5632,225,5499,1754027562,
-200888834,english,"Bethesda... Bethesda never changes its graphics engine. (Dramatic music)
-",1753674669,1753674669,True,1,0,0.516574561595916748,0,True,False,False,False,76561198092217602,0,15,47816,1931,46412,1754112892,
-200888439,english,Yes,1753674132,1753674132,True,0,0,0.5,0,True,False,False,False,76561198143244421,0,6,9175,569,8844,1753947452,
-200886906,english,.,1753671991,1753671991,True,0,0,0.5,0,True,False,False,False,76561198029306016,0,24,10708,1566,10147,1754112012,
-200886338,english,"somehow this game is incredibly overrated and incredibly underrated
-
-i dont know how that happens, but this game does it.
-
-I do recommend this game overall though, modding community is fantastic, and the basegame isn't even bad.
-
-Don't blaze through the main questline, try and mess around with some side content.
-
-Gunplay is nothing special, but serves the gameplay loop well enough.",1753671168,1753671168,True,0,0,0.5,0,True,False,False,False,76561198258204225,115,21,18229,0,18229,1746829859,
-200885164,english,"Loved it on the Xbox one with limited modding support. This just feels right
-",1753669592,1753669592,True,0,0,0.5,0,True,False,False,False,76561198164920810,0,12,1749,728,1021,1754036602,
-200883200,english,its aight worth playing through at least once,1753666989,1753666989,True,0,0,0.5,0,True,False,False,False,76561198196774665,265,74,1409,0,1409,1678772891,
-200882440,english,YES,1753665985,1753665985,True,0,0,0.5,0,True,False,False,False,76561199836124967,18,6,818,818,217,1754112042,
-200882245,english,good,1753665749,1753665749,True,0,0,0.5,0,True,False,False,False,76561199121862093,0,3,371,371,235,1753679135,
-200880969,english,"There are very few games I played more than 400 hours and this is one of them. I will not compare it to F1 and F2 (I am 55 yo and payed them both when they were released. In fact, I remember playing Fallout 1 demo as if it were today). It is a different game and I am not necessarily a big fan of Bethesda style. Still, enjoying it tremendously. I actually liked it more than the 3rd one.",1753664112,1753664112,True,0,0,0.5,0,True,False,False,False,76561198058768284,0,4,25411,880,25411,1753659968,
-200878835,english,na,1753661237,1753661237,True,0,0,0.5,0,True,False,False,False,76561199529439251,0,2,4084,3699,1005,1753929750,
-200878013,english,"I'm a simple man really, all I want is to build a little town, listen to the Ink Spots, and fire a 2mm electromagnetic cartridge through the skull of a 7 foot tall green mutie. This game lets me do all of those things.",1753660088,1753660088,True,0,0,0.5,0,True,False,False,False,76561198154049802,0,12,78024,0,78024,1696549480,
-200876846,english,"Thanks Todd, it does just work!",1753658570,1753658570,True,0,0,0.5,0,True,False,False,False,76561199182991477,0,24,26304,1966,25847,1754011768,
-200871700,english,i believe i had a family but all i know is fallout,1753652613,1753652613,True,0,0,0.5,0,True,False,False,False,76561199446669075,0,9,5175,1567,4312,1754098153,
-200870813,english,this game is for dorks bro,1753651698,1753651698,False,0,1,0.5,0,True,False,False,False,76561199588925823,0,10,66,0,66,1743616758,
-200870590,english,"disappointing garbage. the third person dialogue is garbage and gives you zero choices that matter. the NPCs are lifeless, boring and constantly break immersion. the guns feel like cardboard. the power armor is tedious to put on and maintain. they put too much effort into the settlement building, and completely neglected the RPG mechanics. the only good thing about this game is the graphics and setting. Bethesda should’ve learned from fallout new Vegas, but Todd and Emil are have too much pride and it hurts their feelings when you ask them to do better. dumb game. disappointing.",1753651487,1753651487,False,0,0,0.5,0,True,False,False,False,76561198042375809,154,43,297,0,297,1713745102,
-200870138,english,my fav fallout game,1753651025,1753651025,True,0,0,0.5,0,True,False,False,False,76561199131423138,90,28,70,70,70,1753650504,
-200869545,english,"great game....with mod patchs lol, with other mods added, one of the best games of all time",1753650416,1753650416,True,0,0,0.5,0,True,False,False,False,76561199291916211,0,4,1667,201,1465,1754041626,
-200869165,english,boring shit story too,1753650033,1753650033,False,0,0,0.470947593450546265,0,True,False,False,False,76561199268133593,60,5,1915,16,1915,1753650009,
-200868813,english,"After almost completing everything, I would say that the older games were better in most regards, this one is just slop compared to them. Also, it's crashy and the world feels empty. Voiced protagonist was a mistake for immersion and the DLCs are cheap cash grabs except Far Harbor which was the only good DLC of the game.
-
-It did start off good but once your character becomes level 30-40 it becomes a cakewalk. You can practically use power armor the whole game with the right perks, the AI is dumb as bricks, and the hardest difficulty isn't worth shit. Survival is good but only for a while, after that it becomes too easy as the enemies are just as fragile as you, but you're wearing power armor 24/7 so not really fragile.
-
-I played it because I'm a fallout fan, but I'm glad I got the game for cheap. Music and radio was slop compared to the older games.",1753649649,1753649649,False,0,0,0.5,0,True,False,False,False,76561197968241185,408,92,15210,2465,15210,1753568683,
-200867880,english,"My most nostalgic game, got it in 2018 and I have been playing and modding it ever since. I personally prefer the post-apocalypse setting of this game over Skyrim's fantasy one, but both are in the same tier. 9/10",1753648673,1753648673,True,0,0,0.5,0,True,False,False,False,76561198276947821,172,9,48619,0,48619,1733521159,
-200867717,english,"best game ever
-",1753648509,1753648509,True,0,0,0.5,0,True,False,False,False,76561198347845861,0,2,26688,1646,25042,1754112830,
-200867003,english,Best game,1753647789,1753647789,True,0,0,0.5,0,True,False,False,False,76561198318360388,42,8,4134,2184,3742,1753876197,
-200862771,english,"Addiction, that's the only was to describe it, 100 hours in the first week and well. you can see on this review that I didn't stop, I'm just now touching into mods and the modding community is amazing, the support is wonderful and it's easier to figure out than other games in this series, there is crashing but it's not that bad *unless* you play survival where you can only save by sleeping, I ended up downloading an autosave mod which I really didn't want to have to do, but after losing a few hours of progress I caved.
-
-But don't let that discourage you, crashes are few and far between and expected from a game of this age and complexity, however it can be annoying when it does happen, from what i understand most players don't play survival so you'll likely be fine, but I'm a sucker for punishment as I play exclusively survival.
-
-the DLC's are not that bad all things consider, Nuka-World is worse for wear when you realize that the leather armor is better than Marine armor, it seems they just made nuka world then added +20 to everything as a base stat across the board, making the park a harder place and a nice challenge over all. However it can feel very lazy to just add higher hp pools as a challenge.
-
-Far Harbor is lovely if you are into lore and immersion, being a detective and figuring this out is amazing, especially if you turn off quest markers so you actually have to figure things out on your own-some. 
-
-As for the other DLC, it has issues here and there, but in the end I feel like I got what I paid for, it's not great, but it adds enough that it felt fair.
-
-
-If you are looking to start the Fallout Series, start here, do not start on 76, 3, or New Vegas. I can't speak for 1 or 2. However this is where you want to start. I hear people complain about their game getting bricked from the ""Next-Gen"" update, which I agree that update sucks so bad, but I haven't had any issues, that being said I downloaded the game after said update, and if your reading this, so will you. 
-
-Something frustrating about the next gen update is there are some soldiers you can find in power armor at level 1, as fast as you want, it's the best armor in the entire game, this makes building up and fixing the starting armor and all armor after that you find feel worthless.",1753643834,1753644032,True,1,0,0.523809552192687988,0,True,False,False,False,76561199777782771,0,4,17192,7088,14581,1754103942,
-200860001,english,BEST GAME BECAUSE YOUR COMPANIONS HAVE FUNNY REACTION TO SOME THINGS,1753641278,1753641278,True,0,0,0.5,0,True,False,False,False,76561198890213782,0,1,9072,0,9072,1736191634,
-200858174,english,"I've yet to play this one all the way through, but who doesn't love scrounging for resources and exploring a post-apocalyptic wasteland?
-
-The idea of tweaking your 'bases' so much has some appeal..but then it also starts to feel like too much micromanagement is needed.  It would be nice to be able to adjust the level of attention you need to such things.  
-
-I can't speak to the overall story yet, but someday I may find the time to look it through.",1753639654,1753639654,True,0,0,0.5,0,True,False,False,False,76561198806197714,0,4,2078,151,1926,1753751584,
-200858133,english,i liak it it's fun,1753639622,1753639622,True,0,0,0.5,0,True,True,False,False,76561199822497408,0,4,1547,135,1505,1753648021,
-200857708,english,.,1753639231,1753639231,True,0,0,0.5,0,True,False,False,False,76561199017105891,0,16,9234,770,8591,1754008437,
-200855735,english,"After 10 years, it's still good looking and have a lot of content. Some of that content is really well done, like the main story, and some of it is ""go there, kill them, come back"". 
-
-I've still never beaten it...",1753637526,1753637526,True,0,0,0.5,0,True,False,False,False,76561198021706511,177,12,4811,585,4420,1753918026,
-200855644,english,"7.6/10
-The hate is overblown, although it has errors in story and gameplay, its still good",1753637448,1753637448,True,0,0,0.5,0,True,False,False,False,76561199124254253,219,53,22215,0,22215,1713732481,
-200853668,english,"pretty fun game, all the different options for the story are cool",1753635778,1753635778,True,0,0,0.5,0,True,False,False,False,76561199346677837,0,5,1264,751,1264,1753651160,
-200853118,english,"Depends on mods to make it good. It may be fun, but isn't a good Fallout game. 
-
-Bethesda destroyed the art style of the gritty, undefined wastes, trading it in for cartoon-y, inaccurate, rounded and simplified mess of a AAA game. The 50's environment isn't what it's supposed to be. It was to be retro-futuristic, gritty, destroyed towns, cities, etc. The visuals are nice but they are just too bright and flashy, unlike the raw and gritty visuals of the earlier games.
-
-Bethesda fucked up on the design of guns and enemies. Majority of the guns look like toys and hunks of messes, instead of actual guns. (I'm not counting energy weapons because... well yeah.) The super-mutants now look like skinny Shrek-like guys instead of beasts that were strengthened by the F.E.V., Ghouls now look a lot more ""cutesy"" and simplified, and Deathclaws are no longer terrifying. They're just big hostile lizards. 
-
-Gameplay wise, it's a disaster. Yes, I know Bethesda was trying to open up to a new audience, but it betrays the original Fallouts in so many ways. Dialogue is shit, ambiguity of your character is gone due to them being voiced and having a very tight backstory, the RPG elements are watered down and diluted to the point where the tasty sodas of the Fallout games before, are now what remains after the ice melts in the soda, a watery mess.
-
-Variety is odd. There isn't much variety between the factions, being that some factions are just guards for Diamond City. They completely scrapped the ammo variants and skills. It's only perks now. No more using points to fill up your speech, lockpick, medicine, etc. 
-
-Story sucks. It may have some thrilling side quests and some small interesting plot points, but it's just so hollow. There's not much complexity to it.
-
-Look, Fallout 4 is a kind of fun game, but it isn't a Fallout game. Bethesda mischaracterized what made Fallout well- Fallout, and made others mischaracterize the franchise.The gameplay itself keeps itself together with duct tape and glue, then calls it a day. I think it's enjoyable but it betrays Fallout in so many ways.  I liked the Power Armor system tho.
-
-Finally, the biggest reason I dislike this game. No 5 hour sex scene between Nick Valentine and Preston Garvey.",1753635340,1753645069,False,0,0,0.5,2,True,False,False,False,76561199528391410,0,23,427,362,65,1754092762,
-200851973,english,best game,1753634399,1753634399,True,0,0,0.5,0,True,False,False,False,76561199412179187,0,1,5358,1061,4297,1754079443,
-200851544,english,sure,1753634023,1753634023,True,0,0,0.5,0,True,False,False,False,76561198098158539,123,26,39890,456,39514,1753854801,
-200849485,english,"- Goes on journey to find son
-- Finds son
-- Kills son
-- Refuses to elaborate
-- Leaves
-
-10/10 Game",1753632345,1753632345,True,0,0,0.5,0,True,False,False,False,76561199183436008,0,4,20622,2774,19754,1754081772,
-200844522,english,"Loading times, repetitive gameplay, crashes, bethesda is terrible",1753628554,1753628554,False,0,0,0.5,0,True,False,False,False,76561199415597522,0,4,4302,0,4302,1720542503,
-200837239,english,Okay this is a Mod decoration I ve seen before,1753622507,1753622507,False,0,0,0.5,0,True,False,False,False,76561199803232514,0,8,2222,2222,22,1754110611,
-200835927,english,really great game.,1753621358,1753621358,True,0,0,0.5,0,True,False,False,False,76561198807397116,130,18,3444,651,3444,1753353605,
-200835744,english,i think there is a settlement that needs my help?,1753621172,1753621172,True,0,0,0.5,0,True,False,False,False,76561198091069605,0,2,6438,1614,4901,1754097517,
-200835591,english,"Even in 2025 its still a good game to play.
-",1753621023,1753621023,True,1,0,0.523809552192687988,0,True,False,False,False,76561199389080222,0,1,14997,461,14946,1753775587,
-200832886,english,A LOT of replay-ability and attention to the little things scattered around the map. And also its so fun and satisfying to become the strongest in the wasteland and make every enemy run from me... and then blast their heads into thousands of pieces. A really old game but its still fun as hell to this day,1753618503,1753618503,True,0,0,0.5,0,True,False,False,False,76561199446722468,0,1,4410,4410,2988,1754087061,
-200827595,english,Very easy to get stuck into,1753613243,1753613243,True,0,0,0.5,0,True,False,False,False,76561199014510142,0,6,1250,927,599,1754060644,
-200827343,english,i believe there was another settlement that needed my help,1753612927,1753612927,True,0,0,0.5,0,True,False,False,False,76561199069352977,0,3,218,208,185,1753991280,
-200824412,english,"I love fallout ❤️ (and piper)
-
-BTW i am that one guy who comments on every fallout related video saying that phrase.
-and also great game better that New Vegas in my opinion.",1753609797,1753609797,True,0,0,0.476190477609634399,0,True,False,False,False,76561199228598029,0,7,17545,1145,16842,1754068158,
-200818414,english,"The plot of this game ruined it for me. 
-
-Hope whoever wrote and the management who accepted this kinder garden plot is no longer with Microsoft (Bethesda). Fingers crossed they are not there to ruin Fallout 5...
-Played all Fallout games so far, except Fallout 76.
-
-Minutemen - They are so useless in the game, there is no weight of their goals. And that endless: ""There's another settlement that needs our help."" -SHIT
-
-The Brotherhood - In FO4 I think\feel like they are the crazy people from the Enclave from FO3. See no real reason to join them. -SHIT
-
-The Institute - I hunt them, fight them 3/4 of the game and by the time I get there to choose and joint them I hate their guts. -SHIT
-
-The Railroad - The single faction who has a cause and a goal I can relate too. Playing the whole game for the Railroad feels ... empty. -SHIT.
-
-Howard: Pick a SHIT please.",1753603195,1753603195,False,0,0,0.5,0,True,False,False,False,76561197990198713,0,2,4247,0,4247,1692710831,
-200818100,english,"Great game, heaps of cool mods and perks, huge map to explore and challenging boss fights!",1753602761,1753602761,True,0,0,0.5,0,True,False,False,False,76561198219757189,0,4,8220,3507,6738,1754062936,
-200818004,english,"SINCE THE LAST UPDATE IT JUST DON'T OPEN IN FULL SCREEN,ISNTEAD IT OPEN IN MINIMIZED WINDOW WHERE IS WRITTEN FALLOUT 4 AND DOES NOT GIVE THE OPTION TO EXPAND, CLOSE, MINIMIZE OR ANYTHING ELSE, THE GAME WORKED FINE A YEAR AGO BUT NOW? THIS PROBLEM WITH THE SCREEN IS SO UNPLEASANT AS THE BUGGY FONV THAT ALSO CRASH AND DOESN'T OPEN.",1753602641,1753602641,False,0,0,0.5,0,True,False,False,False,76561198871754409,62,8,23413,519,22902,1754024164,
-200817032,english,"Game of the year, absolutely!! Have to try!!!",1753601483,1753601483,True,0,0,0.5,0,True,False,False,False,76561198121345162,23,4,2086,1689,1510,1754083998,
-200812887,english,Still on of my favourites.,1753596458,1753596458,True,0,0,0.5,0,True,False,False,False,76561199120409137,0,1,16863,5936,15078,1753985064,
-200811876,english,619 hours invested what else is there to say....,1753595142,1753595142,True,0,0,0.5,0,True,False,False,False,76561198007842066,0,2,37167,317,37167,1753412107,
-200810817,english,cool,1753593838,1753593838,True,0,0,0.5,0,True,False,False,False,76561199685506190,0,2,2922,1130,2378,1754022309,
-200810805,english,Very fun game with good story,1753593814,1753593814,True,0,0,0.5,0,True,False,False,False,76561199382502764,0,3,7240,1179,6664,1754029863,
-200808804,english,it just works,1753591271,1753591271,True,0,0,0.5,0,True,False,False,False,76561199087364686,0,1,4409,1193,3810,1754026944,
-200807336,english,great fun,1753589464,1753589464,True,0,0,0.5,0,True,False,False,False,76561199122190138,22,1,8885,5833,6613,1753936775,
-200805928,english,there's a dog in it,1753587753,1753587753,True,0,1,0.5,0,True,False,False,False,76561198381193482,0,4,1379,571,884,1753927688,
-200799480,english,"If i had a dollar for every time i purchased a Bethesda game, played it, then ditched it halfway to then purchase it on another device then play halfway then ditch it i'd have $7 which doesn't sound like a lot but it's actually worth nothing in this economy",1753579725,1753579725,True,0,0,0.5,0,True,False,False,False,76561198831420241,0,40,508,260,451,1753666165,
-200798874,english,"As so many others have said, F4 definitely has a weaker story than most other Fallout games, but oh MAN is it fun!! I have thousands of hours into Fallout 3 & New Vegas and I grew up watching my old-school gamer Dad playing Fallout 1 & 2 on PC in the 90's and, while I wouldn't say it is a better game all-around, Fallout 4 is definitely the most FUN I've had playing a Fallout game so far.  Kinda happy I waited until 2025 to play it for the first time so I could start off with all the DLC and Next-Gen stuff.  8.5/10 would totally recommend!!",1753578955,1753578955,True,0,0,0.5,0,True,False,False,False,76561199822393228,0,1,2056,608,1816,1753842412,
-200798012,english,Game play is awesome of course. The progression seems to be well balanced and of course the sound track is on point.,1753577840,1753577840,True,0,0,0.5,0,True,False,False,False,76561198145855975,0,12,22440,1391,21599,1754110904,
-200794469,english, ts fun to play high.,1753572945,1753572945,True,0,0,0.5,0,True,False,False,False,76561199539496655,0,2,5798,185,5613,1754099235,
-200794116,english,Come on...Its Fallout,1753572541,1753572541,True,0,0,0.5,0,True,True,False,False,76561198165604381,107,3,26649,3,26645,1753587465,
-200791915,english,What it lacks in story depth it makes up in its gun play.,1753569803,1753569803,True,0,0,0.5,0,True,False,False,False,76561199328063986,0,6,24917,0,24917,1750951831,
-200791673,english,yes,1753569511,1753569511,True,0,0,0.5,0,True,False,False,False,76561199844088487,0,2,2117,1038,1989,1753928360,
-200791496,english,"the mods
-",1753569305,1753569305,True,0,0,0.5,0,True,False,False,False,76561199855694509,0,1,3428,3428,358,1754112010,
-200790751,english,Outstanding!,1753568421,1753568421,True,0,0,0.5,0,True,False,False,False,76561198380002452,0,10,349,63,349,1753498062,
-200783525,english,Great game lots of possibilities,1753560772,1753560772,True,0,0,0.5,0,True,False,False,False,76561197977834592,0,17,2004,1771,320,1754092263,
-200779662,english,I don't have mods installed. The update made it completely unable to launch from main menu. Controller and keyboard and mouse no longer work.,1753556978,1753556978,False,1,0,0.5,0,True,False,False,False,76561198039729066,0,5,14831,149,14716,1753927797,58.0
-200771695,english,Slow start but then it gets fun.,1753549511,1753549511,True,0,1,0.5,0,True,False,False,False,76561198119693952,808,14,3634,1209,3634,1753538203,
-200770895,english,Many side quests and several choices for the main quest line make for a highly replayable game. I am still discovering new things after literally years of playing. A must-have for any Fallout enthusiast [unlike Fallout 76].,1753548811,1753548811,True,0,0,0.5,0,True,False,False,False,76561197996446464,0,2,112213,1539,110801,1754106650,
-200770792,english,Great game for playing just enough that somehow your saved game must be reset by the time you finish Concord. I must have played up until Concord 100 times and never reached beyond because somehow I am either always dying or my saved game deletes itself,1753548733,1753548766,False,0,0,0.5,0,True,False,False,False,76561198332898595,163,7,4811,873,4811,1753548618,
-200768147,english,AWESOME. brings me back to the old days... love the game,1753546845,1753546845,True,0,0,0.5,0,True,False,False,False,76561198996596144,0,20,4204,154,4118,1753732143,
-200767797,english,Fallout 4,1753546526,1753546526,True,0,0,0.5,0,True,False,False,False,76561198201993356,0,6,13491,549,13032,1753720137,
-200767404,english,grew up playing fallout 4 as a kid still after all these years its still just as good and just as shitty its in between its perfect,1753546176,1753546176,True,0,0,0.5,0,True,False,False,False,76561199515666062,0,4,5284,1675,3608,1753972723,
-200766366,english,"Fallout 4 the best fallout since Fallout New Vegas a game where you can mod the hell out of to make easier or the hardest known to mankind a game where it all started with a father or mother getting there baby taken and turn into the Taken movie. A game that you can lose hours of your life on and not get bored.
-10/10 
-""If your not looking forward to something, dive in head first and assume ever thing will work out your the main character of your life you'll be fine.""- Mittensquad the G.O.A.T",1753545334,1753545334,True,0,0,0.5,0,True,False,False,False,76561198983263481,0,1,963,74,893,1753569244,
-200759986,english,"very good! though there are a lot of bugs ive noticed. nothing game breaking, but they are noticable.",1753540862,1753540862,True,0,0,0.5,0,True,False,False,False,76561199089696312,0,5,1505,1105,1475,1753542722,
-200753492,english,One of the best open world RPG of all time.,1753535957,1753535957,True,0,0,0.5,0,True,False,False,False,76561198060793458,0,1,4629,265,4473,1753717138,
-200753142,english,probably the last good fallout game for a long time,1753535683,1753535683,True,0,0,0.5,0,True,False,False,False,76561199280324702,0,6,206,1,204,1753796059,
-200752675,english,I play this game like it's a post-apocalyptic sims,1753535341,1753535341,True,1,0,0.518518567085266113,0,True,False,False,False,76561199057036750,48,12,6618,2031,5572,1753862064,
-200751185,english,...SO ADDICTIVE,1753534037,1753534037,True,0,0,0.5,0,True,False,False,False,76561198352645420,0,1,42002,7946,38198,1754112010,
-200743203,english,:D,1753525688,1753525688,True,0,0,0.5,0,True,False,False,False,76561198306914386,0,4,7764,2958,6005,1753974506,
-200739770,english,"-I have been doing nothing but playing fallout 4 (good for the unempl*yed gang)
--I love Nick Valentines,I had to download a mod in order to marry Nick
--Conversation choices
-  1. Yes(Nicely) 2. Yes(Mean) 3. No(Affirmative) 4. Maybe(I will do it later)
--The map systems when you wear the power armor sucks ass,I miss the old system :(
-so uh
-100/10 : for Nick Valentines,I love him",1753521883,1753521883,True,0,0,0.5,0,True,False,False,False,76561198302133695,668,19,5619,4703,5001,1753975785,
-200734287,english,Cant play vanilla since radscorpions scare me so I installed 900+ mods,1753515643,1753515643,True,1,0,0.52173912525177002,0,True,False,False,False,76561198165805499,0,5,16855,2958,15354,1754090152,
-200732704,english,its a decent fallout game that suffers from the lack of polish. Mods are definitely needed. FNV is still the best fallout game and should be played first.,1753513711,1753513711,True,0,0,0.5,0,True,False,False,False,76561198044341343,202,7,107034,8791,103514,1754112392,
-200716925,english,it crashes because of all the mods its still fun tho,1753495067,1753495067,True,0,0,0.5,0,True,False,False,False,76561199013200772,0,3,37259,1052,36324,1754087459,
-200715389,english,Wenazo,1753493148,1753493148,True,0,0,0.5,0,True,False,False,False,76561198135461474,0,1,12911,2702,12119,1754088489,
-200714263,english,"Even the worst Fallout game is still pretty good. Not a fan of the settlements, though.",1753491775,1753491775,True,0,0,0.5,0,True,False,False,True,76561198041987059,0,99,16306,0,16306,1694967209,16305.0
-200713434,english,"It has everything. Exploring, shooting, crafting, building, companions, different endings. Every category is elaborate and immersive. This game was like a magnet to me. Still playing, still did not exhaust all the possibilities.",1753490730,1753490730,True,0,0,0.5,0,True,False,False,False,76561198351526006,71,11,64083,4923,62602,1753994547,
-200710538,english,one of the best games ever made,1753487108,1753487108,True,0,0,0.5,0,True,False,False,False,76561199785397418,0,1,3947,288,3658,1754029767,
-200710509,english,duck and cover,1753487070,1753487070,True,0,0,0.5,0,True,False,False,False,76561199875549851,0,1,530,530,240,1753583145,
-200707983,english,get it its good,1753483876,1753483876,True,0,0,0.5,0,True,False,False,False,76561198420798450,0,5,82359,15,82343,1753534926,
-200707256,english,cool,1753482964,1753482964,True,0,0,0.5,0,True,False,False,False,76561199161785399,73,7,13023,0,13023,1734571766,
-200706421,english,Assume the position,1753481993,1753481993,True,0,0,0.5,0,True,False,False,False,76561199562944882,0,7,4048,1,4048,1753483060,
-200705158,english,...,1753480475,1753480475,True,0,0,0.5,0,True,False,False,False,76561198999815686,0,4,12567,273,12348,1753600088,
-200705146,english,fun when you kill setttlers,1753480465,1753480465,True,0,0,0.5,0,True,False,False,False,76561199476054876,33,14,3861,3861,781,1754113043,
-200704125,english,"This game is a perfect combination of being sometimes extremely boring and at other times one of the best games i've played, 9/10, one of my favorite games of all time",1753479395,1753479395,True,0,0,0.5,0,True,False,False,False,76561199767675917,0,3,201,102,181,1753480613,
-200701460,english,Still quite lotsa fun,1753476504,1753476504,True,0,0,0.5,0,True,False,False,False,76561198028493894,0,10,43788,823,42965,1753966802,
-200695385,english,"very fun, funny, goofy, serious, and all around a game youd enjoy and can do whatever you want. id say the only downside is the story, meaning, it had alot of untapped potential and felt lazy halfway through. dont let that discourage you however, its an amazing game and has some of the best dlc content ive played (to be fair i havent played much but come on, its fallout)",1753470518,1753470518,True,0,1,0.5,0,True,False,False,False,76561199698123051,0,9,1742,834,907,1754017049,
-200694864,english,"I do not like Fallout 4 mechanically, structurally, or even lore wise honestly. Despite that I have somehow clocked ~130 hours into one save, where I have not progressed further than killing Kellogg (Something you can do in 3 hours).
-The base building is addictive and interesting, building a ton of cool stuff is.. Cool! But the grind to do it outweighs any and all enjoyment you can get imo.
-
-TL;DR: This game is a C- but if you can get it with all DLC for like $5 why not",1753470044,1753470044,False,0,0,0.5,0,True,False,False,False,76561198815912849,89,19,7713,0,7713,1744519849,
-200693938,english,Still great Now with great mods,1753469176,1753469176,True,0,0,0.5,0,True,False,False,False,76561198005583251,0,5,536720,1830,536563,1754061098,
-200690248,english,pretty good,1753465812,1753465812,True,0,0,0.5,0,True,False,False,False,76561198034376716,425,4,12222,2679,12222,1753465528,
-200689882,english,the dog fetches bioweapons,1753465481,1753465481,True,0,0,0.5,0,True,False,False,False,76561199013430001,188,39,299,0,299,1723261764,
-200675974,english,building is life,1753454139,1753454139,True,0,0,0.5,0,True,False,False,False,76561199112293257,38,3,924,29,901,1753466789,
-200669730,english,doesnt even work,1753448960,1753448960,False,0,0,0.5,1,True,False,False,False,76561198330774373,0,5,5840,175,5703,1753620572,
-200658376,english,Dont know about you but i think it should be upgraded with NV Wear and Tear option. THE GAME,1753437671,1753437671,True,0,0,0.5,0,True,False,False,False,76561198828775528,98,5,14065,467,13764,1753806782,
-200651117,english,"If conversation choices are meaningless, don't give me a choice in conversations. It doesn't matter if I tell Preston that he is Captain Idiot of the Nation of Morons and the best use of settlers is Target Practice, or tell him that I agree 100% with everything he believes in. Either way, I am general of Club Moron within 20 minutes of gameplay. 
-
-This is a game filled with choices. 99.99999% of them are completely meaningless. They in no way, shape, or form affect the game.",1753429073,1753429073,False,1,0,0.523809552192687988,0,True,False,False,False,76561198116287309,0,32,24120,0,24120,1679677634,
-200643665,english,It's just peak.,1753419964,1753419964,True,0,0,0.5,0,True,False,False,False,76561199083554587,0,3,7465,10,7455,1753757069,
-200641560,english,yes,1753417605,1753417605,True,0,0,0.5,0,True,False,False,False,76561199809509701,0,2,754,0,754,1752881477,
-200630806,english,"Play it yourself before the internet tells you it's bad
-
-because it's so goddamn good",1753406037,1753406037,True,0,0,0.5,0,True,False,False,False,76561198087650997,100,10,1572,1572,470,1754069426,
-200627759,english,n,1753402611,1753402611,True,0,0,0.5,0,True,False,False,False,76561198004624213,173,2,4829,53,4780,1753411233,
-200625953,english,It's fine. Love the world and atmosphere.,1753400492,1753400492,True,0,0,0.5,0,True,False,False,False,76561198210042520,0,13,838,311,838,1753400472,
-200625492,english,"The gameplay is very fun, but the story is so [i]boring[/i]. you basically only get four choices in any given dialogue interaction:
-[list]
-    [*] [b] What? [/b]
-    [*] [b] Yes [/b]
-    [*] [b] No (Yes Later) [/b]
-    [*] [b] Yes (Sarcastic) [/b]
-[/list] 
-",1753399975,1753411418,True,0,0,0.5,0,True,False,False,False,76561198423973172,0,14,6064,62,6061,1753555155,
-200624829,english,Yes,1753399222,1753399222,True,0,0,0.5,0,True,False,False,False,76561198230421136,87,49,2007,2007,634,1753667129,
-200624463,english,very cool,1753398804,1753398804,True,0,0,0.5,0,True,False,False,False,76561199810446272,33,11,1000,181,901,1753564741,
-200621423,english,"i came from the tv show the game absolutely amazing, with mods the game would be perfect",1753395430,1753395430,True,0,0,0.5,0,True,False,False,False,76561199210738049,51,57,5208,5203,5147,1754073182,
-200614883,english,old but pretty good pick it up on sale good on steam deck,1753391403,1753391403,True,0,0,0.5,0,True,False,False,True,76561198086502432,0,21,1656,0,1656,1752864850,1552.0
-200597961,english,yes very gutenhaben gfames,1753383398,1753383398,True,0,0,0.5,0,True,False,False,False,76561199439222999,21,12,1740,1740,574,1753700736,
-200594209,english,"It is one of the best games I played in my life, I would highly recommend",1753381868,1753381868,True,0,0,0.5,0,True,False,False,False,76561197988794218,0,2,217165,1235,216762,1753518092,856.0
-200593277,english,honestly best game of the fallout series play this game if u wanna have a great time,1753381461,1753381461,True,0,0,0.5,0,True,False,False,False,76561199480820234,15,1,11866,0,11866,1751097548,
-200589360,english,Fat man.,1753379710,1753379710,True,0,0,0.5,0,True,False,False,False,76561199208662812,0,5,8740,185,8740,1753069792,3409.0
-200584702,english,one of my absolute favorites,1753377797,1753377797,True,0,0,0.5,0,True,False,False,False,76561198179990919,0,5,2911,530,2446,1753405808,
-200581652,english,Fallout 4 is good. :3,1753376560,1753376560,True,0,0,0.5,0,True,False,False,False,76561199199974170,69,42,854,250,842,1753912354,
-200571434,english,"freakin sweet
-",1753372574,1753372574,True,0,0,0.5,0,True,False,False,False,76561199823068492,0,9,3500,1545,2726,1754090653,
-200570270,english,Saw robot. Good.,1753372122,1753372122,True,0,0,0.5,0,True,False,False,False,76561199553980581,0,10,1706,1004,1293,1753992508,
-200565978,english,better than Fo3 lesser than New Vegas.,1753370561,1753370561,True,0,0,0.5,0,True,False,False,False,76561199548341946,0,15,2175,685,1807,1754016247,
-200541070,english,"great game, i got days more time on xbox. if you can look past some flaws you can have lots of fun",1753361176,1753361176,True,0,0,0.5,0,True,False,False,False,76561199649312708,39,5,1717,49,1668,1753365746,
-200532011,english,"51.2763° N, 30.2219° E",1753357457,1753357457,True,0,0,0.5,0,True,False,False,False,76561199757268850,38,12,4857,9,4857,1753830430,
-200522131,english,very very good game,1753353265,1753353265,True,0,0,0.5,0,True,False,False,False,76561199174751388,40,5,861,502,622,1753547269,
-200513189,english,the harder they fall,1753349436,1753349436,True,0,0,0.5,0,True,False,False,False,76561199224910131,0,3,40586,4681,37139,1754113223,118.0
-200496524,english,"Great game for wasting your time, too bad you can't 100% achievement in one playthrough. Well, i have fun and you should too.",1753340143,1753340143,True,0,0,0.5,0,True,False,False,False,76561198061236960,0,4,9590,1125,9590,1753340003,
-200484753,english,"Still playing on downgraded version, up to 300 mods currently and only 2 crashes. This game is amazing and probably my favorite Fallout.",1753330533,1753330533,True,0,0,0.5,0,True,False,False,False,76561198041263586,0,28,23183,2024,22224,1753885896,
-200479263,english,ignored my son in favor of being evil and bisexual,1753325313,1753325313,True,1,1,0.523809552192687988,1,True,False,False,False,76561199260412155,0,3,16428,499,16428,1753324919,
-200476664,english,"FUN
-",1753321844,1753321844,True,0,0,0.5,0,True,False,False,False,76561199811589555,0,1,10351,2506,8315,1754100019,
-200476280,english,ok,1753321259,1753321259,True,0,0,0.5,0,True,False,False,False,76561198101382514,0,2,3313,20,3292,1753322532,
-200475703,english,"peak game, good writing and gameplay + piper + dogmeat",1753320439,1753320439,True,0,0,0.5,0,True,False,False,False,76561199689334664,0,6,784,0,784,1752732022,
-200472708,english,"Dead world, fiendish creatures and unique survivors. Tons of hours of gameplay, heavily modifiable, and great story. It's Fallout, just play it!",1753315796,1753315796,True,0,0,0.5,0,True,False,False,False,76561198366147759,54,5,3474,0,3474,1721961685,
-200471711,english,Help me,1753314356,1753314356,False,0,0,0.5,0,True,False,False,False,76561199571487295,0,6,7756,0,7756,1735577736,
-200469995,english,"Best game... ever!
-Base game is great.. add some mods and it becomes amazing!",1753311898,1753311898,True,0,0,0.5,0,True,False,False,False,76561198073958299,0,7,33487,2022,31464,1754112612,
-200467866,english,"Like Skyrim, I have an unhealthy amount of hours on this game across all consoles, roughly 2500-3000. This game is a comfortable 2nd place on the favorite-games-heavily-lenient-on-nostalgia-also-released-by-Bethesda List. This game is rich with lore, its neck and neck with Elder Scrolls for me. Gameplay is amazing, best Gun Combat out of any fallout entry. I love the Physics and Character movement of this game, its so fluid and intuitive. Story Wise, like where you yourself go/do, is all right. The broader lore and story at large however is fantastic, and thats What I care about most in this game. The Alternative-History Genre is one of my favorites in any media, and Fallout to me is the Poster boy of that. The ultimate end of humanity, A nuclear wasteland filled with other Sci-Fi elements that are clearly fiction, but you can visualize how they could of become reality had our scientists and political leaders make different decisions. Its a Mockery of the Modern Hyper-Militarized, Pro War Sentiment that we all confide to everyday. One day, society will destroy itself, but Humanity will still be standing.
-
-9.5/10",1753309053,1753309053,True,0,0,0.5,0,True,False,False,False,76561199508785954,47,4,6475,1305,6475,1753306436,50.0
-200467136,english,W,1753308144,1753308144,True,0,0,0.5,0,True,False,False,False,76561198141912436,53,5,729,57,725,1753308387,
-200462373,english,GG,1753302517,1753302517,True,0,0,0.5,0,True,False,False,False,76561198109093641,0,8,53533,90,53443,1753854446,805.0
-200461631,english,"For context, I have attempted to complete this game four times in total. I would usually get five hours in before getting bored out of my mind and uninstalling. However, as time went by I became more patient and were more willing to put up with inconveniences such as loading screens or walking simulators (sometimes the game would leave you loading for up to four minutes and it surprised me the first time because I was sure the game had crashed).
-
-I started getting more enjoyment when I changed my play-style so that rather then leveling by clearing out random locations, I chose to listen to each character's dialogue so that I get more attached and involved in the story, and as a bonus, completing quests are rewarded with XP.
-
-I didn't play through the game all in one blast, I would switch between games just playing whatever was more interesting at the moment and I eventually got to the end of this one. You just gotta learn to ignore some side quests and mix up the monotony of gameplay with a main story line quest.
-
-In all honesty though, the very ending of the game gave me a sour taste in my mouth because it just ends, the game didn't give me any closure that I made ""right"" or ""wrong"" decisions in gameplay because it just leaves me to figure that out myself. The only thing you get is if you go around the various towns you can hear the casual dialogue of characters reacting to the changes that were made, but it is still extremely underwhelming.
-
-----
-
-Extra note: Game doesn't run very smooth until you change the .ini files which takes a bit of reading in forums before you get right which is just an extra headache that I would rather not deal with",1753301738,1753301738,True,0,0,0.5,0,True,False,False,False,76561199056222868,55,6,4510,0,4510,1752247348,
-200456428,english,"FUN FUN FUN GAME GAME GAME 
-
-
-",1753296200,1753296200,True,0,0,0.5,0,True,False,False,False,76561198831716715,0,8,3825,1399,2425,1753935047,
-200455785,english,"Nearly 300 hours of play time, and that's on the steam version alone. I owned this on the Xbox when it first released, and again when I swapped to the Ps4. On each of them I played easily as many hours. Needless to say, I love this game.
-The FPS aspect is fun and well done. It's a different kind of game from say Call of Duty or any of the other popular FPS games. It's not online or competitive. You're playing through a story contained within a fairly open world. It can be fast paced and epic, or as slow and stealthy as you want, depending on your play style.
-
-It has a nice ""builders"" function where you're able to upgrade weapons and armor, and probably should just to maintain an edge in combat. There is a neat settlement feature which I've always enjoyed building within. It even has a ""time stop"" feature that gives combat a bit more of a ""turn-based"" feel, which can be fun though I rarely utilize it. I enjoy the run-n-gun.
-
-What has me coming back time and time again is the story. I've explored most-all of the various branches, but I still enjoy running through my favorite story branch now and then, even if it's not exactly canon. So it has it's own ""cyoa"" aspect. Fans of this game will have different opinions on what should be the ""correct"" ending (even if Bethesda has already stated which is canonical).",1753295468,1753295468,True,0,0,0.5,0,True,False,False,False,76561199071761767,0,7,18605,1225,17880,1753659372,
-200451984,english,"My most beloved game of all time. It has crafting, building, modifications, firearms, melee combat, iconic characters, an amazing perk tree, great extension pack that give you amazing to hilarious storylines. 
-Sadly, it does have a horrible start. I carried more about a boy locked in a refrigerator for 200 years, than my own son. 
-Still amazing and I will play this game for as long as I can.",1753291380,1753291380,True,0,0,0.5,0,True,False,False,False,76561198325647783,0,8,9250,7954,4655,1754105620,
-200444745,english,i lobve fallout 4,1753284073,1753284073,True,0,0,0.5,0,True,False,False,False,76561198804606903,0,3,6369,2139,4692,1754107140,
-200436955,english,"Yes, its only great with modes.",1753276055,1753276055,True,0,0,0.5,0,True,False,False,False,76561198386572968,129,19,39566,4656,35746,1754081983,
-200425038,english,"It is Fallout what you want more?
-Just Download and play already!",1753260630,1753260630,True,0,0,0.5,0,True,False,False,False,76561197988757681,0,1,20863,48,20814,1753947873,
-200422228,english,it is fun,1753256024,1753256024,True,0,0,0.5,0,True,False,False,False,76561198138037006,0,2,1685,1326,1180,1753678551,
-200420751,english,"[h2] ""War... War never changes"" [/h2]
-
-[i] And so will the people who will hate on this game. [/i]
-
-[b] But let me tell you something that will change. [/b]
-
-[list] After playing this game, you may experience:
-  [*] Drinking softdrinks till your kidneys cry
-  [*] Collecting random bottlecaps 
-  [*] Listening to old timey music
-  [*] Wondering if dumb people irl are actually just 1st generation buggy androids
-  [*] Experiencing panic attacks at the sight of Shrek
-  [*] Experiencing panic attacks when said Shrek is holding a mini nuke
-  [*] Experiencing panic attacks when said mini nuke is beeping
-[/list]
-
-Fallout 4 was my first Fallout game. I still remember watching H20 Delirious play all those years ago. 
-
-So far, gunplay feels fun and fresh, the dialogue is good enough and pretty enjoyable, building settlements has become an addiction, I have become a sociopath in conversations, and it could just be me but it appears another settlement needs my help. 
-
-I started with vanilla plus modded taking into account the age of the game (mostly mods for QoL and preventing crashing/aiding stability) and I loved it so much. PC bricked before I could fully explore all the side quests but man am I going to copy back my save once I get a replacement. It is a game that has aged very well and will continue to age so. Definitely recommend the game if you're looking to play a Fallout game and love the retro Atompunk post wasteland aesthetic.
-
-Will definitely also try out Fallout 3 and New Vegas at some point considering how fun playing this one was!",1753253633,1753253750,True,0,0,0.5,0,True,False,False,False,76561198271226655,74,2,6045,0,6045,1717598696,
-200419135,english,"i know i've played this game for a while now but i've now gotten into the fact that the game now kicks you out for some reason and i have a great computer mind you, so it's weird that a game i had for so long is now doing this all of a sudden out of the blue.",1753250999,1753250999,False,0,0,0.5,0,True,False,False,False,76561199540522943,0,2,8585,3252,5824,1754091588,
-200417752,english,"not bad but could be better, appreciate the ease of modding but thats about all that keeps me coming back, base game is a little stale for my liking but still great fun",1753248630,1753248630,True,1,0,0.523809552192687988,0,True,False,False,False,76561199216346205,0,13,2317,2317,338,1754093471,
-200417614,english,cool,1753248358,1753248358,True,0,0,0.5,0,True,False,False,False,76561198869061005,0,2,49644,136,49508,1753258808,
-200414738,english,good game,1753243535,1753243535,True,0,0,0.5,0,True,False,False,False,76561199833929274,0,2,4347,6,4341,1754042011,
-200413841,english,Fallout London,1753242205,1753242205,True,0,0,0.5,0,True,False,False,False,76561198138015147,135,35,8759,14,8759,1753163912,
-200409651,english,put the ant-agonizer in this one and let me kiss her and dress up as her maybe,1753235994,1753235994,False,4,1,0.558052599430084229,0,True,False,False,False,76561198950060926,0,27,13022,0,13022,1678349901,
-200409069,english,"Great but buggy. The game has so many issues that it became frustrating. I couldn't beat the game on my first PC playthrough due to an issue which the big Robot (I forgot his name) presented. He basically started shooting so many rockets at a particular place that the game crashed. I reloaded older saves but they led to the same issue over and over again which led me to starting the playthrough again. The game is really fun and I love the theme of it. It's a shame that it contains so many performance issues. Overall, it was enjoyable and it's differently one ofmy favorite games of all time. I played it through multiple times on console.",1753235160,1753235160,True,0,0,0.5,0,True,False,False,False,76561198336746756,29,14,2218,0,2218,1717347270,
-200406707,english,"It is buggy and crashes often enough, but it is definitive. Best of all, it is a single-player experience.",1753231916,1753231916,True,0,0,0.5,0,True,False,False,False,76561198107675271,0,5,97899,294,97604,1753459708,
-200405671,english,"Great game, really compelling that first time heading down to the vault",1753230533,1753230533,True,0,0,0.5,0,True,False,False,False,76561198047850865,77,11,51846,1,51846,1753891590,
-200405087,english,"Best game I've ever bought. Sure, it doesn't have the Roleplay of Toddout: New Vegas or whatever, but the gameplay is infinitely better.",1753229686,1753229686,True,0,0,0.5,0,True,False,False,False,76561198400728167,0,7,55948,3517,53812,1754112426,
-200402285,english,"already a fun game, if you overlook everyone who's played other games screaming in your ear about ""how different it is"". I personally love the take they did on power armor- yes, the fusion cores can be annoying, and repairing armor is a chore, but you FEEL awesome. Look awesome, too.",1753225724,1753225724,True,0,0,0.5,0,True,False,False,False,76561199014657200,0,9,9667,435,9232,1753745341,
-200400535,english,"Fallout 4 is an extremely good game, good graphics, runs well on lower end computers, i love the fact that you can chose your OWN story in a way and side with who ever you want",1753223527,1753223527,True,0,0,0.5,0,True,False,False,False,76561199141731195,0,4,747,9,738,1753225109,
-200397701,english,"1. What do you do when you hear a ""click"" and then everything goes white?
-🔲 A. Duck. It's just a flashbang.
-🔲 B. Shout ""MINI NUKE!!"" and surrender.
-✅ C. Take a screenshot first, then panic.
-🔲 D. Send a final message to Dogmeat.
-
-2. How do you resolve a conflict between factions?
-🔲 A. Cold-hearted diplomacy.
-✅ B. Mini-nuke in the middle of a meeting.
-🔲 C. Sneak in and steal all the ammo.
-🔲 D. Join all the factions. Then you're confused.
-
-3. Who's your favorite companion?
-🔲 A. Piper, the idealistic journalist.
-🔲 B. Danse, the Power Armor brother.
-✅ C. Dogmeat, because he never complains.
-🔲 D. Trashcan Carla. Always showing up at the wrong time.
-
-4. What's your most emotional moment?
-🔲 A. Finding your child.
-🔲 B. Having to sacrifice a faction you love.
-✅ C. Seeing a Brahmin stuck on the roof of a 3rd-story house.
-🔲 D. Getting a critical hit from an angry Mr. Handy.
-
-5. You see a Deathclaw at the end of the street. What do you do?
-🔲 A. Run in the opposite direction.
-🔲 B. Put on your Power Armor, ready for battle.
-🔲 C. Throw a grenade while singing ""Country Roads"".
-✅ D. Quick Save first. Then fight. If you die, reload.
-
-6. Are you comfortable with the Brotherhood of Steel?
-🔲 A. Yes, they protect technology.
-✅ B. No, they look like gym guys who like to carry tanks.
-🔲 C. Maybe, but they rarely shower.
-🔲 D. I think they're a failed boy band.
-
-7. Have you ever ridden a Vertibird BOS? Your reaction?
-🔲 A. ""Wow, cool!""
-✅ B. ""Why does the enemy have a Missile Launcher every time I get on it?!""
-🔲 C. ""Is this Uber?""
-🔲 D. ""I wanted to tour around but instead I got shot at.""
-
-8. How do you feel when you see the quest map?
-🔲 A. Excited.
-✅ B. Dizzy: There are 38 markers & 7 overlapping quests.
-🔲 C. Panic: I don't know who this quest is from.
-🔲 D. Cynical Laughter: Everyone ends up being told to clear the factory of Raiders.
-
-9. You've only been playing the dungeon for an hour. Then...
-🔲 A. Quick save.
-✅ B. Game crash.
-🔲 C. You accidentally pressed quick load to 3 hours ago.
-🔲 D. An NPC gets stuck in the toilet and asks you to help him out.
-
-10. What did Fallout 4 teach you?
-🔲 A. Survival skills.
-✅ B. Don't trust old buildings — there are traps in the ceiling.
-🔲 C. The best coping mechanism is loot.
-🔲 D. Life is tough, especially in Survival mode without Fast Travel.
-
-- 0–2 answers  ✅ = Still a Vault resident. Get out first, sniff out Radroaches.
-- 3–4 answers  ✅ = Wastelander level ""Loves Loot, Fears Deathclaws""
-- 5–6 answers  ✅ = True Survivor. The Minutemen are looking for you every day.
-- 7-10 answers ✅ = You are Preston Garvey.",1753219532,1753219532,True,0,0,0.5,0,True,False,False,False,76561199835657051,0,3,6967,0,6967,1752875368,
-200395525,english,just love it,1753217139,1753217139,True,0,0,0.5,0,True,False,False,False,76561198071745151,0,2,47313,1,47312,1753384341,
-200389841,english,mod it and waste your life playing it 10/10,1753211402,1753211402,True,0,0,0.5,0,True,False,False,False,76561198376377312,0,19,76154,923,75585,1753753522,
-200384875,english,I fell out but I got back in,1753206302,1753206302,True,0,0,0.5,1,True,False,False,False,76561199230078664,0,19,5002,97,4904,1753213242,
-200381480,english,peak,1753203037,1753203037,True,0,0,0.5,0,True,False,False,False,76561199778996447,0,1,6415,10,6405,1753306882,
-200379309,english,Heavy Rain but with radiation,1753200872,1753200872,True,0,0,0.5,0,True,False,False,False,76561198918886938,0,26,668,0,668,1697262348,
-200378515,english,totally recommended,1753200119,1753200119,True,1,0,0.523809552192687988,0,True,False,False,False,76561198352090361,0,2,5966,2199,4620,1753976804,
-200374957,english,"good
-",1753196722,1753196722,True,0,0,0.5,0,True,False,False,False,76561198204569723,10,3,1589,883,1108,1753389596,
-200372253,english,"I do love this game but after 16 hours the problems outweigh the enjoyment.
-
-I love the Skyrim of the future vibes, the humour is perfect and the story is very interesting. The America of the 50s vibe is perfect and whats left in the wasteland is great.
-
-But loading times are a joke, they were taking 2-8 minutes to load a level when you exit/enter a buliding. I found a mod to cut this down a little bit but it never drops below 2 mins. It breaks the story completely sitting looking at a loading screen (I have SSD, 16 Gb Ram & an RTX4070).
-
-Then walking, it's so slow, my god i thought AC Valhalla was bad this is a whole new level.
-
-It's always the little things that ruin a good game and 16 hours was my limit. It's cheap but those loading times, lack of direction in the story just broke me.
-
-I love Skyrim, Odyseey, Origins, Hellblade, Placid Plastic Duck Simulator so slow is my bag.",1753193978,1753193978,False,0,0,0.5,0,True,False,False,False,76561198217288207,0,5,980,159,980,1753127625,
-200368518,english,"very good
-",1753189967,1753189967,True,0,0,0.5,0,True,False,False,False,76561199365347695,0,5,5419,3081,3314,1753905298,
-200365984,english,"The game used to work JUST FINE, then Bethesd wants to update it, break the fps, and it crashes EVERY TIME on load up when trying to stream on obs. I recommend you throw this game in the recycle bin where it belongs",1753187065,1753187065,False,0,0,0.5,0,True,False,False,False,76561199111549765,0,2,4084,66,4084,1753186862,
-200364366,english,cool,1753184946,1753184946,True,0,0,0.5,0,True,True,False,False,76561198261590595,0,4,2954,2431,1539,1753538202,
-200364152,english,Peak.,1753184684,1753184684,True,0,0,0.5,0,True,False,False,True,76561199212763066,0,14,1281,341,940,1753220676,940.0
-200361335,english,8/10,1753180829,1753180829,True,0,0,0.5,0,True,False,False,False,76561198075234803,417,241,11597,0,11597,1549922315,
-200356815,english,worst fallout fr,1753173890,1753173890,False,0,0,0.5,0,True,False,False,False,76561199053228019,56,9,1355,0,1355,1748644364,
-200355940,english,hello i am chris son and this awesome game,1753172504,1753172504,True,0,0,0.5,0,True,False,False,False,76561197976711756,0,3,1062,3,1058,1753173661,
-200354832,english,"I have wasted my life away playing this game and enjoyed every second. Mods give you a nice burst of new enjoyment from the game. 9/10 only because it simply ""just works"".... until it doesnt. nothing reloading a earlier save cant fix but for first time/lazy players it can be frustrating.",1753170823,1753170823,True,0,0,0.5,0,True,False,False,False,76561198274538413,0,3,26778,0,26778,1752902310,
-200354346,english,it just works. (most of the time),1753169932,1753169948,True,0,0,0.5,0,True,False,False,False,76561199196803009,0,4,2099,44,2082,1753461860,
-200354155,english,"might well be the greatest game ever made. Yes, it's a little glitchy from time to time, but in terms of game play, storytelling, imagination and pure awesomeness, it has no rival. Where else can you stumble upon robots that think they're pirates on a galleon that they fly into a city - just as a side quest!",1753169597,1753169597,True,1,0,0.519999980926513672,0,True,False,False,False,76561199160994817,0,3,3169,423,3038,1753283052,
-200350556,english,"epicnate on youtube: hey guys its nate here, i like murdering people to death",1753163261,1753163261,True,0,0,0.5,0,True,False,False,False,76561199192157944,87,53,179,0,179,1713842514,
-200348057,english,yes,1753158988,1753158988,True,0,0,0.5,0,True,False,False,False,76561198969514735,0,2,2419,860,1866,1754031444,
-200345678,english,"The popularity of this game is inseparable from the support of mods. Once again, thank you to those mod creators in the community，But there are indeed too many bugs in this game.",1753155064,1753155064,True,0,0,0.5,0,True,False,False,False,76561199854235762,0,1,10892,2703,8782,1754113059,
-200342244,english,its a good play,1753149983,1753149983,True,0,0,0.5,0,True,False,False,False,76561198333108337,0,1,1186,208,1040,1753662880,
-200342078,english,very fun,1753149758,1753149758,True,0,0,0.5,0,True,False,False,False,76561199688906697,0,5,3656,772,3439,1753232618,
-200341005,english,great game,1753148200,1753148200,True,0,0,0.5,0,True,False,False,False,76561198013785894,243,6,978,237,741,1753338468,
-200336885,english,Someone please ride my rocket 69 :'(,1753142177,1753142177,True,0,0,0.5,0,True,False,False,False,76561198371610980,0,23,3857,295,3607,1753560179,
-200335097,english,Another settlement needs your help! I'll mark it on your map.,1753139756,1753139756,True,0,0,0.5,0,True,False,False,False,76561199497456549,0,2,2054,1613,1551,1753676453,
-200331328,english,Fart,1753135177,1753135177,True,1,0,0.523809552192687988,0,True,False,False,False,76561199556948873,37,4,5924,4125,2764,1754106519,
-200328629,english,"Must play game! Amazing as the vanilla game, amazing DLCs, amazing mods.",1753131992,1753131992,True,0,0,0.5,0,True,False,False,False,76561198031498588,0,3,24727,4216,21041,1754112795,
-200323049,english,"- Go to nexus.
-- Download vortex.
-- Subscribe to ""A StoryWealth"" and ""A StoryWealth aSW harder/Survival""
-- Fallow the instructions!
-- Play!
-
-Bethesda created a great game! The modders turned into a masterpiece!",1753126058,1753126058,True,0,0,0.476190477609634399,0,True,False,False,False,76561198107415986,0,64,82361,4005,80141,1754102009,
-200321660,english,"Since the Next Gen udate the game has become something not worth the money paid for it. It will not launch if mods exceed 30, when before you could add at least 100 if anything, i would recommend any potential new player to buy a pre next gen non steam version as you will be allowed to choose the update or not.",1753124576,1753124576,False,1,0,0.519757091999053955,0,True,False,False,False,76561199764947715,0,2,56358,423,55947,1753184900,
-200315019,english,"I cannot remember the state of the game when I played it originally, back in early 2016. I used mods and stuck with the Institute, but never bothered to finish the achievements. Flash forward to now, and I am not sure if the game has improved. 
-
-This playthrough was based on the un-modded version of the game. The loading times range from a couple of seconds to nearly a minute, and with everything being isolated in their own areas, you are going to be seeing those loading screens often. It kills the flow of the game considerably and starts to become more noticeable. Path-finding can be incredibly frustrating with NPCs just standing still after being activated for a quest or taking forever to start moving after hitting the corner of a door, as if the programming is struggling to compensate. Thankfully, I had only three cases where I needed load a safe to retry the section to get them to move, but the amount of downtime this creates is beyond irritating. Then there is the wonkiness of your own movement, whether in a suit of power armor or standard. You could be moving forward, then suddenly the locomotion shifts to the side and no amount of course correction can eliminate the drifting sensation. There are even times the character will just randomly strafe from side to side when you are trying to make a turn or backing up. I cannot remember the last time I experienced this in a game. Then you have the way dialog tracking is cut off when you initially start dialog, which makes it difficult to skip it without risking accidentally shooting your weapon into them and requiring a reload. It is bad enough NPCs will start talking to you without a prompt and trap you in a dialog choice screen when all you were doing was trying to sit down or wait for a NPC to finish walking to your location.
-
-There are a slew of bugs ranging from items not spawning properly, enemies disappearing into the terrain, objectives not updating properly, and doors leading to a new area not working properly. Thankfully the game ran better than I expected with consistent frame rates, but there are times the game did crash (only a few times).
-
-This is more of a case of justifying the experience. With how much the system struggles and the amount of time you are forced to wait for subpar combat and the blatant settlement padding, I just can't recommend it. If the story and side content was better (subjective), but even with the two major DLCs being fresh content for me, it really left little in the way of any lasting impression. The Far Harbor was too bogged down by further synth arguments and the Nuka World content had very little in the way of character development (also bogged down by more settlement padding). Some of the companions are great, but the majority felt very flat-line, and the heavy focus on synths can be a huge turn off (depends on your stance on empathy toward machines and the lack of tension due to how they are handled in the setting). 
-
-I just can't recommend it for the technical issues. If you think the story will be interesting, only grab it on a steep sale (which happens often enough), but realize there can be a lot of downtime between action.
-
-P.S. If you are just after the achievements, be prepared for an annoying grind for the tickets at the Nuka-cade (unless you use the console commands, but no clue if that voids achievements)",1753117647,1753117647,False,2,0,0.526524603366851807,0,True,False,False,False,76561198000561257,0,9,9292,1563,9292,1753111937,
-200313643,english,"It is so fun to create a character and run around in the world. Its in my eyes a beautiful game and the music always gets me. The characters are interesting and missions are interesting. Hours upon hours of time in, i never get enough of coming back and playing.",1753116301,1753116301,True,0,0,0.5,0,True,False,False,False,76561198290004373,0,9,25096,1301,24489,1753570543,
+",1753737892,1753737892,True,0,0,0.5,0,True,False,False,False,76561198971962750,202,78,2173,522,1870,1753832720,822.0

@@ -1,5 +1,5 @@
 // src/App.tsx
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, HashRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import { ThemeProvider as ShadcnThemeProvider } from './components/theme-provider'
@@ -15,7 +15,11 @@ import ResultsPage from './pages/ResultsPage'
 import HelpPage from './pages/HelpPage'
 import LLMPage from './pages/LLMPage'
 
-const router = createBrowserRouter([
+// Detect if running in Electron
+const isElectron = window.electronAPI !== undefined
+
+// Use HashRouter for Electron (file:// protocol) and BrowserRouter for web
+const router = !isElectron ? createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
@@ -50,7 +54,7 @@ const router = createBrowserRouter([
       }
     ]
   }
-])
+]) : null
 
 function App() {
   return (
@@ -62,7 +66,23 @@ function App() {
           enableSystem
           disableTransitionOnChange
         >
-          <RouterProvider router={router} />
+          {isElectron ? (
+            <HashRouter>
+              <Routes>
+                <Route path="/" element={<AppLayout />}>
+                  <Route index element={<LandingPage />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                  <Route path="finder" element={<FinderPage />} />
+                  <Route path="prompt" element={<PromptPage />} />
+                  <Route path="results" element={<ResultsPage />} />
+                  <Route path="llm" element={<LLMPage />} />
+                  <Route path="help" element={<HelpPage />} />
+                </Route>
+              </Routes>
+            </HashRouter>
+          ) : (
+            <RouterProvider router={router!} />
+          )}
           <Toaster 
             position="bottom-right" 
             toastOptions={{

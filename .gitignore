@@ -89,3 +89,15 @@ Desktop.ini
 # dotenv
 *.env
 frontend/nul
+
+# Electron build artifacts — do not commit packaged apps or installers
+frontend/dist-electron/
+frontend/dist-electron/win-unpacked/
+frontend/dist-electron/*.yml
+frontend/dist-electron/*.blockmap
+
+# Bundled backend artifacts produced for Electron
+frontend/backend-dist/
+
+# Vite production build (safety; also ignored in frontend/.gitignore)
+frontend/dist/

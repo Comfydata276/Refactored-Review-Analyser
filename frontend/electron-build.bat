@@ -26,7 +26,7 @@ if not exist "node_modules" (
 echo Building application...
 call npm run electron-dist
 
-if %errorlevel% eq 0 (
+if %errorlevel% EQU 0 (
     echo.
     echo Build completed successfully!
     echo Check the 'dist-electron' folder for the installer.

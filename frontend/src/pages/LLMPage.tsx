@@ -1,14 +1,13 @@
 // src/pages/LLMPage.tsx
 import { useEffect, useState } from 'react'
-import { 
-  Save, 
-  RotateCcw, 
-  Zap, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  EyeOff, 
+import {
+  RotateCcw,
+  Zap,
+  Plus,
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff,
   Server,
   Globe,
   Brain
@@ -40,7 +39,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 
 import { getConfig, setConfig, refreshOllamaModels, getApiKeys, setApiKey, removeApiKey } from '../api/ApiClient'
@@ -86,6 +84,45 @@ export default function LLMPage() {
   // Use accordion state hook for persistent dropdown states
   const accordionState = useAccordionState('llm-providers-accordion', ['ollama', 'openai', 'gemini', 'claude'])
 
+  // Ensure we have a sane providers structure to render (prevents blank page when config is missing/partial)
+  const ensureProvidersStructure = (raw: unknown): LLMConfig => {
+    const safe = (raw && typeof raw === 'object') ? (raw as Record<string, unknown>) : {}
+    const lp = (safe['llm_providers'] && typeof safe['llm_providers'] === 'object')
+      ? (safe['llm_providers'] as Record<string, unknown>)
+      : {}
+
+    const coerceProvider = (prov: unknown): ProviderConfig => {
+      const obj = (prov && typeof prov === 'object') ? (prov as Record<string, unknown>) : {}
+      const enabled = Boolean(obj['enabled'])
+      const available_models = Array.isArray(obj['available_models'])
+        ? (obj['available_models'] as ModelConfig[])
+        : []
+      const enabled_models = Array.isArray(obj['enabled_models'])
+        ? (obj['enabled_models'] as string[])
+        : []
+      return { enabled, available_models, enabled_models }
+    }
+
+    return {
+      llm_providers: {
+        ollama: ('ollama' in lp) ? coerceProvider(lp['ollama']) : { enabled: false, available_models: [], enabled_models: [] },
+        openai: ('openai' in lp) ? coerceProvider(lp['openai']) : { enabled: false, available_models: [], enabled_models: [] },
+        gemini: ('gemini' in lp) ? coerceProvider(lp['gemini']) : { enabled: false, available_models: [], enabled_models: [] },
+        claude: ('claude' in lp) ? coerceProvider(lp['claude']) : { enabled: false, available_models: [], enabled_models: [] },
+      }
+    }
+  }
+
+  // Error message extractor without using 'any'
+  const extractErrorMessage = (e: unknown, fallback: string) => {
+    if (typeof e === 'string') return e
+    if (e && typeof e === 'object') {
+      const obj = e as { response?: { data?: { detail?: string } }, message?: string }
+      return obj.response?.data?.detail || obj.message || fallback
+    }
+    return fallback
+  }
+
   useEffect(() => {
     loadConfig()
   }, [])
@@ -97,8 +134,25 @@ export default function LLMPage() {
         getConfig(),
         getApiKeys()
       ])
-      
-      setConfigState(configResponse.data)
+
+      // Harden against missing llm_providers (prevents blank page)
+      const normalized = ensureProvidersStructure(configResponse.data)
+      setConfigState(normalized)
+
+      // Auto-initialize defaults if backend returned no providers
+      const hadNoProviders =
+        !configResponse.data ||
+        !configResponse.data.llm_providers ||
+        Object.keys(configResponse.data.llm_providers || {}).length === 0
+
+      if (hadNoProviders) {
+        // Persist minimal structure so subsequent loads are stable
+        try {
+          await setConfig(normalized as unknown)
+        } catch {
+          // Non-fatal; UI will still render with normalized state
+        }
+      }
       
       if (apiKeysResponse.data.status === 'success') {
         setApiKeys(apiKeysResponse.data.api_keys || {})
@@ -125,20 +179,6 @@ export default function LLMPage() {
     }
   }
 
-  const handleSave = async () => {
-    if (!config) return
-    
-    setSaving(true)
-    try {
-      await setConfig(config)
-      toast.success('LLM configuration saved successfully!')
-    } catch (error) {
-      console.error('Failed to save config:', error)
-      toast.error('Failed to save LLM configuration')
-    } finally {
-      setSaving(false)
-    }
-  }
 
   const updateProvider = async (provider: string, updates: Partial<ProviderConfig>) => {
     if (!config) return
@@ -149,8 +189,8 @@ export default function LLMPage() {
     if ('api_key' in updates) {
       await handleApiKeyUpdate(provider, updates.api_key || '')
       // Remove api_key from updates to prevent it from being saved to config
-      const { api_key, ...otherUpdates } = updates
-      updates = otherUpdates
+      // without creating an unused variable
+      delete (updates as Record<string, unknown>)['api_key']
     }
     
     // Only proceed with other updates if there are any
@@ -189,9 +229,9 @@ export default function LLMPage() {
         })
         toast.success(`API key for ${provider} removed!`)
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to update API key:', error)
-      const errorMessage = error.response?.data?.detail || error.message || 'Failed to update API key'
+      const errorMessage = extractErrorMessage(error, 'Failed to update API key')
       toast.error(errorMessage)
     } finally {
       setSaving(false)
@@ -282,9 +322,9 @@ export default function LLMPage() {
       } else {
         toast.error(result.message || 'Failed to refresh Ollama models')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to refresh Ollama models:', error)
-      const errorMessage = error.response?.data?.detail || error.message || 'Failed to refresh Ollama models'
+      const errorMessage = extractErrorMessage(error, 'Failed to refresh Ollama models')
       toast.error(errorMessage)
     } finally {
       setRefreshingOllama(false)
@@ -372,13 +412,13 @@ export default function LLMPage() {
       </div>
 
       {/* Provider Sections */}
-      <Accordion 
-        type="multiple" 
+      <Accordion
+        type="multiple"
         value={accordionState.value}
         onValueChange={accordionState.onValueChange}
         className="w-full space-y-4"
       >
-        {Object.entries(config.llm_providers || {}).map(([provider, providerConfig]) => (
+        {Object.entries((config.llm_providers || {}) as Record<string, ProviderConfig>).map(([provider, providerConfig]) => (
           <AccordionItem key={provider} value={provider} className="border-2 border-primary/20 rounded-lg px-6">
             <AccordionTrigger className="py-6 hover:no-underline">
               <div className="flex items-center justify-between w-full mr-4 pointer-events-none">

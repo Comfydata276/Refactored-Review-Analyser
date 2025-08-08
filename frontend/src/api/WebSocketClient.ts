@@ -43,6 +43,7 @@ export function useWebSocket(url: string): WebSocketState {
   const reconnectTimeoutRef = useRef<number | undefined>(undefined)
   const heartbeatIntervalRef = useRef<number | undefined>(undefined)
   const isPageVisibleRef = useRef<boolean>(true)
+  const reconnectAttemptsRef = useRef<number>(0)
 
   const startHeartbeat = () => {
     if (heartbeatIntervalRef.current) {
@@ -71,7 +72,7 @@ export function useWebSocket(url: string): WebSocketState {
     }
   }
 
-  const connect = () => {
+  const connect = async () => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       return
     }
@@ -79,13 +80,76 @@ export function useWebSocket(url: string): WebSocketState {
     setConnectionState('connecting')
     
     try {
-      const wsUrl = (import.meta.env.VITE_API_URL || 'ws://localhost:8000').replace(/^http/, 'ws') + '/ws'
+      // Resolve target URL
+      const target = url || '/ws'
+      let wsUrl: string | undefined
+
+      const isAbsoluteWS = /^wss?:\/\//i.test(target)
+      const isAbsoluteHTTP = /^https?:\/\//i.test(target)
+      const isRelative = target.startsWith('/')
+
+      // Prefer Electron-provided host/port when available and target is relative
+      // Narrowly typed access to Electron preload bridge (if available)
+      type ElectronBridge = {
+        electronAPI?: {
+          getBackendStatus: () => Promise<{ host: string; port: number; running?: boolean }>
+        }
+      }
+      const w = window as unknown as ElectronBridge
+      if (isRelative && w?.electronAPI?.getBackendStatus) {
+        try {
+          const status = await w.electronAPI.getBackendStatus()
+          const proto = location.protocol === 'https:' ? 'wss' : 'ws'
+          wsUrl = `${proto}://${status.host}:${status.port}${target}`
+        } catch {
+          // fall through to env-based resolution
+        }
+      }
+
+      if (!wsUrl) {
+        if (isAbsoluteWS) {
+          wsUrl = target
+        } else if (isAbsoluteHTTP) {
+          wsUrl = target.replace(/^http/i, 'ws')
+        } else {
+          const base = (import.meta.env.VITE_API_URL || 'http://localhost:8000')
+          const baseWs = base.replace(/^http/i, 'ws').replace(/\/+$/, '')
+          wsUrl = `${baseWs}${isRelative ? target : `/${target}`}`
+        }
+      }
+
+      // Optional readiness ping to reduce "closed before established" during startup races
+      try {
+        const healthUrl = wsUrl.replace(/^ws/i, 'http').replace(/\/ws$/, '/health')
+        let ok = false
+        let delay = 500
+        for (let i = 0; i < 5; i++) {
+          try {
+            const controller = new AbortController()
+            const t = window.setTimeout(() => controller.abort(), 1200)
+            const res = await fetch(healthUrl, { signal: controller.signal, cache: 'no-store' })
+            window.clearTimeout(t)
+            if (res.ok) { ok = true; break }
+          } catch {
+            // ignore and backoff
+          }
+          await new Promise(r => setTimeout(r, delay))
+          delay = Math.min(5000, delay * 2)
+        }
+        if (!ok) {
+          console.warn('WebSocket: backend health not confirmed, attempting to connect anyway:', healthUrl)
+        }
+      } catch {
+        // ignore ping errors and continue
+      }
+
       const ws = new WebSocket(wsUrl)
       wsRef.current = ws
 
       ws.onopen = () => {
         setConnectionState('connected')
-        console.log('WebSocket connected')
+        reconnectAttemptsRef.current = 0
+        console.log('WebSocket connected', wsUrl)
         startHeartbeat()
       }
 
@@ -121,11 +185,14 @@ export function useWebSocket(url: string): WebSocketState {
         
         // Only auto-reconnect if it was an unexpected closure and we previously had a connection
         if (event.code !== 1000 && event.code !== 1001) {
+          const attempt = ++reconnectAttemptsRef.current
+          const delay = Math.min(15000, Math.max(500, 500 * Math.pow(2, attempt - 1)))
+          console.log(`WebSocket closed (code=${event.code}). Reconnecting in ${delay}ms (attempt ${attempt})`)
           reconnectTimeoutRef.current = window.setTimeout(() => {
             if (isPageVisibleRef.current) {
               connect()
             }
-          }, 5000) // Increased timeout to reduce spam
+          }, delay)
         }
       }
 
@@ -140,9 +207,9 @@ export function useWebSocket(url: string): WebSocketState {
     }
   }
 
-  const send = (data: any) => {
+  const send = (data: unknown) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(data))
+      wsRef.current.send(JSON.stringify(data as unknown))
     } else {
       console.warn('WebSocket is not connected')
     }
@@ -154,6 +221,7 @@ export function useWebSocket(url: string): WebSocketState {
     }
     
     stopHeartbeat()
+    reconnectAttemptsRef.current = 0
     
     if (wsRef.current) {
       wsRef.current.close()

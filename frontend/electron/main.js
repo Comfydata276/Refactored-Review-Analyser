@@ -16,6 +16,40 @@ const BACKEND_HOST = 'localhost'
 const BACKEND_PORT = 8000
 const FRONTEND_PORT = process.env.VITE_PORT || 5173
 
+// Resolve a writable Output folder path in both dev and packaged builds
+function resolveOutputPath() {
+  // 1) Packaged app resources path (where backend is bundled)
+  const packagedBackendOutput = path.join(process.resourcesPath || '', 'backend', 'output')
+  if (process.resourcesPath && fs.existsSync(path.join(process.resourcesPath, 'backend'))) {
+    try {
+      fs.mkdirSync(packagedBackendOutput, { recursive: true })
+      return packagedBackendOutput
+    } catch (_) {
+      // fall through to userData
+    }
+  }
+
+  // 2) Dev repo layout (running from source)
+  const devOutput = path.join(__dirname, '../../backend/output')
+  if (fs.existsSync(path.join(__dirname, '../../backend'))) {
+    try {
+      fs.mkdirSync(devOutput, { recursive: true })
+      return devOutput
+    } catch (_) {
+      // fall through to userData
+    }
+  }
+
+  // 3) Fallback to userData (always writable)
+  const userDataOutput = path.join(app.getPath('userData'), 'output')
+  try {
+    fs.mkdirSync(userDataOutput, { recursive: true })
+  } catch (_) {
+    // ignore mkdir errors; shell.openPath will handle existence
+  }
+  return userDataOutput
+}
+
 function createWindow() {
   // Create the browser window
   mainWindow = new BrowserWindow({
@@ -93,11 +127,17 @@ function createMenu() {
           label: 'Open Output Folder',
           accelerator: 'CmdOrCtrl+O',
           click: () => {
-            const outputPath = path.join(__dirname, '../../backend/output')
+            const outputPath = resolveOutputPath()
             if (fs.existsSync(outputPath)) {
               shell.openPath(outputPath)
             } else {
-              dialog.showErrorBox('Error', 'Output folder not found')
+              // Try to create then open
+              try { fs.mkdirSync(outputPath, { recursive: true }) } catch (_) {}
+              if (fs.existsSync(outputPath)) {
+                shell.openPath(outputPath)
+              } else {
+                dialog.showErrorBox('Error', `Output folder not found or not writable:\n${outputPath}`)
+              }
             }
           }
         },
@@ -210,7 +250,17 @@ function createMenu() {
   Menu.setApplicationMenu(menu)
 }
 
-function findPythonExecutable() {
+function findBackendExecutable() {
+  // In production, use standalone backend executable
+  if (!isDev) {
+    const standaloneBackend = path.join(process.resourcesPath, 'backend', 'steam-review-backend.exe')
+    if (fs.existsSync(standaloneBackend)) {
+      console.log(`Using standalone backend: ${standaloneBackend}`)
+      return { type: 'standalone', path: standaloneBackend }
+    }
+  }
+
+  // Development mode - use Python with backend directory
   const possiblePaths = [
     path.join(__dirname, '../../backend/venv/Scripts/python.exe'), // Windows venv
     path.join(__dirname, '../../backend/venv/bin/python'), // Unix venv
@@ -220,11 +270,13 @@ function findPythonExecutable() {
 
   for (const pythonPath of possiblePaths) {
     if (fs.existsSync(pythonPath)) {
-      return pythonPath
+      console.log(`Using Python: ${pythonPath}`)
+      return { type: 'python', path: pythonPath }
     }
   }
   
-  return 'python' // Fallback to system python
+  console.log('No Python found, falling back to system python')
+  return { type: 'python', path: 'python' } // Fallback to system python
 }
 
 function startBackend() {
@@ -260,44 +312,60 @@ function startBackend() {
 }
 
 function actuallyStartBackend() {
-
-  const pythonPath = findPythonExecutable()
+  const backend = findBackendExecutable()
   
-  // Determine backend directory based on whether we're in development or production
-  let backendDir
-  if (isDev) {
-    // Development mode - backend is in the project directory
-    backendDir = path.join(__dirname, '../../backend')
+  let backendCommand, backendArgs, workingDir
+
+  if (backend.type === 'standalone') {
+    // Use standalone executable
+    backendCommand = backend.path
+    backendArgs = []
+    workingDir = path.dirname(backend.path)
+    
+    console.log(`Starting standalone backend: ${backendCommand}`)
+    console.log(`Working directory: ${workingDir}`)
+    
+    // Check if executable exists
+    if (!fs.existsSync(backendCommand)) {
+      console.error(`Standalone backend not found at: ${backendCommand}`)
+      dialog.showErrorBox('Backend Error', `Backend executable not found: ${backendCommand}`)
+      return
+    }
   } else {
-    // Production mode - backend is in resources/backend
-    backendDir = path.join(process.resourcesPath, 'backend')
+    // Use Python with source code
+    backendCommand = backend.path
+    backendArgs = ['-m', 'app.main']
+    
+    // Determine backend directory based on whether we're in development or production
+    if (isDev) {
+      workingDir = path.join(__dirname, '../../backend')
+    } else {
+      workingDir = path.join(process.resourcesPath, 'backend')
+    }
+    
+    const mainPy = path.join(workingDir, 'app/main.py')
+    
+    console.log(`Starting backend with: ${backendCommand} ${backendArgs.join(' ')}`)
+    console.log(`Backend directory: ${workingDir}`)
+    console.log(`Python path: ${backendCommand}`)
+    
+    // Check if files exist
+    if (!fs.existsSync(mainPy)) {
+      console.error(`main.py not found at: ${mainPy}`)
+      dialog.showErrorBox('Backend Error', `Backend file not found: ${mainPy}`)
+      return
+    }
   }
-  
-  const mainPy = path.join(backendDir, 'app/main.py')
 
-  console.log(`Starting backend with: ${pythonPath} -m app.main`)
-  console.log(`Backend directory: ${backendDir}`)
-  console.log(`Python path: ${pythonPath}`)
+  console.log(`Command: ${backendCommand} ${backendArgs.join(' ')}`)
 
-  // Check if files exist
-  if (!fs.existsSync(mainPy)) {
-    console.error(`main.py not found at: ${mainPy}`)
-    dialog.showErrorBox('Backend Error', `Backend file not found: ${mainPy}`)
-    return
-  }
-
-  const args = ['-m', 'app.main']
-  console.log(`Command: ${pythonPath} ${args.join(' ')}`)
-  console.log(`Working directory: ${backendDir}`)
-
-  backendProcess = spawn(pythonPath, args, {
-    cwd: backendDir,
+  backendProcess = spawn(backendCommand, backendArgs, {
+    cwd: workingDir,
     stdio: ['ignore', 'pipe', 'pipe'],
     env: { 
       ...process.env,
-      PYTHONPATH: backendDir,
+      PYTHONPATH: workingDir,
       PYTHON_UNBUFFERED: '1',
-      // Add current directory to Python path for module resolution
       PATH: process.env.PATH
     }
   })
@@ -317,7 +385,8 @@ function actuallyStartBackend() {
 
   backendProcess.on('error', (error) => {
     console.error('Failed to start backend:', error)
-    dialog.showErrorBox('Backend Error', `Failed to start backend server: ${error.message}`)
+    const errorMsg = `Failed to start backend server: ${error.message}\n\nTroubleshooting:\n- Ensure Python is installed\n- Check if port 8000 is available\n- Try restarting the application`
+    dialog.showErrorBox('Backend Error', errorMsg)
     backendProcess = null
   })
 }
@@ -382,12 +451,39 @@ ipcMain.handle('restart-backend', async () => {
 })
 
 ipcMain.handle('open-output-folder', async () => {
-  const outputPath = path.join(__dirname, '../../backend/output')
+  const outputPath = resolveOutputPath()
   if (fs.existsSync(outputPath)) {
-    shell.openPath(outputPath)
+    await shell.openPath(outputPath)
+    return true
+  }
+  try { fs.mkdirSync(outputPath, { recursive: true }) } catch (_) {}
+  if (fs.existsSync(outputPath)) {
+    await shell.openPath(outputPath)
     return true
   }
   return false
+})
+
+// Window management handlers (used by preload windowAPI)
+ipcMain.handle('window-close', async () => {
+  const win = BrowserWindow.getFocusedWindow()
+  if (win) win.close()
+  return true
+})
+
+ipcMain.handle('window-minimize', async () => {
+  const win = BrowserWindow.getFocusedWindow()
+  if (win) win.minimize()
+  return true
+})
+
+ipcMain.handle('window-maximize', async () => {
+  const win = BrowserWindow.getFocusedWindow()
+  if (win) {
+    if (win.isMaximized()) win.unmaximize()
+    else win.maximize()
+  }
+  return true
 })
 
 // Security: Prevent new window creation
